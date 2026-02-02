@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hanif & Winda Wedding</title>
-
-  <style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Hanif & Winda Wedding</title>  <style>
     * {
       box-sizing: border-box;
       margin: 0;
@@ -13,34 +10,30 @@
       font-family: 'Segoe UI', system-ui, sans-serif;
     }
 
-    /* BACKGROUND FOR NON-USED AREA */
+    html, body {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* BACKGROUND OUTSIDE THE APP (DESKTOP ONLY VISUALLY) */
     body {
-      min-height: 100svh;
       background:
         radial-gradient(1200px 600px at 50% -10%, rgba(236,72,153,0.25), transparent 60%),
         radial-gradient(800px 500px at 20% 90%, rgba(99,102,241,0.25), transparent 60%),
         linear-gradient(180deg, #020617, #020617);
       display: flex;
       justify-content: center;
-      align-items: stretch;
-      overflow-x: hidden;
-    }
-
-    /* MOBILE EXPERIENCE CONTAINER */
-    .app {
-      height: 100vh;
-      width: min(100vw, calc(100vh * 9 / 16));
-      background: linear-gradient(135deg, #fdf2f8, #eef2ff);
-      position: relative;
+      align-items: stretch; /* IMPORTANT: no vertical centering */
       overflow: hidden;
     }
 
-    /* On desktop: center nicely, but allow vertical breathing */
-    @media (min-width: 768px) {
-      .app {
-        border-radius: 28px;
-        box-shadow: 0 40px 90px rgba(0,0,0,0.55);
-      }
+    /* MOBILE GAME SCREEN */
+    .app {
+      height: 100svh; /* handles Xiaomi / Android gesture nav correctly */
+      width: min(100vw, calc(100svh * 9 / 16)); /* width derives from height */
+      background: linear-gradient(135deg, #fdf2f8, #eef2ff);
+      position: relative;
+      overflow: hidden;
     }
 
     /* Generic page */
@@ -144,7 +137,6 @@
       100% { transform: scale(1); }
     }
 
-    /* Spot positions */
     .spot-venue   { top: 12%; left: 50%; transform: translateX(-50%); }
     .spot-rundown { bottom: 18%; left: 10%; }
     .spot-dress   { bottom: 18%; right: 10%; }
@@ -157,80 +149,62 @@
       border-radius: 16px;
       margin-top: 1rem;
     }
-  </style>
-</head>
-<body>
+  </style></head>
+<body>  <div class="app"><section id="page-intro" class="page">
+  <h1>Hanif & Winda</h1>
+  <p>Are getting married 💍</p>
+  <button onclick="goTo('date')">Enter</button>
+</section>
 
-  <div class="app">
+<section id="page-date" class="page hidden">
+  <h2>14 June 2026</h2>
+  <p>Save the date</p>
 
-    <!-- PAGE 1: Intro -->
-    <section id="page-intro" class="page">
-      <h1>Hanif & Winda</h1>
-      <p>Are getting married 💍</p>
-      <button onclick="goTo('date')">Enter</button>
-    </section>
-
-    <!-- PAGE 2: Date -->
-    <section id="page-date" class="page hidden">
-      <h2>14 June 2026</h2>
-      <p>Save the date</p>
-
-      <div class="countdown">
-        <div class="time-box"><span id="days">0</span>Days</div>
-        <div class="time-box"><span id="hours">0</span>Hours</div>
-        <div class="time-box"><span id="minutes">0</span>Minutes</div>
-        <div class="time-box"><span id="seconds">0</span>Seconds</div>
-      </div>
-
-      <button style="margin-top:2.2rem" onclick="goTo('menu')">Explore</button>
-    </section>
-
-    <!-- PAGE 3: GAME MENU -->
-    <section id="page-menu" class="page hidden" style="padding:0">
-      <div class="venue-map">
-        <div class="spot spot-venue" onclick="goTo('venue')">Venue</div>
-        <div class="spot spot-rundown" onclick="goTo('rundown')">Rundown</div>
-        <div class="spot spot-dress" onclick="goTo('dress')">Dress<br>Code</div>
-        <div class="spot spot-rsvp" onclick="goTo('rsvp')">RSVP</div>
-      </div>
-    </section>
-
-    <!-- PAGE 4: Venue -->
-    <section id="page-venue" class="page hidden">
-      <h2>Wedding Venue</h2>
-      <p>Location details will be revealed here.</p>
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.8487574564438!2d107.6492045!3d-6.9086815!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e7eb0713d7e3%3A0x1bce438fe7ce32b7!2s150%20Coffee%20Garden!5e0!3m2!1sen!2sid!4v1770026256180!5m2!1sen!2sid"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade">
-      </iframe>
-      <button class="secondary" onclick="goTo('menu')">Back to Map</button>
-    </section>
-
-    <!-- PAGE 5: Rundown -->
-    <section id="page-rundown" class="page hidden">
-      <h2>Event Rundown</h2>
-      <p>Ceremony and reception flow will be shared soon.</p>
-      <button class="secondary" onclick="goTo('menu')">Back to Map</button>
-    </section>
-
-    <!-- PAGE 6: Dress Code -->
-    <section id="page-dress" class="page hidden">
-      <h2>Dress Code</h2>
-      <p>Please wear elegant and comfortable attire.</p>
-      <button class="secondary" onclick="goTo('menu')">Back to Map</button>
-    </section>
-
-    <!-- PAGE 7: RSVP -->
-    <section id="page-rsvp" class="page hidden">
-      <h2>RSVP</h2>
-      <p>RSVP details will be available soon.</p>
-      <button class="secondary" onclick="goTo('menu')">Back to Map</button>
-    </section>
-
+  <div class="countdown">
+    <div class="time-box"><span id="days">0</span>Days</div>
+    <div class="time-box"><span id="hours">0</span>Hours</div>
+    <div class="time-box"><span id="minutes">0</span>Minutes</div>
+    <div class="time-box"><span id="seconds">0</span>Seconds</div>
   </div>
 
-  <script>
+  <button style="margin-top:2.2rem" onclick="goTo('menu')">Explore</button>
+</section>
+
+<section id="page-menu" class="page hidden" style="padding:0">
+  <div class="venue-map">
+    <div class="spot spot-venue" onclick="goTo('venue')">Venue</div>
+    <div class="spot spot-rundown" onclick="goTo('rundown')">Rundown</div>
+    <div class="spot spot-dress" onclick="goTo('dress')">Dress<br>Code</div>
+    <div class="spot spot-rsvp" onclick="goTo('rsvp')">RSVP</div>
+  </div>
+</section>
+
+<section id="page-venue" class="page hidden">
+  <h2>Wedding Venue</h2>
+  <p>Location details will be revealed here.</p>
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.8487574564438!2d107.6492045!3d-6.9086815!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e7eb0713d7e3%3A0x1bce438fe7ce32b7!2s150%20Coffee%20Garden!5e0!3m2!1sen!2sid!4v1770026256180!5m2!1sen!2sid" loading="lazy"></iframe>
+  <button class="secondary" onclick="goTo('menu')">Back to Map</button>
+</section>
+
+<section id="page-rundown" class="page hidden">
+  <h2>Event Rundown</h2>
+  <p>Ceremony and reception flow will be shared soon.</p>
+  <button class="secondary" onclick="goTo('menu')">Back to Map</button>
+</section>
+
+<section id="page-dress" class="page hidden">
+  <h2>Dress Code</h2>
+  <p>Please wear elegant and comfortable attire.</p>
+  <button class="secondary" onclick="goTo('menu')">Back to Map</button>
+</section>
+
+<section id="page-rsvp" class="page hidden">
+  <h2>RSVP</h2>
+  <p>RSVP details will be available soon.</p>
+  <button class="secondary" onclick="goTo('menu')">Back to Map</button>
+</section>
+
+  </div>  <script>
     const pages = document.querySelectorAll('.page');
 
     function goTo(target) {
@@ -238,7 +212,6 @@
       document.getElementById(`page-${target}`).classList.remove('hidden');
     }
 
-    // Countdown
     const weddingDate = new Date('June 14, 2026 00:00:00').getTime();
 
     setInterval(() => {
@@ -251,7 +224,5 @@
       document.getElementById('minutes').innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       document.getElementById('seconds').innerText = Math.floor((distance % (1000 * 60)) / 1000);
     }, 1000);
-  </script>
-
-</body>
+  </script></body>
 </html>
