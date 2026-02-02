@@ -13,22 +13,34 @@
       font-family: 'Segoe UI', system-ui, sans-serif;
     }
 
+    /* BACKGROUND FOR NON-USED AREA */
     body {
-      background: #020617;
+      min-height: 100svh;
+      background:
+        radial-gradient(1200px 600px at 50% -10%, rgba(236,72,153,0.25), transparent 60%),
+        radial-gradient(800px 500px at 20% 90%, rgba(99,102,241,0.25), transparent 60%),
+        linear-gradient(180deg, #020617, #020617);
       display: flex;
       justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
+      align-items: stretch;
+      overflow-x: hidden;
     }
 
-    /* Mobile-only app container */
+    /* MOBILE EXPERIENCE CONTAINER */
     .app {
-      width: 100vw;
       height: 100vh;
+      width: min(100vw, calc(100vh * 9 / 16));
       background: linear-gradient(135deg, #fdf2f8, #eef2ff);
       position: relative;
       overflow: hidden;
+    }
+
+    /* On desktop: center nicely, but allow vertical breathing */
+    @media (min-width: 768px) {
+      .app {
+        border-radius: 28px;
+        box-shadow: 0 40px 90px rgba(0,0,0,0.55);
+      }
     }
 
     /* Generic page */
@@ -48,7 +60,7 @@
     .hidden {
       opacity: 0;
       pointer-events: none;
-      transform: scale(1.08);
+      transform: scale(1.06);
     }
 
     h1 { font-size: 2.8rem; margin-bottom: 0.6rem; }
@@ -67,7 +79,7 @@
     }
 
     button.secondary {
-      background: rgba(255,255,255,0.85);
+      background: rgba(255,255,255,0.9);
       color: #111827;
       box-shadow: none;
       margin-top: 1.8rem;
@@ -102,7 +114,10 @@
       position: relative;
       width: 100%;
       height: 100%;
-      background: radial-gradient(circle at center, #e0e7ff, #fdf2f8);
+      background:
+        radial-gradient(circle at center, rgba(99,102,241,0.15), transparent 60%),
+        radial-gradient(circle at 70% 20%, rgba(236,72,153,0.18), transparent 55%),
+        linear-gradient(180deg, #fdf2f8, #eef2ff);
     }
 
     .spot {
@@ -129,7 +144,7 @@
       100% { transform: scale(1); }
     }
 
-    /* Spot positions (percentage-based = responsive) */
+    /* Spot positions */
     .spot-venue   { top: 12%; left: 50%; transform: translateX(-50%); }
     .spot-rundown { bottom: 18%; left: 10%; }
     .spot-dress   { bottom: 18%; right: 10%; }
