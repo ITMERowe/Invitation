@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hanif & Winda Wedding</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+
+    body {
+      background: #020617;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Mobile-only app container */
+    .app {
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(135deg, #fdf2f8, #eef2ff);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Generic page */
+    .page {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, #fdf2f8, #eef2ff);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(1.08);
+    }
+
+    h1 { font-size: 2.8rem; margin-bottom: 0.6rem; }
+    h2 { font-size: 2.2rem; margin-bottom: 0.5rem; }
+    p  { font-size: 1.05rem; margin-bottom: 1.5rem; opacity: 0.9; }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 0.9rem 1.6rem;
+      font-size: 1rem;
+      background: #6366f1;
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(99,102,241,0.4);
+    }
+
+    button.secondary {
+      background: rgba(255,255,255,0.85);
+      color: #111827;
+      box-shadow: none;
+      margin-top: 1.8rem;
+    }
+
+    button:active { transform: scale(0.95); }
+
+    /* Countdown */
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      max-width: 320px;
+      width: 100%;
+    }
+
+    .time-box {
+      background: #fff;
+      border-radius: 18px;
+      padding: 1.1rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    }
+
+    .time-box span {
+      font-size: 1.9rem;
+      font-weight: bold;
+      display: block;
+    }
+
+    /* GAME MAP */
+    .venue-map {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, #e0e7ff, #fdf2f8);
+    }
+
+    .spot {
+      position: absolute;
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ec4899, #f472b6);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      box-shadow: 0 12px 30px rgba(236,72,153,0.5);
+      cursor: pointer;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+
+    /* Spot positions (percentage-based = responsive) */
+    .spot-venue   { top: 12%; left: 50%; transform: translateX(-50%); }
+    .spot-rundown { bottom: 18%; left: 10%; }
+    .spot-dress   { bottom: 18%; right: 10%; }
+    .spot-rsvp    { top: 50%; right: 8%; }
+
+    iframe {
+      width: 100%;
+      height: 300px;
+      border: 0;
+      border-radius: 16px;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app">
+
+    <!-- PAGE 1: Intro -->
+    <section id="page-intro" class="page">
+      <h1>Hanif & Winda</h1>
+      <p>Are getting married 💍</p>
+      <button onclick="goTo('date')">Enter</button>
+    </section>
+
+    <!-- PAGE 2: Date -->
+    <section id="page-date" class="page hidden">
+      <h2>14 June 2026</h2>
+      <p>Save the date</p>
+
+      <div class="countdown">
+        <div class="time-box"><span id="days">0</span>Days</div>
+        <div class="time-box"><span id="hours">0</span>Hours</div>
+        <div class="time-box"><span id="minutes">0</span>Minutes</div>
+        <div class="time-box"><span id="seconds">0</span>Seconds</div>
+      </div>
+
+      <button style="margin-top:2.2rem" onclick="goTo('menu')">Explore</button>
+    </section>
+
+    <!-- PAGE 3: GAME MENU -->
+    <section id="page-menu" class="page hidden" style="padding:0">
+      <div class="venue-map">
+        <div class="spot spot-venue" onclick="goTo('venue')">Venue</div>
+        <div class="spot spot-rundown" onclick="goTo('rundown')">Rundown</div>
+        <div class="spot spot-dress" onclick="goTo('dress')">Dress<br>Code</div>
+        <div class="spot spot-rsvp" onclick="goTo('rsvp')">RSVP</div>
+      </div>
+    </section>
+
+    <!-- PAGE 4: Venue -->
+    <section id="page-venue" class="page hidden">
+      <h2>Wedding Venue</h2>
+      <p>Location details will be revealed here.</p>
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.8487574564438!2d107.6492045!3d-6.9086815!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e7eb0713d7e3%3A0x1bce438fe7ce32b7!2s150%20Coffee%20Garden!5e0!3m2!1sen!2sid!4v1770026256180!5m2!1sen!2sid"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+      <button class="secondary" onclick="goTo('menu')">Back to Map</button>
+    </section>
+
+    <!-- PAGE 5: Rundown -->
+    <section id="page-rundown" class="page hidden">
+      <h2>Event Rundown</h2>
+      <p>Ceremony and reception flow will be shared soon.</p>
+      <button class="secondary" onclick="goTo('menu')">Back to Map</button>
+    </section>
+
+    <!-- PAGE 6: Dress Code -->
+    <section id="page-dress" class="page hidden">
+      <h2>Dress Code</h2>
+      <p>Please wear elegant and comfortable attire.</p>
+      <button class="secondary" onclick="goTo('menu')">Back to Map</button>
+    </section>
+
+    <!-- PAGE 7: RSVP -->
+    <section id="page-rsvp" class="page hidden">
+      <h2>RSVP</h2>
+      <p>RSVP details will be available soon.</p>
+      <button class="secondary" onclick="goTo('menu')">Back to Map</button>
+    </section>
+
+  </div>
+
+  <script>
+    const pages = document.querySelectorAll('.page');
+
+    function goTo(target) {
+      pages.forEach(p => p.classList.add('hidden'));
+      document.getElementById(`page-${target}`).classList.remove('hidden');
+    }
+
+    // Countdown
+    const weddingDate = new Date('June 14, 2026 00:00:00').getTime();
+
+    setInterval(() => {
+      const now = new Date().getTime();
+      const distance = weddingDate - now;
+      if (distance < 0) return;
+
+      document.getElementById('days').innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+      document.getElementById('hours').innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      document.getElementById('minutes').innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      document.getElementById('seconds').innerText = Math.floor((distance % (1000 * 60)) / 1000);
+    }, 1000);
+  </script>
+
+</body>
+</html>
