@@ -1,0 +1,19 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e0f2fe" />
+      <stop offset="100%" stop-color="#fef9c3" />
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)" />
+  <g opacity="0.35">
+    <circle cx="140" cy="160" r="60" fill="#fbbf24" />
+    <circle cx="310" cy="210" r="40" fill="#fde68a" />
+    <circle cx="520" cy="140" r="70" fill="#fcd34d" />
+    <circle cx="780" cy="190" r="50" fill="#fde68a" />
+    <circle cx="1010" cy="150" r="65" fill="#fbbf24" />
+    <circle cx="1280" cy="220" r="45" fill="#fde68a" />
+  </g>
+  <rect x="0" y="620" width="1600" height="280" fill="#bae6fd" />
+  <text x="80" y="780" font-family="'Segoe UI', sans-serif" font-size="56" fill="#0f172a" opacity="0.5">Parallax Back Layer</text>
+</svg>

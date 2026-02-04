@@ -34,6 +34,57 @@
       background: #fff;
     }
 
+    .parallax {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .parallax-layer {
+      position: absolute;
+      inset: -10% 0;
+      background-repeat: repeat-x;
+      background-position: center;
+      background-size: cover;
+      transform: translate3d(0, 0, 0);
+      will-change: transform;
+    }
+
+    .parallax-back {
+      background-image: url('assets/parallax-back.svg');
+      animation: drift-back 32s linear infinite;
+      opacity: 0.75;
+    }
+
+    .parallax-mid {
+      background-image: url('assets/parallax-mid.svg');
+      animation: drift-mid 22s linear infinite;
+      opacity: 0.85;
+    }
+
+    .parallax-front {
+      background-image: url('assets/parallax-front.svg');
+      animation: drift-front 16s linear infinite;
+      opacity: 0.95;
+    }
+
+    @keyframes drift-back {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(-6%, 2%, 0); }
+    }
+
+    @keyframes drift-mid {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(-10%, 4%, 0); }
+    }
+
+    @keyframes drift-front {
+      0% { transform: translate3d(0, 0, 0); }
+      100% { transform: translate3d(-16%, 6%, 0); }
+    }
+
     /* ===== PAGE SYSTEM ===== */
     .page {
       position: absolute;
@@ -45,6 +96,7 @@
       text-align: center;
       padding: 1.5rem;
       transition: opacity 0.6s ease, transform 0.6s ease;
+      z-index: 1;
     }
 
     /* INTRO + DATE = CLEAN GRADIENT */
@@ -171,6 +223,11 @@
 <body>
 
   <div class="app">
+    <div class="parallax" aria-hidden="true">
+      <div class="parallax-layer parallax-back"></div>
+      <div class="parallax-layer parallax-mid"></div>
+      <div class="parallax-layer parallax-front"></div>
+    </div>
 
     <!-- INTRO -->
     <section id="page-intro" class="page">
