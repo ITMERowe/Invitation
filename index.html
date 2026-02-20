@@ -15,17 +15,12 @@
 
     html, body {
       background: linear-gradient(180deg, #ffffff, #fdf2f8 60%, #eef2ff);
-            /* background-image: url('assets/frame-placeholder.png'); */
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
       display: flex;
       justify-content: center;
       align-items: stretch;
       overflow: hidden;
     }
     
-    /* GAME VIEWPORT */
     .app {
       height: 100svh;
       width: min(100vw, calc(100svh * 9 / 16));
@@ -34,7 +29,6 @@
       background: #fff;
     }
     
-    /* ===== PAGE SYSTEM ===== */
     .page {
       position: absolute;
       inset: 0;
@@ -47,23 +41,11 @@
       transition: opacity 0.6s ease, transform 0.6s ease;
     }
 
-    /* INTRO + DATE = CLEAN GRADIENT */
-    /* INTRO = IMAGE-BASED (ART READY) */
-    #page-intro {
-      background: linear-gradient(180deg, #ffffff, #fdf2f8 60%, #eef2ff);
-      /* background-image: url('assets/intro-placeholder.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat; */
-    }
-
-    /* DATE = CLEAN GRADIENT */
-
+    #page-intro,
     #page-date {
       background: linear-gradient(180deg, #ffffff, #fdf2f8 60%, #eef2ff);
     }
-    
-    /* MENU & CONTENT PAGES TRANSPARENT (ART-DRIVEN) */
+
     #page-menu,
     #page-venue,
     #page-rundown,
@@ -101,7 +83,6 @@
 
     button:active { transform: scale(0.95); }
     
-    /* ===== COUNTDOWN ===== */
     .countdown {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -122,7 +103,6 @@
       display: block;
     }
     
-    /* ===== GAME MAP (IMAGE-BASED) ===== */
     .venue-map {
       position: relative;
       width: 100%;
@@ -133,7 +113,6 @@
       background-repeat: no-repeat;
     }
     
-    /* ===== INTERACTIVE MAP BUTTONS (PNG READY) ===== */
     .spot {
       position: absolute;
       width: 90px;
@@ -145,13 +124,11 @@
       animation: pulse 2s infinite;
     }
     
-    /* ===== INTERACTIVE MAP BUTTONS ===== */
     .spot-venue   { background-image: url('assets/btn-venue.png'); }
     .spot-rundown { background-image: url('assets/btn-rundown.png'); }
     .spot-dress   { background-image: url('assets/btn-dress.png'); }
     .spot-rsvp    { background-image: url('assets/btn-rsvp.png'); }
     
-    /* ===== INTERACTIVE MAP BUTTONS POSSITIONS ===== */
     .spot-venue   { top: 10%; left: 50%; transform: translateX(-50%); }
     .spot-rundown { bottom: 18%; left: 8%; }
     .spot-dress   { bottom: 18%; right: 8%; }
@@ -161,6 +138,38 @@
       0% { transform: scale(1); }
       50% { transform: scale(1.12); }
       100% { transform: scale(1); }
+    }
+
+    /* ===== ENHANCED VENUE PAGE ===== */
+    #page-venue {
+      gap: 1rem;
+    }
+
+    .venue-card {
+      width: 100%;
+      max-width: 360px;
+      background: rgba(255,255,255,0.96);
+      border-radius: 24px;
+      padding: 1.4rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    }
+
+    .venue-card p {
+      margin-bottom: 0.8rem;
+    }
+
+    .venue-map-embed {
+      width: 100%;
+      height: 260px;
+      border-radius: 18px;
+      overflow: hidden;
+      margin-top: 0.8rem;
+    }
+
+    .venue-map-embed iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
     }
 
     form {
@@ -186,7 +195,6 @@
 
     textarea { resize: none; height: 80px; }
 
-    /* MODAL */
     .modal {
       position: fixed;
       inset: 0;
@@ -231,7 +239,6 @@
       0% { transform: scale(0.85); opacity: 0; }
       100% { transform: scale(1); opacity: 1; }
     }
-    
   </style>
 </head>
 
@@ -242,7 +249,6 @@
     <section id="page-intro" class="page">
       <p style="font-size:0.9rem; opacity:0.6;">Dear</p>
       <h1 id="guest-name">Our Beloved Guest</h1>
-
       <p style="margin-top:1rem;">Hanif & Winda</p>
       <p>Are getting married 💍</p>
       <button onclick="goTo('date')">Enter</button>
@@ -252,14 +258,12 @@
     <section id="page-date" class="page hidden">
       <h2>14 June 2026</h2>
       <p>Save the date</p>
-
       <div class="countdown">
         <div class="time-box"><span id="days">0</span>Days</div>
         <div class="time-box"><span id="hours">0</span>Hours</div>
         <div class="time-box"><span id="minutes">0</span>Minutes</div>
         <div class="time-box"><span id="seconds">0</span>Seconds</div>
       </div>
-
       <button onclick="goTo('menu')">Explore</button>
     </section>
 
@@ -275,9 +279,13 @@
     
     <!-- VENUE -->
     <section id="page-venue" class="page hidden">
-      <h2>Wedding Venue</h2>
-      <p>Location details will be revealed here.</p>
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.8487574564438!2d107.6492045!3d-6.9086815!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e7eb0713d7e3%3A0x1bce438fe7ce32b7!2s150%20Coffee%20Garden!5e0!3m2!1sen!2sid!4v1770026256180!5m2!1sen!2sid" loading="lazy"></iframe>
+      <div class="venue-card">
+        <h2>Wedding Venue</h2>
+        <p>150 Coffee Garden<br/>Bandung, Indonesia</p>
+        <div class="venue-map-embed">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.8487574564438!2d107.6492045!3d-6.9086815!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e7eb0713d7e3%3A0x1bce438fe7ce32b7!2s150%20Coffee%20Garden!5e0!3m2!1sen!2sid!4v1770026256180!5m2!1sen!2sid" loading="lazy"></iframe>
+        </div>
+      </div>
       <button class="secondary" onclick="goTo('menu')">Back to Map</button>
     </section>
 
@@ -306,10 +314,7 @@
         method="POST"
         target="hidden_iframe"
       >    
-        <!-- Guest Name -->
         <input type="hidden" name="entry.729439469" id="form-guest-name">
-      
-        <!-- Attendance -->
         <label>Will you attend?</label>
         <select name="entry.698873189" required>
           <option value="">Select</option>
@@ -317,8 +322,6 @@
           <option value="Sorry, can’t make it">Sorry, can’t make it</option>
         </select>
         <input type="hidden" name="entry.698873189_sentinel">
-      
-        <!-- Number of Guests -->
         <label>Number of guests</label>
         <select name="entry.1305280995" required>
           <option value="">Select</option>
@@ -328,30 +331,23 @@
           <option value="4">4</option>
         </select>
         <input type="hidden" name="entry.1305280995_sentinel">
-      
-        <!-- Message -->
         <label>Message</label>
         <textarea name="entry.1150859102"></textarea>
-      
         <button type="submit">Send RSVP</button>
       </form>
-      
+
       <iframe name="hidden_iframe" style="display:none;"></iframe>
-      
       <button class="secondary" onclick="goTo('menu')">Back to Map</button>
     </section>
-
   </div>
 
   <script>
-    /* PAGE NAVIGATION */
     const pages = document.querySelectorAll('.page');
     function goTo(target) {
       pages.forEach(p => p.classList.add('hidden'));
       document.getElementById(`page-${target}`).classList.remove('hidden');
     }
 
-    /* PERSONALIZED INVITE */
     const params = new URLSearchParams(window.location.search);
     const guest = params.get('to');
 
@@ -362,14 +358,11 @@
       document.getElementById('form-guest-name').value = name;
     }
 
-    /* COUNTDOWN */
     const weddingDate = new Date('June 14, 2026 00:00:00').getTime();
-
     setInterval(() => {
       const now = new Date().getTime();
       const distance = weddingDate - now;
       if (distance < 0) return;
-
       document.getElementById('days').innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
       document.getElementById('hours').innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       document.getElementById('minutes').innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -377,7 +370,6 @@
     }, 1000);
   </script>
 
-  <!-- RSVP SUCCESS MODAL -->
   <div id="rsvp-modal" class="modal hidden">
     <div class="modal-card">
       <div class="modal-heart">💖</div>
@@ -389,23 +381,21 @@
 
   <script>
     let rsvpSubmitted = false;
-  
     const form = document.getElementById("RSVP");
     const iframe = document.querySelector('iframe[name="hidden_iframe"]');
     const modal = document.getElementById("rsvp-modal");
-  
+
     form.addEventListener("submit", () => {
       rsvpSubmitted = true;
     });
-  
+
     iframe.addEventListener("load", () => {
       if (!rsvpSubmitted) return;
-  
-      modal.classList.remove("hidden"); // show modal
+      modal.classList.remove("hidden");
       form.reset();
       rsvpSubmitted = false;
     });
-  
+
     function closeModal() {
       modal.classList.add("hidden");
       goTo('menu');
