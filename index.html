@@ -41,6 +41,19 @@
       transition: opacity 0.6s ease, transform 0.6s ease;
     }
 
+    #page-intro,
+    #page-date {
+      background: linear-gradient(180deg, #ffffff, #fdf2f8 60%, #eef2ff);
+    }
+
+    #page-menu,
+    #page-venue,
+    #page-rundown,
+    #page-dress,
+    #page-rsvp {
+      background: transparent;
+    }
+
     .hidden {
       opacity: 0;
       pointer-events: none;
@@ -68,6 +81,60 @@
       margin-top: 1.6rem;
     }
 
+    button:active { transform: scale(0.95); }
+
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      max-width: 320px;
+      width: 100%;
+    }
+
+    .time-box {
+      background: rgba(255,255,255,0.95);
+      border-radius: 18px;
+      padding: 1.1rem;
+    }
+
+    .time-box span {
+      font-size: 1.9rem;
+      font-weight: bold;
+      display: block;
+    }
+
+    .venue-map {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background-image: url('assets/map-placeholder.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .spot {
+      position: absolute;
+      width: 90px;
+      height: 90px;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      cursor: pointer;
+      animation: pulse 2s infinite;
+    }
+
+    .spot-venue   { background-image: url('assets/btn-venue.png'); top: 10%; left: 50%; transform: translateX(-50%); }
+    .spot-rundown { background-image: url('assets/btn-rundown.png'); bottom: 18%; left: 8%; }
+    .spot-dress   { background-image: url('assets/btn-dress.png'); bottom: 18%; right: 8%; }
+    .spot-rsvp    { background-image: url('assets/btn-rsvp.png'); top: 50%; right: 6%; }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.12); }
+      100% { transform: scale(1); }
+    }
+
     form {
       width: 100%;
       max-width: 320px;
@@ -90,75 +157,67 @@
     }
 
     textarea { resize: none; height: 80px; }
-
-    /* POPUP */
-    .popup {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.45);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-    }
-
-    .popup-box {
-      background: white;
-      padding: 1.8rem;
-      border-radius: 18px;
-      text-align: center;
-      max-width: 280px;
-    }
   </style>
 </head>
 
 <body>
-<div class="app">
+  <div class="app">
 
-  <!-- INTRO -->
-  <section id="page-intro" class="page">
-    <p style="font-size:0.9rem; opacity:0.6;">Dear</p>
-    <h1 id="guest-name">Our Beloved Guest</h1>
-    <p style="margin-top:1rem;">Hanif & Winda</p>
-    <p>Are getting married 💍</p>
-    <button onclick="goTo('date')">Enter</button>
-  </section>
+    <!-- INTRO -->
+    <section id="page-intro" class="page">
+      <p style="font-size:0.9rem; opacity:0.6;">Dear</p>
+      <h1 id="guest-name">Our Beloved Guest</h1>
 
-  <!-- DATE -->
-  <section id="page-date" class="page hidden">
-    <h2>14 June 2026</h2>
-    <p>Save the date</p>
-    <button onclick="goTo('rsvp')">RSVP</button>
-  </section>
+      <p style="margin-top:1rem;">Hanif & Winda</p>
+      <p>Are getting married 💍</p>
+      <button onclick="goTo('date')">Enter</button>
+    </section>
 
-  <!-- RSVP -->
-  <section id="page-rsvp" class="page hidden">
-    <h2>RSVP</h2>
-    <p>Dear <strong id="rsvp-guest-name">Our Guest</strong>,</p>
+    <!-- DATE -->
+    <section id="page-date" class="page hidden">
+      <h2>14 June 2026</h2>
+      <p>Save the date</p>
+
+      <div class="countdown">
+        <div class="time-box"><span id="days">0</span>Days</div>
+        <div class="time-box"><span id="hours">0</span>Hours</div>
+        <div class="time-box"><span id="minutes">0</span>Minutes</div>
+        <div class="time-box"><span id="seconds">0</span>Seconds</div>
+      </div>
+
+      <button onclick="goTo('menu')">Explore</button>
+    </section>
+
+    <!-- MAP -->
+    <section id="page-menu" class="page hidden" style="padding:0">
+      <div class="venue-map">
+        <div class="spot spot-venue" onclick="goTo('venue')"></div>
+        <div class="spot spot-rundown" onclick="goTo('rundown')"></div>
+        <div class="spot spot-dress" onclick="goTo('dress')"></div>
+        <div class="spot spot-rsvp" onclick="goTo('rsvp')"></div>
+      </div>
+    </section>
+
+    <!-- RSVP -->
+    <section id="page-rsvp" class="page hidden">
+      <h2>RSVP</h2>
+      <p>Dear <strong id="rsvp-guest-name">Our Guest</strong>,</p>
 
     <form
-      id="rsvp-form"
       action="https://docs.google.com/forms/d/e/1FAIpQLSdx3Tnzma1Zska1BjSQcnhQDu7s7zVEyyMM7d2VkqeVljuv5w/formResponse"
       method="POST"
       target="hidden_iframe"
-      onsubmit="handleSubmit()"
     >
-      <!-- REQUIRED GOOGLE FIELDS -->
-      <input type="hidden" name="fvv" value="1">
-      <input type="hidden" name="pageHistory" value="0">
-      <input type="hidden" name="fbzx" value="1349661083224246377">
-
       <!-- Guest Name -->
       <input type="hidden" name="entry.2080286220" id="form-guest-name">
-
+    
       <label>Will you attend?</label>
       <select name="entry.698873189" required>
         <option value="">Select</option>
         <option value="Yes, happily">Yes, happily</option>
         <option value="Sorry, can’t make it">Sorry, can’t make it</option>
       </select>
-      <input type="hidden" name="entry.698873189_sentinel">
-
+    
       <label>Number of guests</label>
       <select name="entry.1305280995" required>
         <option value="">Select</option>
@@ -167,60 +226,52 @@
         <option value="3">3</option>
         <option value="4">4</option>
       </select>
-      <input type="hidden" name="entry.1305280995_sentinel">
-
+    
       <label>Message</label>
       <textarea name="entry.1150859102"></textarea>
-
+    
       <button type="submit">Send RSVP</button>
     </form>
-
+    
     <iframe name="hidden_iframe" style="display:none;"></iframe>
+      
+      <button class="secondary" onclick="goTo('menu')">Back to Map</button>
+    </section>
 
-    <button class="secondary" onclick="goTo('intro')">Back</button>
-  </section>
-
-</div>
-
-<!-- SUCCESS POPUP -->
-<div id="success-popup" class="popup">
-  <div class="popup-box">
-    <h2>Thank you 💖</h2>
-    <p>Your RSVP has been sent successfully.</p>
-    <button onclick="closePopup()">Close</button>
   </div>
-</div>
 
-<script>
-  /* PAGE NAV */
-  const pages = document.querySelectorAll('.page');
-  function goTo(target) {
-    pages.forEach(p => p.classList.add('hidden'));
-    document.getElementById(`page-${target}`).classList.remove('hidden');
-  }
+  <script>
+    /* PAGE NAVIGATION */
+    const pages = document.querySelectorAll('.page');
+    function goTo(target) {
+      pages.forEach(p => p.classList.add('hidden'));
+      document.getElementById(`page-${target}`).classList.remove('hidden');
+    }
 
-  /* PERSONALIZATION */
-  const params = new URLSearchParams(window.location.search);
-  const guest = params.get('to');
-  if (guest) {
-    const name = decodeURIComponent(guest.replace(/\+/g, ' '));
-    document.getElementById('guest-name').innerText = name;
-    document.getElementById('rsvp-guest-name').innerText = name;
-    document.getElementById('form-guest-name').value = name;
-  }
+    /* PERSONALIZED INVITE */
+    const params = new URLSearchParams(window.location.search);
+    const guest = params.get('to');
 
-  /* FORM SUBMIT */
-  function handleSubmit() {
-    setTimeout(() => {
-      document.getElementById('success-popup').style.display = 'flex';
-      document.getElementById('rsvp-form').reset();
-    }, 600);
-  }
+    if (guest) {
+      const name = decodeURIComponent(guest.replace(/\+/g, ' '));
+      document.getElementById('guest-name').innerText = name;
+      document.getElementById('rsvp-guest-name').innerText = name;
+      document.getElementById('form-guest-name').value = name;
+    }
 
-  function closePopup() {
-    document.getElementById('success-popup').style.display = 'none';
-    goTo('intro');
-  }
-</script>
+    /* COUNTDOWN */
+    const weddingDate = new Date('June 14, 2026 00:00:00').getTime();
+
+    setInterval(() => {
+      const now = new Date().getTime();
+      const distance = weddingDate - now;
+      if (distance < 0) return;
+
+      document.getElementById('days').innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+      document.getElementById('hours').innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      document.getElementById('minutes').innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      document.getElementById('seconds').innerText = Math.floor((distance % (1000 * 60)) / 1000);
+    }, 1000);
+  </script>
 </body>
 </html>
