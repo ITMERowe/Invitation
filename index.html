@@ -62,7 +62,7 @@
 
     h1 { font-size: 2.6rem; margin-bottom: 0.4rem; }
     h2 { font-size: 2.2rem; margin-bottom: 0.5rem; }
-    p  { font-size: 1.05rem; margin-bottom: 1.4rem; opacity: 0.9; }
+    p  { font-size: 1.05rem; margin-bottom: 1.2rem; opacity: 0.9; }
 
     button {
       border: none;
@@ -72,12 +72,13 @@
       background: #6366f1;
       color: #fff;
       cursor: pointer;
+      margin-top: 0.8rem;
     }
 
     button.secondary {
       background: rgba(255,255,255,0.9);
       color: #111827;
-      margin-top: 1.8rem;
+      margin-top: 1.6rem;
     }
 
     button:active { transform: scale(0.95); }
@@ -134,13 +135,28 @@
       100% { transform: scale(1); }
     }
 
-    iframe {
+    form {
       width: 100%;
-      height: 300px;
-      border: 0;
-      border-radius: 16px;
-      margin-top: 1rem;
+      max-width: 320px;
+      text-align: left;
     }
+
+    label {
+      font-size: 0.9rem;
+      margin-bottom: 0.3rem;
+      display: block;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 0.8rem;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      font-size: 0.95rem;
+    }
+
+    textarea { resize: none; height: 80px; }
   </style>
 </head>
 
@@ -169,7 +185,7 @@
         <div class="time-box"><span id="seconds">0</span>Seconds</div>
       </div>
 
-      <button style="margin-top:2.2rem" onclick="goTo('menu')">Explore</button>
+      <button onclick="goTo('menu')">Explore</button>
     </section>
 
     <!-- MAP -->
@@ -182,29 +198,37 @@
       </div>
     </section>
 
-    <!-- VENUE -->
-    <section id="page-venue" class="page hidden">
-      <h2>Wedding Venue</h2>
-      <p>Location details will be revealed here.</p>
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.8487574564438!2d107.6492045!3d-6.9086815!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e7eb0713d7e3%3A0x1bce438fe7ce32b7!2s150%20Coffee%20Garden!5e0!3m2!1sen!2sid!4v1770026256180!5m2!1sen!2sid" loading="lazy"></iframe>
-      <button class="secondary" onclick="goTo('menu')">Back to Map</button>
-    </section>
-
-    <section id="page-rundown" class="page hidden">
-      <h2>Event Rundown</h2>
-      <p>Ceremony and reception flow will be shared soon.</p>
-      <button class="secondary" onclick="goTo('menu')">Back to Map</button>
-    </section>
-
-    <section id="page-dress" class="page hidden">
-      <h2>Dress Code</h2>
-      <p>Please wear elegant and comfortable attire.</p>
-      <button class="secondary" onclick="goTo('menu')">Back to Map</button>
-    </section>
-
+    <!-- RSVP -->
     <section id="page-rsvp" class="page hidden">
       <h2>RSVP</h2>
-      <p>RSVP details will be available soon.</p>
+      <p>Dear <strong id="rsvp-guest-name">Our Guest</strong>,</p>
+
+      <form
+        action="https://docs.google.com/forms/d/e/1FAIpQLSdx3Tnzma1Zska1BjSQcnhQDu7s7zVEyyMM7d2VkqeVljuv5w/formResponse"
+        method="POST"
+        target="hidden_iframe"
+      >
+        <!-- Guest Name (hidden) -->
+        <input type="hidden" name="entry.729439469" id="form-guest-name">
+
+        <label>Will you attend?</label>
+        <select name="entry.1150859102" required>
+          <option value="">Select</option>
+          <option value="Yes">Yes, happily</option>
+          <option value="No">Sorry, can’t make it</option>
+        </select>
+
+        <label>Number of guests</label>
+        <input type="number" name="entry.1305280995" min="1">
+
+        <label>Message</label>
+        <textarea name="entry.698873189_sentinel"></textarea>
+
+        <button type="submit">Send RSVP</button>
+      </form>
+
+      <iframe name="hidden_iframe" style="display:none;"></iframe>
+
       <button class="secondary" onclick="goTo('menu')">Back to Map</button>
     </section>
 
@@ -223,8 +247,10 @@
     const guest = params.get('to');
 
     if (guest) {
-      document.getElementById('guest-name').innerText =
-        decodeURIComponent(guest.replace(/\+/g, ' '));
+      const name = decodeURIComponent(guest.replace(/\+/g, ' '));
+      document.getElementById('guest-name').innerText = name;
+      document.getElementById('rsvp-guest-name').innerText = name;
+      document.getElementById('form-guest-name').value = name;
     }
 
     /* COUNTDOWN */
