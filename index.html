@@ -203,37 +203,37 @@
       <h2>RSVP</h2>
       <p>Dear <strong id="rsvp-guest-name">Our Guest</strong>,</p>
 
-      <form
-        action="https://docs.google.com/forms/d/e/1FAIpQLSdx3Tnzma1Zska1BjSQcnhQDu7s7zVEyyMM7d2VkqeVljuv5w/formResponse"
-        method="POST"
-        target="hidden_iframe"
-      >
-        <!-- Guest Name -->
-        <input type="hidden" name="entry.2080286220" id="form-guest-name">
-      
-        <label>Will you attend?</label>
-        <select name="entry.698873189" required>
-          <option value="">Select</option>
-          <option value="Yes, happily">Yes, happily</option>
-          <option value="Sorry, can’t make it">Sorry, can’t make it</option>
-        </select>
-      
-        <label>Number of guests</label>
-        <select name="entry.1305280995" required>
-          <option value="">Select</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-        </select>
-      
-        <label>Message</label>
-        <textarea name="entry.1150859102"></textarea>
-      
-        <button type="submit">Send RSVP</button>
-      </form>
-      
-      <iframe name="hidden_iframe" style="display:none;"></iframe>
+    <form
+      action="https://docs.google.com/forms/d/e/1FAIpQLSdx3Tnzma1Zska1BjSQcnhQDu7s7zVEyyMM7d2VkqeVljuv5w/formResponse"
+      method="POST"
+      target="hidden_iframe"
+    >
+      <!-- Guest Name -->
+      <input type="hidden" name="entry.2080286220" id="form-guest-name">
+    
+      <label>Will you attend?</label>
+      <select name="entry.698873189" required>
+        <option value="">Select</option>
+        <option value="Yes, happily">Yes, happily</option>
+        <option value="Sorry, can’t make it">Sorry, can’t make it</option>
+      </select>
+    
+      <label>Number of guests</label>
+      <select name="entry.1305280995" required>
+        <option value="">Select</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+    
+      <label>Message</label>
+      <textarea name="entry.1150859102"></textarea>
+    
+      <button type="submit">Send RSVP</button>
+    </form>
+    
+    <iframe name="hidden_iframe" style="display:none;"></iframe>
       
       <button class="secondary" onclick="goTo('menu')">Back to Map</button>
     </section>
