@@ -208,27 +208,33 @@
         method="POST"
         target="hidden_iframe"
       >
-        <!-- Guest Name (hidden) -->
+        <!-- Guest Name -->
         <input type="hidden" name="entry.2080286220" id="form-guest-name">
-
+      
         <label>Will you attend?</label>
         <select name="entry.698873189" required>
           <option value="">Select</option>
-          <option value="Yes">Yes, happily</option>
-          <option value="No">Sorry, can’t make it</option>
+          <option value="Yes, happily">Yes, happily</option>
+          <option value="Sorry, can’t make it">Sorry, can’t make it</option>
         </select>
-
+      
         <label>Number of guests</label>
-        <input type="number" name="entry.1305280995" min="1">
-
+        <select name="entry.1305280995" required>
+          <option value="">Select</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+      
         <label>Message</label>
         <textarea name="entry.1150859102"></textarea>
-
+      
         <button type="submit">Send RSVP</button>
       </form>
-
+      
       <iframe name="hidden_iframe" style="display:none;"></iframe>
-
+      
       <button class="secondary" onclick="goTo('menu')">Back to Map</button>
     </section>
 
