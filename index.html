@@ -15,17 +15,12 @@
 
     html, body {
       background: linear-gradient(180deg, #ffffff, #fdf2f8 60%, #eef2ff);
-      /* background-image: url('assets/frame-placeholder.png'); */
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
       display: flex;
       justify-content: center;
       align-items: stretch;
       overflow: hidden;
     }
 
-    /* GAME VIEWPORT */
     .app {
       height: 100svh;
       width: min(100vw, calc(100svh * 9 / 16));
@@ -34,7 +29,6 @@
       background: #fff;
     }
 
-    /* ===== PAGE SYSTEM ===== */
     .page {
       position: absolute;
       inset: 0;
@@ -47,22 +41,11 @@
       transition: opacity 0.6s ease, transform 0.6s ease;
     }
 
-    /* INTRO + DATE = CLEAN GRADIENT */
-    /* INTRO = IMAGE-BASED (ART READY) */
-    #page-intro {
-      background: linear-gradient(180deg, #ffffff, #fdf2f8 60%, #eef2ff);
-      /* background-image: url('assets/intro-placeholder.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat; */
-    }
-
-    /* DATE = CLEAN GRADIENT */
+    #page-intro,
     #page-date {
       background: linear-gradient(180deg, #ffffff, #fdf2f8 60%, #eef2ff);
     }
 
-    /* MENU & CONTENT PAGES TRANSPARENT (ART-DRIVEN) */
     #page-menu,
     #page-venue,
     #page-rundown,
@@ -77,9 +60,9 @@
       transform: scale(1.06);
     }
 
-    h1 { font-size: 2.8rem; margin-bottom: 0.6rem; }
+    h1 { font-size: 2.6rem; margin-bottom: 0.4rem; }
     h2 { font-size: 2.2rem; margin-bottom: 0.5rem; }
-    p  { font-size: 1.05rem; margin-bottom: 1.5rem; opacity: 0.9; }
+    p  { font-size: 1.05rem; margin-bottom: 1.4rem; opacity: 0.9; }
 
     button {
       border: none;
@@ -99,7 +82,6 @@
 
     button:active { transform: scale(0.95); }
 
-    /* ===== COUNTDOWN ===== */
     .countdown {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -120,7 +102,6 @@
       display: block;
     }
 
-    /* ===== GAME MAP (IMAGE-BASED) ===== */
     .venue-map {
       position: relative;
       width: 100%;
@@ -131,7 +112,6 @@
       background-repeat: no-repeat;
     }
 
-    /* ===== INTERACTIVE MAP BUTTONS (PNG READY) ===== */
     .spot {
       position: absolute;
       width: 90px;
@@ -143,15 +123,10 @@
       animation: pulse 2s infinite;
     }
 
-    .spot-venue   { background-image: url('assets/btn-venue.png'); }
-    .spot-rundown { background-image: url('assets/btn-rundown.png'); }
-    .spot-dress   { background-image: url('assets/btn-dress.png'); }
-    .spot-rsvp    { background-image: url('assets/btn-rsvp.png'); }
-
-    .spot-venue   { top: 10%; left: 50%; transform: translateX(-50%); }
-    .spot-rundown { bottom: 18%; left: 8%; }
-    .spot-dress   { bottom: 18%; right: 8%; }
-    .spot-rsvp    { top: 50%; right: 6%; }
+    .spot-venue   { background-image: url('assets/btn-venue.png'); top: 10%; left: 50%; transform: translateX(-50%); }
+    .spot-rundown { background-image: url('assets/btn-rundown.png'); bottom: 18%; left: 8%; }
+    .spot-dress   { background-image: url('assets/btn-dress.png'); bottom: 18%; right: 8%; }
+    .spot-rsvp    { background-image: url('assets/btn-rsvp.png'); top: 50%; right: 6%; }
 
     @keyframes pulse {
       0% { transform: scale(1); }
@@ -168,13 +143,16 @@
     }
   </style>
 </head>
-<body>
 
+<body>
   <div class="app">
 
     <!-- INTRO -->
     <section id="page-intro" class="page">
-      <h1>Hanif & Winda</h1>
+      <p style="font-size:0.9rem; opacity:0.6;">Dear</p>
+      <h1 id="guest-name">Our Beloved Guest</h1>
+
+      <p style="margin-top:1rem;">Hanif & Winda</p>
       <p>Are getting married 💍</p>
       <button onclick="goTo('date')">Enter</button>
     </section>
@@ -194,7 +172,7 @@
       <button style="margin-top:2.2rem" onclick="goTo('menu')">Explore</button>
     </section>
 
-    <!-- GAME MAP -->
+    <!-- MAP -->
     <section id="page-menu" class="page hidden" style="padding:0">
       <div class="venue-map">
         <div class="spot spot-venue" onclick="goTo('venue')"></div>
@@ -212,21 +190,18 @@
       <button class="secondary" onclick="goTo('menu')">Back to Map</button>
     </section>
 
-    <!-- RUNDOWN -->
     <section id="page-rundown" class="page hidden">
       <h2>Event Rundown</h2>
       <p>Ceremony and reception flow will be shared soon.</p>
       <button class="secondary" onclick="goTo('menu')">Back to Map</button>
     </section>
 
-    <!-- DRESS CODE -->
     <section id="page-dress" class="page hidden">
       <h2>Dress Code</h2>
       <p>Please wear elegant and comfortable attire.</p>
       <button class="secondary" onclick="goTo('menu')">Back to Map</button>
     </section>
 
-    <!-- RSVP -->
     <section id="page-rsvp" class="page hidden">
       <h2>RSVP</h2>
       <p>RSVP details will be available soon.</p>
@@ -236,13 +211,23 @@
   </div>
 
   <script>
+    /* PAGE NAVIGATION */
     const pages = document.querySelectorAll('.page');
-
     function goTo(target) {
       pages.forEach(p => p.classList.add('hidden'));
       document.getElementById(`page-${target}`).classList.remove('hidden');
     }
 
+    /* PERSONALIZED INVITE */
+    const params = new URLSearchParams(window.location.search);
+    const guest = params.get('to');
+
+    if (guest) {
+      document.getElementById('guest-name').innerText =
+        decodeURIComponent(guest.replace(/\+/g, ' '));
+    }
+
+    /* COUNTDOWN */
     const weddingDate = new Date('June 14, 2026 00:00:00').getTime();
 
     setInterval(() => {
@@ -256,6 +241,5 @@
       document.getElementById('seconds').innerText = Math.floor((distance % (1000 * 60)) / 1000);
     }, 1000);
   </script>
-
 </body>
 </html>
