@@ -244,49 +244,71 @@
         <div class="spot spot-rsvp" onclick="goTo('rsvp')"></div>
       </div>
     </section>
+    
+    <!-- VENUE -->
+    <section id="page-venue" class="page hidden">
+      <h2>Wedding Venue</h2>
+      <p>Location details will be revealed here.</p>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.8487574564438!2d107.6492045!3d-6.9086815!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e7eb0713d7e3%3A0x1bce438fe7ce32b7!2s150%20Coffee%20Garden!5e0!3m2!1sen!2sid!4v1770026256180!5m2!1sen!2sid" loading="lazy"></iframe>
+      <button class="secondary" onclick="goTo('menu')">Back to Map</button>
+    </section>
 
+    <!-- RUNDOWN -->
+    <section id="page-rundown" class="page hidden">
+      <h2>Event Rundown</h2>
+      <p>Ceremony and reception flow will be shared soon.</p>
+      <button class="secondary" onclick="goTo('menu')">Back to Map</button>
+    </section>
+
+    <!-- DRESS CODE -->
+    <section id="page-dress" class="page hidden">
+      <h2>Dress Code</h2>
+      <p>Please wear elegant and comfortable attire.</p>
+      <button class="secondary" onclick="goTo('menu')">Back to Map</button>
+    </section>
+    
     <!-- RSVP -->
     <section id="page-rsvp" class="page hidden">
       <h2>RSVP</h2>
       <p>Dear <strong id="rsvp-guest-name">Our Guest</strong>,</p>
 
-    <form
-      id="RSVP"
-      action="https://docs.google.com/forms/d/e/1FAIpQLSdx3Tnzma1Zska1BjSQcnhQDu7s7zVEyyMM7d2VkqeVljuv5w/formResponse"
-      method="POST"
-      target="hidden_iframe"
-    >    
-      <!-- Guest Name -->
-      <input type="hidden" name="entry.729439469" id="form-guest-name">
-    
-      <!-- Attendance -->
-      <label>Will you attend?</label>
-      <select name="entry.698873189" required>
-        <option value="">Select</option>
-        <option value="Yes, happily">Yes, happily</option>
-        <option value="Sorry, can’t make it">Sorry, can’t make it</option>
-      </select>
-      <input type="hidden" name="entry.698873189_sentinel">
-    
-      <!-- Number of Guests -->
-      <label>Number of guests</label>
-      <select name="entry.1305280995" required>
-        <option value="">Select</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-      </select>
-      <input type="hidden" name="entry.1305280995_sentinel">
-    
-      <!-- Message -->
-      <label>Message</label>
-      <textarea name="entry.1150859102"></textarea>
-    
-      <button type="submit">Send RSVP</button>
-    </form>
-    
-    <iframe name="hidden_iframe" style="display:none;"></iframe>
+      <form
+        id="RSVP"
+        action="https://docs.google.com/forms/d/e/1FAIpQLSdx3Tnzma1Zska1BjSQcnhQDu7s7zVEyyMM7d2VkqeVljuv5w/formResponse"
+        method="POST"
+        target="hidden_iframe"
+      >    
+        <!-- Guest Name -->
+        <input type="hidden" name="entry.729439469" id="form-guest-name">
+      
+        <!-- Attendance -->
+        <label>Will you attend?</label>
+        <select name="entry.698873189" required>
+          <option value="">Select</option>
+          <option value="Yes, happily">Yes, happily</option>
+          <option value="Sorry, can’t make it">Sorry, can’t make it</option>
+        </select>
+        <input type="hidden" name="entry.698873189_sentinel">
+      
+        <!-- Number of Guests -->
+        <label>Number of guests</label>
+        <select name="entry.1305280995" required>
+          <option value="">Select</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+        <input type="hidden" name="entry.1305280995_sentinel">
+      
+        <!-- Message -->
+        <label>Message</label>
+        <textarea name="entry.1150859102"></textarea>
+      
+        <button type="submit">Send RSVP</button>
+      </form>
+      
+      <iframe name="hidden_iframe" style="display:none;"></iframe>
       
       <button class="secondary" onclick="goTo('menu')">Back to Map</button>
     </section>
