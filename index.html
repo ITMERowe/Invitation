@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- ================= META / DOCUMENT ================= -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Hanif & Winda Wedding</title>
 
   <style>
+    /* ================= RESET / BASE ================= */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -13,6 +15,7 @@
       font-family: 'Segoe UI', system-ui, sans-serif;
     }
 
+    /* ================= APP BACKGROUND ================= */
     html, body {
       background: linear-gradient(180deg, #ffffff, #fdf2f8 60%, #eef2ff);
       display: flex;
@@ -21,6 +24,7 @@
       overflow: hidden;
     }
     
+    /* ================= APP CONTAINER ================= */
     .app {
       height: 100svh;
       width: min(100vw, calc(100svh * 9 / 16));
@@ -29,6 +33,7 @@
       background: #fff;
     }
     
+    /* ================= PAGE SYSTEM ================= */
     .page {
       position: absolute;
       inset: 0;
@@ -41,6 +46,7 @@
       transition: opacity 0.6s ease, transform 0.6s ease;
     }
 
+    /* ================= PAGE BACKGROUNDS ================= */
     #page-intro,
     #page-date {
       background: linear-gradient(180deg, #ffffff, #fdf2f8 60%, #eef2ff);
@@ -54,16 +60,19 @@
       background: transparent;
     }
 
+    /* ================= PAGE VISIBILITY ================= */
     .hidden {
       opacity: 0;
       pointer-events: none;
       transform: scale(1.06);
     }
 
+    /* ================= TYPOGRAPHY ================= */
     h1 { font-size: 2.6rem; margin-bottom: 0.4rem; }
     h2 { font-size: 2.2rem; margin-bottom: 0.5rem; }
     p  { font-size: 1.05rem; margin-bottom: 1.2rem; opacity: 0.9; }
 
+    /* ================= BUTTONS ================= */
     button {
       border: none;
       border-radius: 999px;
@@ -82,7 +91,8 @@
     }
 
     button:active { transform: scale(0.95); }
-    
+
+    /* ================= COUNTDOWN ================= */
     .countdown {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -102,7 +112,8 @@
       font-weight: bold;
       display: block;
     }
-    
+
+    /* ================= MAP / MENU ================= */
     .venue-map {
       position: relative;
       width: 100%;
@@ -112,7 +123,8 @@
       background-position: center;
       background-repeat: no-repeat;
     }
-    
+
+    /* ================= MAP INTERACTIVE SPOTS ================= */
     .spot {
       position: absolute;
       width: 90px;
@@ -123,12 +135,13 @@
       cursor: pointer;
       animation: pulse 2s infinite;
     }
-    
+
     .spot-venue   { background-image: url('assets/btn-venue.png'); }
     .spot-rundown { background-image: url('assets/btn-rundown.png'); }
     .spot-dress   { background-image: url('assets/btn-dress.png'); }
     .spot-rsvp    { background-image: url('assets/btn-rsvp.png'); }
-    
+
+    /* ================= MAP SPOT POSITIONS ================= */
     .spot-venue   { top: 10%; left: 50%; transform: translateX(-50%); }
     .spot-rundown { bottom: 18%; left: 8%; }
     .spot-dress   { bottom: 18%; right: 8%; }
@@ -140,10 +153,8 @@
       100% { transform: scale(1); }
     }
 
-    /* ===== ENHANCED VENUE PAGE ===== */
-    #page-venue {
-      gap: 1rem;
-    }
+    /* ================= VENUE PAGE ================= */
+    #page-venue { gap: 1rem; }
 
     .venue-card {
       width: 100%;
@@ -153,7 +164,7 @@
       padding: 1.4rem;
       box-shadow: 0 20px 40px rgba(0,0,0,0.08);
     }
-
+    
     .venue-card p {
       margin-bottom: 0.8rem;
     }
@@ -172,6 +183,7 @@
       border: 0;
     }
 
+    /* ================= FORMS / INPUTS ================= */
     form {
       width: 100%;
       max-width: 320px;
@@ -195,6 +207,7 @@
 
     textarea { resize: none; height: 80px; }
 
+    /* ================= MODAL ================= */
     .modal {
       position: fixed;
       inset: 0;
@@ -204,11 +217,9 @@
       justify-content: center;
       z-index: 50;
     }
-    
-    .modal.hidden {
-      display: none;
-    }
-    
+
+    .modal.hidden { display: none; }
+
     .modal-card {
       background: #fff;
       border-radius: 24px;
@@ -238,6 +249,26 @@
     @keyframes pop {
       0% { transform: scale(0.85); opacity: 0; }
       100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* ===== MAP DIRECTIONS BUTTON ===== */
+    .map-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 0.9rem;
+      padding: 0.65rem 1.3rem;
+      background: #6366f1;
+      color: #ffffff;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+    
+    .map-cta:active {
+      transform: scale(0.96);
+      opacity: 0.9;
     }
   </style>
 </head>
@@ -285,6 +316,15 @@
         <div class="venue-map-embed">
           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.8487574564438!2d107.6492045!3d-6.9086815!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e7eb0713d7e3%3A0x1bce438fe7ce32b7!2s150%20Coffee%20Garden!5e0!3m2!1sen!2sid!4v1770026256180!5m2!1sen!2sid" loading="lazy"></iframe>
         </div>
+        <!-- ===== MAP DIRECTIONS CTA ===== -->
+        <a
+          class="map-cta"
+          href="https://maps.google.com/?q=150+Coffee+Garden+Bandung"
+          target="_blank"
+          rel="noopener"
+        >
+          📍 Open in Google Maps
+        </a>
       </div>
       <button class="secondary" onclick="goTo('menu')">Back to Map</button>
     </section>
