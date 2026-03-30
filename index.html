@@ -484,6 +484,7 @@
       'assets/music/Piano_Solanum.mp3',
       'assets/music/Theremin_Prisoner.mp3',
     ];
+    const MAX_TRACK_VOLUME = 0.5; // reduce loudness (50% max)
     const tracks = [];
     let currentTrackIndex = -1;
     let fadeTimers = [];
@@ -544,7 +545,7 @@
       }
 
       nextTrack.muted = false;
-      fadeTrack(nextTrack, 1, 6000);
+      fadeTrack(nextTrack, MAX_TRACK_VOLUME, 6000);
       nextTrack.play().catch(() => console.log(`Failed to play ${nextTrack.id}`));
       currentTrackIndex = index;
     }
