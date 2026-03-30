@@ -35,15 +35,18 @@
     
     /* ================= PAGE SYSTEM ================= */
     .page {
-      position: absolute;
-      inset: 0;
+      position: relative;
+      height: 100svh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
       padding: 1.5rem;
-      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .page-wrapper {
+      transition: transform 0.6s ease;
     }
 
     /* ================= PAGE BACKGROUNDS ================= */
@@ -58,13 +61,6 @@
     #page-dress,
     #page-rsvp {
       background: transparent;
-    }
-
-    /* ================= PAGE VISIBILITY ================= */
-    .hidden {
-      opacity: 0;
-      pointer-events: none;
-      transform: scale(1.06);
     }
 
     /* ================= TYPOGRAPHY ================= */
@@ -142,7 +138,7 @@
     .spot-rsvp    { background-image: url('assets/btn-rsvp.png'); }
 
     /* ================= MAP SPOT POSITIONS ================= */
-    .spot-venue   { top: 10%; left: 50%; transform: translateX(-50%); }
+    .spot-venue   { top: 37%; left: 18%; transform: translateX(-50%); }
     .spot-rundown { bottom: 18%; left: 8%; }
     .spot-dress   { bottom: 18%; right: 8%; }
     .spot-rsvp    { top: 50%; right: 6%; }
@@ -275,18 +271,19 @@
 
 <body>
   <div class="app">
+    <div class="page-wrapper">
 
     <!-- INTRO -->
     <section id="page-intro" class="page">
       <p style="font-size:0.9rem; opacity:0.6;">Dear</p>
       <h1 id="guest-name">Our Beloved Guest</h1>
       <p style="margin-top:1rem;">Hanif & Winda</p>
-      <p>Are getting married 💍</p>
-      <button onclick="goTo('date')">Enter</button>
+      <p>Are getting married</p>
+      <button onclick="goTo('date')">Open Invitation</button>
     </section>
 
     <!-- DATE -->
-    <section id="page-date" class="page hidden">
+    <section id="page-date" class="page">
       <h2>14 June 2026</h2>
       <p>Save the date</p>
       <div class="countdown">
@@ -299,7 +296,7 @@
     </section>
 
     <!-- MAP -->
-    <section id="page-menu" class="page hidden" style="padding:0">
+    <section id="page-menu" class="page" style="padding:0">
       <div class="venue-map">
         <div class="spot spot-venue" onclick="goTo('venue')"></div>
         <div class="spot spot-rundown" onclick="goTo('rundown')"></div>
@@ -309,7 +306,7 @@
     </section>
     
     <!-- VENUE -->
-    <section id="page-venue" class="page hidden">
+    <section id="page-venue" class="page">
       <div class="venue-card">
         <h2>Wedding Venue</h2>
         <p>150 Coffee Garden<br/>Bandung, Indonesia</p>
@@ -330,21 +327,21 @@
     </section>
 
     <!-- RUNDOWN -->
-    <section id="page-rundown" class="page hidden">
+    <section id="page-rundown" class="page">
       <h2>Event Rundown</h2>
       <p>Ceremony and reception flow will be shared soon.</p>
       <button class="secondary" onclick="goTo('menu')">Back to Map</button>
     </section>
 
     <!-- DRESS CODE -->
-    <section id="page-dress" class="page hidden">
+    <section id="page-dress" class="page">
       <h2>Dress Code</h2>
       <p>Please wear elegant and comfortable attire.</p>
       <button class="secondary" onclick="goTo('menu')">Back to Map</button>
     </section>
     
     <!-- RSVP -->
-    <section id="page-rsvp" class="page hidden">
+    <section id="page-rsvp" class="page">
       <h2>RSVP</h2>
       <p>Dear <strong id="rsvp-guest-name">Our Guest</strong>,</p>
 
@@ -379,13 +376,26 @@
       <iframe name="hidden_iframe" style="display:none;"></iframe>
       <button class="secondary" onclick="goTo('menu')">Back to Map</button>
     </section>
+
+    </div>
   </div>
 
   <script>
-    const pages = document.querySelectorAll('.page');
+    const pageWrapper = document.querySelector('.page-wrapper');
     function goTo(target) {
-      pages.forEach(p => p.classList.add('hidden'));
-      document.getElementById(`page-${target}`).classList.remove('hidden');
+      const pageMap = {
+        intro: 0,
+        date: 1,
+        menu: 2,
+        venue: 3,
+        rundown: 4,
+        dress: 5,
+        rsvp: 6
+      };
+      const index = pageMap[target];
+      if (index !== undefined) {
+        pageWrapper.style.transform = `translateY(-${index * 100}svh)`;
+      }
     }
 
     const params = new URLSearchParams(window.location.search);
