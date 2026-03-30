@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Portfolio Photobook</title>
+        <style>
+            :root {
+                --bg-color: #f5f5f5;
+                --text-color: #555;
+                --btn-bg: black;
+                --btn-color: white;
+                --card-bg: white;
+                --right-bg: #eaeaea;
+                --pill-bg: #eee;
+                --border-color: #bbb;
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: Arial, sans-serif;
+                height: 100vh;
+                overflow: hidden;
+                background: var(--bg-color);
+            }
+
+            .wrapper {
+                display: grid;
+                grid-template-columns: 48% 52%;
+                height: 100vh;
+            }
+
+            /* Hide scrollbars */
+            .left::-webkit-scrollbar,
+            .right::-webkit-scrollbar {
+                display: none;
+            }
+
+            .left,
+            .right {
+                scrollbar-width: none;
+            }
+
+            /* LEFT PANEL */
+            .left {
+                overflow-y: auto;
+                padding: 60px;
+            }
+
+            .left h1 {
+                font-size: 90px;
+                font-style: italic;
+                margin-bottom: 20px;
+            }
+
+            .tags {
+                display: flex;
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+
+            .tag {
+                padding: 8px 14px;
+                border-radius: 20px;
+                border: 1px dashed var(--border-color);
+                background: var(--card-bg);
+                font-size: 14px;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                border-radius: 25px;
+                border: none;
+                background: var(--btn-bg);
+                color: var(--btn-color);
+                cursor: pointer;
+            }
+
+            .about {
+                margin-top: 10px;
+                line-height: 1.6;
+                color: var(--text-color);
+            }
+
+            .section {
+                margin-top: 50px;
+            }
+
+            .book {
+                background: var(--card-bg);
+                padding: 25px;
+                border-radius: 15px;
+                margin-top: 10px;
+            }
+
+            /* SERVICE */
+            .service {
+                background: var(--card-bg);
+                border-radius: 20px;
+                padding: 25px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 25px;
+            }
+
+            .service-text {
+                max-width: 60%;
+            }
+
+            .service-text h3 {
+                font-size: 24px;
+                margin-bottom: 8px;
+            }
+
+            .pills {
+                display: flex;
+                gap: 8px;
+                margin-bottom: 10px;
+            }
+
+            .pills span {
+                padding: 5px 12px;
+                border-radius: 20px;
+                background: var(--pill-bg);
+                font-size: 12px;
+            }
+
+            /* CARD STACK */
+            .service-images {
+                position: relative;
+                width: 160px;
+                height: 120px;
+                cursor: pointer;
+            }
+
+            .img {
+                position: absolute;
+                width: 90px;
+                height: 120px;
+                border-radius: 14px;
+                box-shadow: 0 15px 25px rgba(0, 0, 0, 0.18);
+                will-change: transform;
+            }
+
+            /* Placeholder colors */
+            .img1 { background: #ffcf5a; }
+            .img2 { background: #4a7bd6; }
+            .img3 { background: #111; }
+            .img4 { background: #1d3d2b; }
+            .img5 { background: #dcdcdc; }
+            .img6 { background: #e7c56c; }
+
+            /* RIGHT PANEL */
+
+            .right {
+                overflow-y: auto;
+                padding: 20px;
+                background: var(--right-bg);
+                height: 100vh;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+
+            #projects {
+                display: flex;
+                flex-direction: column;
+                flex: 1 1 auto;
+            }
+
+            .project {
+                height: 420px;
+                border-radius: 20px;
+                margin-bottom: 20px;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+                padding: 20px;
+                font-size: 22px;
+                font-weight: bold;
+                color: white;
+            }
+
+            .project.color1 { background: #c9a07c; }
+            .project.color2 { background: #7c8ca9; }
+            .project.color3 { background: #a97c8a; }
+            .project.color4 { background: #7ca98f; }
+            .project.color5 { background: #a9a27c; }
+            .project.color6 { background: #8b7ca9; }
+
+            .caption {
+                font-size: 14px;
+                font-weight: normal;
+                opacity: 0.9;
+            }
+
+            @media (max-width: 1080px) {
+                .wrapper {
+                    grid-template-columns: 100%;
+                }
+                .right {
+                    display: none;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="wrapper">
+            <main class="left" id="leftScroll">
+                <h1>Moments</h1>
+                <div class="tags">
+                    <div class="tag">#Photography</div>
+                    <div class="tag">#Editorial</div>
+                    <div class="tag">#Story</div>
+                    <button class="btn">Contact</button>
+                </div>
+                <p class="about">
+                    I document quiet moments and visual stories through photography.
+                </p>
+                <div class="service">
+                    <div class="service-text">
+                        <h3>Graphic Design</h3>
+                        <div class="pills">
+                            <span>Digital</span>
+                            <span>Print</span>
+                            <span>Campaign</span>
+                        </div>
+                        <p class="about">
+                            Visual communication that captures attention across posters and campaigns.
+                        </p>
+                    </div>
+                    <div class="service-images">
+                        <div class="img img1"></div>
+                        <div class="img img2"></div>
+                        <div class="img img3"></div>
+                    </div>
+                </div>
+                <div class="service">
+                    <div class="service-text">
+                        <h3>Brand Strategy</h3>
+                        <div class="pills">
+                            <span>Identity</span>
+                            <span>Packaging</span>
+                            <span>Logo</span>
+                        </div>
+                        <p class="about">
+                            Strategic identities that communicate your story and build recognition.
+                        </p>
+                    </div>
+                    <div class="service-images">
+                        <div class="img img4"></div>
+                        <div class="img img5"></div>
+                        <div class="img img6"></div>
+                    </div>
+                </div>
+                <section class="section">
+                    <h2>Photobook</h2>
+                    <div class="book">
+                        <b>"Morning Light"</b>
+                        <p class="about">
+                            A curated photobook capturing calm mornings and everyday stillness.
+                        </p>
+                        <p><b>$28</b></p>
+                        <button class="btn">Buy Book</button>
+                    </div>
+                </section>
+            </main>
+            <aside class="right" id="scrollArea">
+                <div id="projects">
+                    <div class="project color1">Coastal Morning<div class="caption">Bali • 2024</div></div>
+                    <div class="project color2">Quiet Apartment<div class="caption">Jakarta • 2023</div></div>
+                    <div class="project color3">Sunday Market<div class="caption">Bandung • 2024</div></div>
+                    <div class="project color4">Rainy Window<div class="caption">Yogyakarta • 2022</div></div>
+                    <div class="project color5">Afternoon Coffee<div class="caption">Tokyo • 2023</div></div>
+                    <div class="project color6">Old Streets<div class="caption">Lisbon • 2024</div></div>
+                </div>
+            </aside>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1/bundled/lenis.min.js"></script>
+        <script>
+            /* ---------------- SMOOTH LEFT SCROLL ---------------- */
+            const leftLenis = new Lenis({
+                wrapper: document.querySelector("#leftScroll"),
+                content: document.querySelector("#leftScroll"),
+                smooth: true,
+                lerp: .08
+            });
+            function raf(time) {
+                leftLenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+            /* ---------------- CARD STACK ENGINE (FIXED) ---------------- */
+            document.querySelectorAll(".service-images").forEach(stack => {
+                let cards = [...stack.children];
+                let base = [...cards];
+                let hover = false;
+                let running = false;
+                function layout() {
+                    cards.forEach((card, i) => {
+                        card.style.transition = "transform .7s cubic-bezier(.34,1.56,.64,1)";
+                        if (i === 0) {
+                            card.style.transform = "translate(0px,0px) rotate(-2deg) scale(1)";
+                            card.style.zIndex = 3;
+                        }
+                        if (i === 1) {
+                            card.style.transform = "translate(20px,-8px) rotate(2deg) scale(.96)";
+                            card.style.zIndex = 2;
+                        }
+                        if (i === 2) {
+                            card.style.transform = "translate(40px,-16px) rotate(4deg) scale(.92)";
+                            card.style.zIndex = 1;
+                        }
+                    });
+                }
+                layout();
+                function cycle() {
+                    if (!hover) return;
+                    running = true;
+                    const front = cards[0];
+                    const mid = cards[1];
+                    const back = cards[2];
+                    /* 1️⃣ slide out (shorter distance now) */
+                    front.style.transition = "transform .5s cubic-bezier(.34,1.56,.64,1)";
+                    front.style.transform = "translate(-80px,0px) rotate(-10deg) scale(1.05)";
+                    setTimeout(() => {
+                        if (!hover) return reset();
+                        /* 2️⃣ slide TO BACK POSITION (THIS WAS MISSING) */
+                        front.style.transition = "transform .6s cubic-bezier(.22,.61,.36,1)";
+                        front.style.transform = "translate(40px,-16px) rotate(4deg) scale(.92)";
+                        mid.style.zIndex = 1;
+                        back.style.zIndex = 0;
+                        front.style.zIndex = 0;
+                        setTimeout(() => {
+                            if (!hover) return reset();
+                            /* 3️⃣ NOW reorder DOM (no visual jump) */
+                            cards.push(cards.shift());
+                            stack.appendChild(front);
+                            /* 4️⃣ normalize stack */
+                            layout();
+                            /* 5️⃣ loop */
+                            setTimeout(cycle, 400);
+                        }, 600);
+                    }, 500);
+                }
+                /* reset animation */
+                function reset() {
+                    hover = false;
+                    running = false;
+                    cards = [...base];
+                    cards.forEach(c => stack.appendChild(c));
+                    layout();
+                }
+                /* hover controls */
+                stack.addEventListener("mouseenter", () => {
+                    hover = true;
+                    if (!running) {
+                        cycle();
+                    }
+                });
+                stack.addEventListener("mouseleave", () => {
+                    hover = false;
+                    setTimeout(reset, 400);
+                });
+            });
+            /* ---------------- RIGHT INFINITE SCROLL ---------------- */
+            const scrollArea = document.getElementById("scrollArea");
+            const projects = document.getElementById("projects");
+            projects.innerHTML += projects.innerHTML + projects.innerHTML;
+            setTimeout(() => {
+                scrollArea.scrollTop = projects.scrollHeight / 3;
+            }, 50);
+            let speed = 0.5;
+            let isScrolling = true;
+            function autoScroll() {
+                if (isScrolling) {
+                    scrollArea.scrollTop += speed;
+                }
+                requestAnimationFrame(autoScroll);
+            }
+            autoScroll();
+            scrollArea.addEventListener("mouseenter", () => {
+                isScrolling = false;
+            });
+            scrollArea.addEventListener("mouseleave", () => {
+                isScrolling = true;
+            });
+            scrollArea.addEventListener("scroll", () => {
+                const section = projects.scrollHeight / 3;
+                if (scrollArea.scrollTop > section * 2) {
+                    scrollArea.scrollTop -= section;
+                }
+                if (scrollArea.scrollTop < section) {
+                    scrollArea.scrollTop += section;
+                }
+            });
+        </script>
+    </body>
+</html>
