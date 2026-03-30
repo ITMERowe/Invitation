@@ -46,7 +46,7 @@
     }
 
     .page-wrapper {
-      transition: transform 0.6s ease;
+      transition: transform 1s ease-in-out;
     }
 
     /* ================= PAGE BACKGROUNDS ================= */
@@ -61,6 +61,19 @@
     #page-dress,
     #page-rsvp {
       background: transparent;
+    }
+
+    /* ================= PAGE VISIBILITY ================= */
+    .hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(1.06);
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      transition: opacity 0.6s ease, transform 0.6s ease;
     }
 
     /* ================= TYPOGRAPHY ================= */
@@ -247,24 +260,26 @@
       100% { transform: scale(1); opacity: 1; }
     }
 
-    /* ===== MAP DIRECTIONS BUTTON ===== */
-    .map-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      margin-top: 0.9rem;
-      padding: 0.65rem 1.3rem;
-      background: #6366f1;
-      color: #ffffff;
-      border-radius: 999px;
-      font-size: 0.9rem;
-      text-decoration: none;
-      transition: transform 0.15s ease, opacity 0.15s ease;
+    /* ================= COUPLE IMAGES ================= */
+    .couple-images {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 2rem 0;
     }
-    
-    .map-cta:active {
-      transform: scale(0.96);
-      opacity: 0.9;
+
+    .couple-images img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      border: 3px solid rgba(255,255,255,0.8);
+    }
+
+    .couple-images img:hover {
+      transform: scale(1.05);
     }
   </style>
 </head>
@@ -279,7 +294,35 @@
       <h1 id="guest-name">Our Beloved Guest</h1>
       <p style="margin-top:1rem;">Hanif & Winda</p>
       <p>Are getting married</p>
-      <button onclick="goTo('date')">Open Invitation</button>
+      <button onclick="goTo('couple')">Meet the Couple</button>
+    </section>
+
+    <!-- COUPLE -->
+    <section id="page-couple" class="page">
+      <h1>Meet Hanif & Winda</h1>
+      <p>Two souls united by love, embarking on a beautiful journey together.</p>
+      <p>Hanif and Winda are excited to share this special day with you.</p>
+      <div class="couple-images">
+        <img src="assets/bride.png" onclick="choose('bride')" alt="Winda - Bride">
+        <img src="assets/groom.png" onclick="choose('groom')" alt="Hanif - Groom">
+      </div>
+      <button onclick="scrollNext()">Continue</button>
+    </section>
+
+    <!-- BRIDE -->
+    <section id="page-bride" class="page">
+      <h1>Winda</h1>
+      <p>The beautiful bride, radiant and full of grace.</p>
+      <p>Winda brings joy and warmth to every moment.</p>
+      <button onclick="nextFromBride()">Continue</button>
+    </section>
+
+    <!-- GROOM -->
+    <section id="page-groom" class="page">
+      <h1>Hanif</h1>
+      <p>The charming groom, strong and kind-hearted.</p>
+      <p>Hanif is devoted and ready to start this new chapter.</p>
+      <button onclick="nextFromGroom()">Continue</button>
     </section>
 
     <!-- DATE -->
@@ -304,9 +347,11 @@
         <div class="spot spot-rsvp" onclick="goTo('rsvp')"></div>
       </div>
     </section>
-    
+
+    </div>
+
     <!-- VENUE -->
-    <section id="page-venue" class="page">
+    <section id="page-venue" class="page overlay hidden">
       <div class="venue-card">
         <h2>Wedding Venue</h2>
         <p>150 Coffee Garden<br/>Bandung, Indonesia</p>
@@ -327,21 +372,21 @@
     </section>
 
     <!-- RUNDOWN -->
-    <section id="page-rundown" class="page">
+    <section id="page-rundown" class="page overlay hidden">
       <h2>Event Rundown</h2>
       <p>Ceremony and reception flow will be shared soon.</p>
       <button class="secondary" onclick="goTo('menu')">Back to Map</button>
     </section>
 
     <!-- DRESS CODE -->
-    <section id="page-dress" class="page">
+    <section id="page-dress" class="page overlay hidden">
       <h2>Dress Code</h2>
       <p>Please wear elegant and comfortable attire.</p>
       <button class="secondary" onclick="goTo('menu')">Back to Map</button>
     </section>
     
     <!-- RSVP -->
-    <section id="page-rsvp" class="page">
+    <section id="page-rsvp" class="page overlay hidden">
       <h2>RSVP</h2>
       <p>Dear <strong id="rsvp-guest-name">Our Guest</strong>,</p>
 
@@ -377,24 +422,49 @@
       <button class="secondary" onclick="goTo('menu')">Back to Map</button>
     </section>
 
-    </div>
   </div>
 
   <script>
     const pageWrapper = document.querySelector('.page-wrapper');
+    let firstChoice = null;
+
+    function choose(person) {
+      if (!firstChoice) {
+        firstChoice = person;
+        if (person === 'groom') {
+          const wrapper = document.querySelector('.page-wrapper');
+          const bride = document.getElementById('page-bride');
+          const groom = document.getElementById('page-groom');
+          wrapper.insertBefore(groom, bride);
+        }
+      }
+      goTo(person);
+    }
+
+    function scrollNext() {
+      const target = firstChoice || 'bride';
+      goTo(target);
+    }
+
+    function nextFromBride() {
+      goTo(firstChoice === 'bride' ? 'groom' : 'date');
+    }
+
+    function nextFromGroom() {
+      goTo(firstChoice === 'groom' ? 'bride' : 'date');
+    }
+
     function goTo(target) {
-      const pageMap = {
-        intro: 0,
-        date: 1,
-        menu: 2,
-        venue: 3,
-        rundown: 4,
-        dress: 5,
-        rsvp: 6
-      };
-      const index = pageMap[target];
-      if (index !== undefined) {
+      const sections = Array.from(document.querySelectorAll('.page-wrapper > .page'));
+      const index = sections.findIndex(section => section.id === `page-${target}`);
+      if (index !== -1) {
         pageWrapper.style.transform = `translateY(-${index * 100}svh)`;
+        // hide overlays
+        document.querySelectorAll('.overlay').forEach(o => o.classList.add('hidden'));
+      } else {
+        // for overlays: venue, rundown, dress, rsvp
+        document.querySelectorAll('.overlay').forEach(o => o.classList.add('hidden'));
+        document.getElementById(`page-${target}`).classList.remove('hidden');
       }
     }
 
