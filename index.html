@@ -145,12 +145,14 @@
       animation: pulse 2s infinite;
     }
 
+    .spot-couple   { background-image: url('assets/btn-couple.png'); }
     .spot-venue   { background-image: url('assets/btn-venue.png'); }
     .spot-rundown { background-image: url('assets/btn-rundown.png'); }
     .spot-dress   { background-image: url('assets/btn-dress.png'); }
     .spot-rsvp    { background-image: url('assets/btn-rsvp.png'); }
 
     /* ================= MAP SPOT POSITIONS ================= */
+    .spot-couple   { top: 10%; left: 50%; transform: translateX(-50%); }
     .spot-venue   { top: 37%; left: 18%; transform: translateX(-50%); }
     .spot-rundown { bottom: 18%; left: 8%; }
     .spot-dress   { bottom: 18%; right: 8%; }
@@ -294,7 +296,7 @@
       <h1 id="guest-name">Our Beloved Guest</h1>
       <p style="margin-top:1rem;">Hanif & Winda</p>
       <p>Are getting married</p>
-      <button onclick="goTo('couple')">Meet the Couple</button>
+      <button onclick="startMusic(); goTo('couple')">Meet the Couple</button>
     </section>
 
     <!-- COUPLE -->
@@ -306,7 +308,7 @@
         <img src="assets/bride.png" onclick="choose('bride')" alt="Winda - Bride">
         <img src="assets/groom.png" onclick="choose('groom')" alt="Hanif - Groom">
       </div>
-      <button onclick="scrollNext()">Continue</button>
+      <button onclick="choose('bride')">Continue</button>
     </section>
 
     <!-- BRIDE -->
@@ -335,15 +337,16 @@
         <div class="time-box"><span id="minutes">0</span>Minutes</div>
         <div class="time-box"><span id="seconds">0</span>Seconds</div>
       </div>
-      <button onclick="goTo('menu')">Explore</button>
+      <button onclick="selectTrack(3); goTo('menu')">Explore</button>
     </section>
 
     <!-- MAP -->
     <section id="page-menu" class="page" style="padding:0">
       <div class="venue-map">
-        <div class="spot spot-venue" onclick="goTo('venue')"></div>
-        <div class="spot spot-rundown" onclick="goTo('rundown')"></div>
-        <div class="spot spot-dress" onclick="goTo('dress')"></div>
+        <div class="spot spot-couple" onclick="goTo('couple')"></div>
+        <div class="spot spot-venue" onclick="selectTrack(4); goTo('venue')"></div>
+        <div class="spot spot-rundown" onclick="selectTrack(5); goTo('rundown')"></div>
+        <div class="spot spot-dress" onclick="selectTrack(6); goTo('dress')"></div>
         <div class="spot spot-rsvp" onclick="goTo('rsvp')"></div>
       </div>
     </section>
@@ -438,6 +441,7 @@
           wrapper.insertBefore(groom, bride);
         }
       }
+      selectTrack(1);
       goTo(person);
     }
 
@@ -447,10 +451,12 @@
     }
 
     function nextFromBride() {
+      selectTrack(2);
       goTo(firstChoice === 'bride' ? 'groom' : 'date');
     }
 
     function nextFromGroom() {
+      selectTrack(2);
       goTo(firstChoice === 'groom' ? 'bride' : 'date');
     }
 
@@ -467,6 +473,89 @@
         document.getElementById(`page-${target}`).classList.remove('hidden');
       }
     }
+
+    // ================= AUDIO MIXER (7 TRACK) =================
+    const trackSources = [
+      'assets/music/Banjo.mp3',
+      'assets/music/Harmonica.mp3',
+      'assets/music/Whistling.mp3',
+      'assets/music/Flute.mp3',
+      'assets/music/Drums.mp3',
+      'assets/music/Piano_Solanum.mp3',
+      'assets/music/Theremin_Prisoner.mp3',
+    ];
+    const tracks = [];
+    let currentTrackIndex = -1;
+    let fadeTimers = [];
+
+    function createTracks() {
+      if (tracks.length) return;
+      trackSources.forEach((src, idx) => {
+        const audio = document.createElement('audio');
+        audio.src = src;
+        audio.loop = true;
+        audio.preload = 'auto';
+        audio.muted = true;
+        audio.volume = 0;
+        audio.id = `track-${idx}`;
+        document.body.appendChild(audio);
+        tracks.push(audio);
+      });
+    }
+
+    function startMusic() {
+      createTracks();
+      tracks.forEach((track) => {
+        track.play().catch(() => {});
+      });
+      selectTrack(0);
+    }
+
+    function fadeTrack(track, targetVolume, duration = 6000) {
+      clearInterval(fadeTimers[track.id]);
+      const startVolume = Number(track.volume);
+      const startTime = performance.now();
+      fadeTimers[track.id] = setInterval(() => {
+        const elapsed = performance.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        track.volume = Math.max(0, Math.min(1, startVolume + (targetVolume - startVolume) * progress));
+        if (progress >= 1) {
+          clearInterval(fadeTimers[track.id]);
+          if (targetVolume === 0) {
+            track.muted = true;
+          }
+        }
+      }, 30);
+      if (targetVolume > 0) {
+        track.muted = false;
+      }
+    }
+
+
+    function selectTrack(index) {
+      if (!tracks.length) createTracks();
+      if (index < 0 || index >= tracks.length) return;
+
+      const nextTrack = tracks[index];
+      if (!nextTrack) return;
+
+      if (nextTrack.volume > 0) {
+        return;
+      }
+
+      nextTrack.muted = false;
+      fadeTrack(nextTrack, 1, 6000);
+      nextTrack.play().catch(() => console.log(`Failed to play ${nextTrack.id}`));
+      currentTrackIndex = index;
+    }
+
+    window.addEventListener('load', () => {
+      createTracks();
+      tracks.forEach((track) => {
+        track.play().catch(() => {});
+      });
+      selectTrack(0);
+    });
 
     const params = new URLSearchParams(window.location.search);
     const guest = params.get('to');
