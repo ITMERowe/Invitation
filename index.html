@@ -484,7 +484,7 @@
       'assets/music/Piano_Solanum.mp3',
       'assets/music/Theremin_Prisoner.mp3',
     ];
-    const MAX_TRACK_VOLUME = 0.5; // reduce loudness (50% max)
+    const MAX_TRACK_VOLUME = 0.3; // reduce loudness (50% max)
     const tracks = [];
     let currentTrackIndex = -1;
     let fadeTimers = [];
@@ -504,9 +504,21 @@
       });
     }
 
-    function startMusic() {
+    async function startMusic() {
       createTracks();
-      tracks.forEach((track) => {
+      // Wait for all tracks to be ready to play
+      const readyPromises = tracks.map(track => {
+        return new Promise(resolve => {
+          if (track.readyState >= 3) { // HAVE_FUTURE_DATA
+            resolve();
+          } else {
+            track.addEventListener('canplay', resolve, { once: true });
+          }
+        });
+      });
+      await Promise.all(readyPromises);
+      // Now start all tracks synchronously
+      tracks.forEach(track => {
         track.play().catch(() => {});
       });
       selectTrack(0);
@@ -546,12 +558,23 @@
 
       nextTrack.muted = false;
       fadeTrack(nextTrack, MAX_TRACK_VOLUME, 6000);
-      nextTrack.play().catch(() => console.log(`Failed to play ${nextTrack.id}`));
+      // Removed play() call since tracks are already started in startMusic()
       currentTrackIndex = index;
     }
 
-    window.addEventListener('load', () => {
+    window.addEventListener('load', async () => {
       createTracks();
+      // Wait for all tracks to be ready
+      const readyPromises = tracks.map(track => {
+        return new Promise(resolve => {
+          if (track.readyState >= 3) {
+            resolve();
+          } else {
+            track.addEventListener('canplay', resolve, { once: true });
+          }
+        });
+      });
+      await Promise.all(readyPromises);
       tracks.forEach((track) => {
         track.play().catch(() => {});
       });
