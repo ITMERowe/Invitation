@@ -1,39 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- ================= META / DOCUMENT ================= -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Hanif & Winda Wedding</title>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
+
   <style>
+    /* ======================================== 
+       CUSTOMIZATION PANEL - EASY TO CHANGE
+       ======================================== */
+    :root {
+      /* === Colors === */
+      --sage-green: #8fa68e;
+      --deep-green: #5a7a5a;
+      --warm-brown: #8b6914;
+      --cream: #faf6f0;
+      --soft-gold: #d4af7a;
+      --terracotta: #c4785a;
+      --wood-dark: #6b4423;
+      --text-primary: #3d3d3d;
+      --text-secondary: #6b6b6b;
+      --text-light: #8a8a8a;
+      --leaf-light: #b8d4a8;
+      --leaf-dark: #6b8f5e;
+      --blush: #e8c4c4;
+      --wood-light: #a0785a;
+
+      /* === Background Gradients === */
+      --bg-main: linear-gradient(160deg, #f5f0e8 0%, #e8ddd0 30%, #d4e4d0 70%, #c8d8c4 100%);
+      --bg-intro: linear-gradient(170deg, #faf6f0 0%, #f0e6d8 40%, #e0d4c4 100%);
+      --bg-couple: linear-gradient(160deg, #f5f0e8 0%, #e8ddd0 50%, #d8e0d0 100%);
+      --bg-bride-groom: linear-gradient(170deg, #faf6f0 0%, #f0e8e0 60%, #e8ddd4 100%);
+      --bg-date: linear-gradient(160deg, #f0ebe3 0%, #e5ddd0 40%, #d4c8b8 100%);
+      --bg-menu: linear-gradient(180deg, #c8d8c4 0%, #b8c8a8 40%, #a8b898 100%);
+
+      /* === Music Settings === */
+      --music-volume: 0.3;
+      --music-fade-duration: 6000;
+    }
+
     /* ================= RESET / BASE ================= */
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', system-ui, sans-serif;
     }
 
-    /* ================= APP BACKGROUND ================= */
-    html, body {
-      background: linear-gradient(180deg, #ffffff, #fdf2f8 60%, #eef2ff);
+    html,
+    body {
+      background: #ffffff !important;
       display: flex;
       justify-content: center;
       align-items: stretch;
       overflow: hidden;
+      font-family: 'Cormorant Garamond', Georgia, serif;
     }
-    
+
     /* ================= APP CONTAINER ================= */
     .app {
       height: 100svh;
       width: min(100vw, calc(100svh * 9 / 16));
       position: relative;
       overflow: hidden;
-      background: #fff;
+      background: #ffffff;
+      box-shadow: 0 0 60px rgba(107, 68, 35, 0.15);
     }
-    
+
     /* ================= PAGE SYSTEM ================= */
+    .page-wrapper {
+      transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      background: linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #ffffff 16%,
+        #dcfbfc 58%,
+        #9af5f8 100%
+      );
+      background-size: 100% 500svh;
+      background-repeat: no-repeat;
+    }
+
     .page {
       position: relative;
       height: 100svh;
@@ -45,22 +95,34 @@
       padding: 1.5rem;
     }
 
-    .page-wrapper {
-      transition: transform 1s ease-in-out;
-    }
-
-    /* ================= PAGE BACKGROUNDS ================= */
     #page-intro,
+    #page-couple,
+    #page-bride,
+    #page-groom,
     #page-date {
-      background: linear-gradient(180deg, #ffffff, #fdf2f8 60%, #eef2ff);
+      background: transparent !important;
     }
 
-    #page-menu,
+    #page-menu {
+      background: var(--bg-menu) !important;
+    }
+
     #page-venue,
     #page-rundown,
     #page-dress,
     #page-rsvp {
-      background: transparent;
+      background: transparent !important;
+    }
+
+    #page-intro::before,
+    #page-intro::after,
+    #page-couple::after,
+    #page-bride::after,
+    #page-groom::after,
+    #page-date::after {
+      display: none !important;
+      content: none !important;
+      background: none !important;
     }
 
     /* ================= PAGE VISIBILITY ================= */
@@ -73,53 +135,159 @@
     .overlay {
       position: absolute;
       inset: 0;
-      transition: opacity 0.6s ease, transform 0.6s ease;
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.96) 0%,
+        rgba(220, 251, 252, 0.96) 58%,
+        rgba(154, 245, 248, 0.96) 100%
+      ) !important;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
     /* ================= TYPOGRAPHY ================= */
-    h1 { font-size: 2.6rem; margin-bottom: 0.4rem; }
-    h2 { font-size: 2.2rem; margin-bottom: 0.5rem; }
-    p  { font-size: 1.05rem; margin-bottom: 1.2rem; opacity: 0.9; }
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 2.4rem;
+      margin-bottom: 0.6rem;
+      color: var(--wood-dark);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+    }
+
+    h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 2rem;
+      margin-bottom: 0.8rem;
+      color: var(--wood-dark);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    p {
+      font-size: 1.15rem;
+      margin-bottom: 1.4rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .script-text {
+      font-family: 'Great Vibes', cursive;
+      font-size: 1.8rem;
+      color: var(--terracotta);
+      margin-bottom: 0.5rem;
+    }
 
     /* ================= BUTTONS ================= */
     button {
       border: none;
-      border-radius: 999px;
-      padding: 0.9rem 1.6rem;
-      font-size: 1rem;
-      background: #6366f1;
-      color: #fff;
+      border-radius: 50px;
+      padding: 1rem 2.2rem;
+      background: linear-gradient(135deg, var(--deep-green) 0%, var(--sage-green) 100%);
+      color: var(--cream);
       cursor: pointer;
-      margin-top: 0.8rem;
+      margin-top: 1rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      box-shadow:
+        0 4px 15px rgba(90, 122, 90, 0.3),
+        0 2px 4px rgba(90, 122, 90, 0.2);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.6s ease;
+    }
+
+    button:hover::before {
+      left: 100%;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 8px 25px rgba(90, 122, 90, 0.35),
+        0 4px 8px rgba(90, 122, 90, 0.25);
+    }
+
+    button:active {
+      transform: scale(0.96) translateY(0);
+      box-shadow: 0 2px 8px rgba(90, 122, 90, 0.3);
     }
 
     button.secondary {
-      background: rgba(255,255,255,0.9);
-      color: #111827;
+      background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(250,246,240,0.9) 100%);
+      color: var(--wood-dark);
+      border: 1.5px solid rgba(139, 105, 20, 0.2);
       margin-top: 1.6rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
     }
 
-    button:active { transform: scale(0.95); }
+    button.secondary:hover {
+      background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 100%);
+      border-color: rgba(139, 105, 20, 0.4);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+    }
 
     /* ================= COUNTDOWN ================= */
     .countdown {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      max-width: 320px;
+      gap: 1.2rem;
+      max-width: 300px;
       width: 100%;
     }
 
     .time-box {
-      background: rgba(255,255,255,0.95);
-      border-radius: 18px;
-      padding: 1.1rem;
+      background: linear-gradient(145deg, rgba(255,255,255,0.95) 0%, rgba(250,246,240,0.95) 100%);
+      border-radius: 20px;
+      padding: 1.3rem 1rem;
+      box-shadow:
+        0 4px 15px rgba(107, 68, 35, 0.08),
+        0 1px 3px rgba(107, 68, 35, 0.05);
+      border: 1px solid rgba(139, 105, 20, 0.08);
+      position: relative;
+      overflow: hidden;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      color: var(--text-light);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .time-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--sage-green), var(--soft-gold), var(--sage-green));
+      border-radius: 20px 20px 0 0;
     }
 
     .time-box span {
-      font-size: 1.9rem;
-      font-weight: bold;
+      font-family: 'Cinzel', serif;
+      font-size: 2rem;
+      font-weight: 700;
       display: block;
+      color: var(--wood-dark);
+      margin-bottom: 0.3rem;
     }
 
     /* ================= MAP / MENU ================= */
@@ -131,67 +299,328 @@
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
+      overflow: hidden;
+    }
+
+    .venue-map::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      left: -30px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(139, 166, 142, 0.5) 0%, transparent 70%);
+      border-radius: 50%;
+      filter: blur(20px);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .venue-map::after {
+      content: '';
+      position: absolute;
+      top: -30px;
+      right: -40px;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(168, 184, 152, 0.4) 0%, transparent 70%);
+      border-radius: 50%;
+      filter: blur(25px);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ================= FALLING LEAVES ON MAP PAGE ================= */
+    @keyframes fallingLeaf {
+      0% {
+        transform: translateY(-90px) translateX(0) rotate(0deg);
+        opacity: 0;
+      }
+
+      8% {
+        opacity: 0.75;
+      }
+
+      20% {
+        transform: translateY(18svh) translateX(var(--sway-a, 18px)) rotate(calc(var(--spin, 360deg) * 0.18));
+        opacity: 0.9;
+      }
+
+      40% {
+        transform: translateY(40svh) translateX(var(--sway-b, -24px)) rotate(calc(var(--spin, 360deg) * 0.42));
+        opacity: 0.92;
+      }
+
+      60% {
+        transform: translateY(62svh) translateX(var(--sway-c, 20px)) rotate(calc(var(--spin, 360deg) * 0.66));
+        opacity: 0.86;
+      }
+
+      80% {
+        transform: translateY(84svh) translateX(var(--sway-d, -16px)) rotate(calc(var(--spin, 360deg) * 0.86));
+        opacity: 0.7;
+      }
+
+      100% {
+        transform: translateY(112svh) translateX(var(--sway-e, 12px)) rotate(var(--spin, 360deg));
+        opacity: 0;
+      }
+    }
+
+    .venue-map .floating-leaf {
+      position: absolute;
+      top: -50px;
+      width: 20px;
+      height: 20px;
+      background: radial-gradient(ellipse at 30% 30%, var(--leaf-light), var(--leaf-dark));
+      border-radius: 0 50% 50% 50%;
+      opacity: 0;
+      animation-name: fallingLeaf;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+      pointer-events: none;
+      z-index: 2;
+      filter: drop-shadow(0 2px 3px rgba(63, 95, 55, 0.18));
+      transform-origin: 45% 45%;
+    }
+
+    .venue-map .floating-leaf::before {
+      content: '';
+      position: absolute;
+      top: 45%;
+      left: 12%;
+      width: 75%;
+      height: 1px;
+      background: rgba(90, 122, 90, 0.38);
+      transform: rotate(35deg);
+      transform-origin: left center;
     }
 
     /* ================= MAP INTERACTIVE SPOTS ================= */
     .spot {
       position: absolute;
-      width: 90px;
-      height: 90px;
+      width: 100px;
+      height: 100px;
       background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
       cursor: pointer;
-      animation: pulse 2s infinite;
+      animation: gentlePulse 3s ease-in-out infinite;
+      filter: drop-shadow(0 4px 8px rgba(107, 68, 35, 0.25));
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 5;
     }
 
-    .spot-couple   { background-image: url('assets/btn-couple.png'); }
-    .spot-venue   { background-image: url('assets/btn-venue.png'); }
-    .spot-rundown { background-image: url('assets/btn-rundown.png'); }
-    .spot-dress   { background-image: url('assets/btn-dress.png'); }
-    .spot-rsvp    { background-image: url('assets/btn-rsvp.png'); }
-
-    /* ================= MAP SPOT POSITIONS ================= */
-    .spot-couple   { top: 10%; left: 50%; transform: translateX(-50%); }
-    .spot-venue   { top: 37%; left: 18%; transform: translateX(-50%); }
-    .spot-rundown { bottom: 18%; left: 8%; }
-    .spot-dress   { bottom: 18%; right: 8%; }
-    .spot-rsvp    { top: 50%; right: 6%; }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.12); }
-      100% { transform: scale(1); }
+    .spot:hover {
+      transform: scale(1.15);
+      filter: drop-shadow(0 8px 16px rgba(107, 68, 35, 0.35));
     }
 
-    /* ================= VENUE PAGE ================= */
-    #page-venue { gap: 1rem; }
+    .spot-couple {
+      background-image: url('assets/btn-couple.png');
+      filter: drop-shadow(0 4px 8px rgba(107, 68, 35, 0.25)) sepia(0.2) saturate(1.2);
+    }
+
+    .spot-venue {
+      background-image: url('assets/btn-venue.png');
+      filter: drop-shadow(0 4px 8px rgba(107, 68, 35, 0.25)) sepia(0.2) saturate(1.2);
+    }
+
+    .spot-rundown {
+      background-image: url('assets/btn-rundown.png');
+      filter: drop-shadow(0 4px 8px rgba(107, 68, 35, 0.25)) sepia(0.2) saturate(1.2);
+    }
+
+    .spot-dress {
+      background-image: url('assets/btn-dress.png');
+      filter: drop-shadow(0 4px 8px rgba(107, 68, 35, 0.25)) sepia(0.2) saturate(1.2);
+    }
+
+    .spot-rsvp {
+      background-image: url('assets/btn-rsvp.png');
+      filter: drop-shadow(0 4px 8px rgba(107, 68, 35, 0.25)) sepia(0.2) saturate(1.2);
+    }
+
+    .spot-couple {
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .spot-venue {
+      top: 37%;
+      left: 18%;
+      transform: translateX(-50%);
+    }
+
+    .spot-rundown {
+      bottom: 18%;
+      left: 8%;
+    }
+
+    .spot-dress {
+      bottom: 18%;
+      right: 8%;
+    }
+
+    .spot-rsvp {
+      top: 50%;
+      right: 6%;
+    }
+
+    @keyframes gentlePulse {
+      0% {
+        transform: scale(1) translateX(var(--tx, 0));
+      }
+
+      50% {
+        transform: scale(1.08) translateX(var(--tx, 0));
+      }
+
+      100% {
+        transform: scale(1) translateX(var(--tx, 0));
+      }
+    }
+
+    /* ================= VENUE / OVERLAY PAGES ================= */
+    #page-venue,
+    #page-rundown,
+    #page-dress,
+    #page-rsvp {
+      gap: 1rem;
+      padding: 1.15rem;
+      justify-content: center;
+      overflow-y: auto;
+      isolation: isolate;
+    }
+
+    #page-venue::before,
+    #page-rundown::before,
+    #page-dress::before,
+    #page-rsvp::before {
+      content: '' !important;
+      position: absolute;
+      inset: -28px;
+      background-image: url('assets/map-placeholder.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      filter: blur(18px);
+      transform: scale(1.08);
+      z-index: -2;
+      display: block !important;
+      pointer-events: none;
+    }
+
+    #page-venue::after,
+    #page-rundown::after,
+    #page-dress::after,
+    #page-rsvp::after {
+      content: '' !important;
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.20) 0%, rgba(250, 246, 240, 0.34) 48%, rgba(154, 245, 248, 0.20) 100%),
+        rgba(255, 255, 255, 0.16);
+      z-index: -1;
+      display: block !important;
+      pointer-events: none;
+    }
+
+    #page-venue > *,
+    #page-rundown > *,
+    #page-dress > *,
+    #page-rsvp > * {
+      position: relative;
+      z-index: 1;
+    }
 
     .venue-card {
       width: 100%;
       max-width: 360px;
-      background: rgba(255,255,255,0.96);
-      border-radius: 24px;
-      padding: 1.4rem;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+      background: linear-gradient(145deg, rgba(255,255,255,0.96) 0%, rgba(250,246,240,0.96) 100%);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border-radius: 28px;
+      padding: 1.8rem;
+      box-shadow:
+        0 20px 50px rgba(107, 68, 35, 0.1),
+        0 8px 20px rgba(107, 68, 35, 0.06);
+      border: 1px solid rgba(139, 105, 20, 0.08);
+      position: relative;
+      overflow: hidden;
     }
-    
-    .venue-card p {
+
+    .venue-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--sage-green), var(--soft-gold), var(--terracotta), var(--soft-gold), var(--sage-green));
+      z-index: 0;
+    }
+
+    .venue-card::after {
+      content: none;
+    }
+
+    .venue-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .venue-card h2 {
       margin-bottom: 0.8rem;
+      color: var(--wood-dark);
+    }
+
+    .venue-card p {
+      margin-bottom: 1rem;
+      color: var(--text-secondary);
+      font-size: 1.1rem;
     }
 
     .venue-map-embed {
       width: 100%;
-      height: 260px;
-      border-radius: 18px;
+      height: 240px;
+      border-radius: 20px;
       overflow: hidden;
-      margin-top: 0.8rem;
+      margin-top: 1rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      border: 2px solid rgba(139, 105, 20, 0.1);
     }
 
     .venue-map-embed iframe {
       width: 100%;
       height: 100%;
       border: 0;
+    }
+
+    .map-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1.2rem;
+      padding: 0.8rem 1.6rem;
+      background: linear-gradient(135deg, var(--soft-gold) 0%, #c9a86c 100%);
+      color: var(--wood-dark);
+      text-decoration: none;
+      border-radius: 50px;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+      box-shadow: 0 4px 12px rgba(139, 105, 20, 0.2);
+      transition: all 0.3s ease;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+
+    .map-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(139, 105, 20, 0.3);
     }
 
     /* ================= FORMS / INPUTS ================= */
@@ -202,86 +631,498 @@
     }
 
     label {
-      font-size: 0.9rem;
-      margin-bottom: 0.3rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
       display: block;
+      color: var(--wood-dark);
+      font-weight: 600;
+      letter-spacing: 0.03em;
     }
 
-    input, select, textarea {
+    input,
+    select,
+    textarea {
       width: 100%;
-      padding: 0.6rem;
-      margin-bottom: 0.8rem;
-      border-radius: 10px;
-      border: 1px solid #d1d5db;
-      font-size: 0.95rem;
+      padding: 0.8rem 1rem;
+      margin-bottom: 1rem;
+      border-radius: 14px;
+      border: 1.5px solid rgba(139, 105, 20, 0.15);
+      font-size: 1rem;
+      font-family: 'Cormorant Garamond', serif;
+      background: linear-gradient(145deg, rgba(255,255,255,0.9) 0%, rgba(250,246,240,0.9) 100%);
+      color: var(--text-primary);
+      transition: all 0.3s ease;
     }
 
-    textarea { resize: none; height: 80px; }
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--sage-green);
+      box-shadow: 0 0 0 3px rgba(139, 166, 142, 0.15);
+      background: #ffffff;
+    }
+
+    textarea {
+      resize: none;
+      height: 90px;
+      border-radius: 14px;
+    }
+
+    select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238b6914' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+    }
 
     /* ================= MODAL ================= */
     .modal {
       position: fixed;
       inset: 0;
-      background: rgba(17, 24, 39, 0.45);
+      background: rgba(61, 61, 61, 0.4);
+      backdrop-filter: blur(8px);
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 50;
     }
 
-    .modal.hidden { display: none; }
+    .modal.hidden {
+      display: none;
+    }
 
     .modal-card {
-      background: #fff;
-      border-radius: 24px;
-      padding: 2rem 1.8rem;
+      background: linear-gradient(145deg, #ffffff 0%, #faf6f0 100%);
+      border-radius: 28px;
+      padding: 2.5rem 2rem;
       text-align: center;
-      max-width: 300px;
+      max-width: 320px;
       width: 90%;
-      animation: pop 0.4s ease;
+      animation: elegantPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow:
+        0 25px 60px rgba(107, 68, 35, 0.15),
+        0 10px 20px rgba(107, 68, 35, 0.08);
+      border: 1px solid rgba(139, 105, 20, 0.1);
+      position: relative;
+      overflow: hidden;
     }
-    
+
+    .modal-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--sage-green), var(--soft-gold), var(--terracotta));
+    }
+
     .modal-heart {
-      font-size: 2.5rem;
-      margin-bottom: 0.6rem;
+      font-size: 3rem;
+      margin-bottom: 0.8rem;
+      animation: heartBeat 1.5s ease-in-out infinite;
     }
-    
+
     .modal-card h3 {
-      font-size: 1.5rem;
-      margin-bottom: 0.4rem;
+      font-family: 'Cinzel', serif;
+      font-size: 1.6rem;
+      margin-bottom: 0.6rem;
+      color: var(--wood-dark);
     }
-    
+
     .modal-card p {
-      font-size: 1rem;
-      opacity: 0.85;
-      margin-bottom: 1.2rem;
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
     }
-    
-    @keyframes pop {
-      0% { transform: scale(0.85); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
+
+    @keyframes elegantPop {
+      0% {
+        transform: scale(0.8) translateY(20px);
+        opacity: 0;
+      }
+
+      100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes heartBeat {
+      0%, 100% {
+        transform: scale(1);
+      }
+
+      15% {
+        transform: scale(1.15);
+      }
+
+      30% {
+        transform: scale(1);
+      }
+
+      45% {
+        transform: scale(1.1);
+      }
     }
 
     /* ================= COUPLE IMAGES ================= */
     .couple-images {
       display: flex;
       justify-content: center;
-      gap: 2rem;
-      margin: 2rem 0;
+      gap: 2.5rem;
+      margin: 2.5rem 0;
     }
 
     .couple-images img {
-      width: 120px;
-      height: 120px;
+      width: 130px;
+      height: 130px;
       border-radius: 50%;
       object-fit: cover;
       cursor: pointer;
-      transition: transform 0.2s ease;
-      border: 3px solid rgba(255,255,255,0.8);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 4px solid rgba(255,255,255,0.9);
+      box-shadow:
+        0 8px 25px rgba(107, 68, 35, 0.15),
+        0 0 0 1px rgba(139, 105, 20, 0.1);
     }
 
     .couple-images img:hover {
-      transform: scale(1.05);
+      transform: scale(1.08) translateY(-5px);
+      box-shadow:
+        0 15px 40px rgba(107, 68, 35, 0.2),
+        0 0 0 2px rgba(139, 105, 20, 0.15);
+    }
+
+    /* ================= INTRO PAGE ================= */
+    #page-intro h1 {
+      font-size: 2.8rem;
+      margin-top: 0.5rem;
+      background: linear-gradient(135deg, var(--wood-dark) 0%, var(--warm-brown) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    #page-intro .script-text {
+      font-size: 2.2rem;
+      margin-bottom: 0.3rem;
+    }
+
+    #page-intro p {
+      font-size: 1.2rem;
+      color: var(--text-light);
+      letter-spacing: 0.05em;
+    }
+
+    .ornament {
+      width: 60px;
+      height: 60px;
+      margin: 1rem auto;
+      position: relative;
+    }
+
+    .ornament::before {
+      content: '❦';
+      font-size: 2.5rem;
+      color: var(--soft-gold);
+      opacity: 0.7;
+    }
+
+    /* ================= COUPLE / BRIDE / GROOM / DATE ================= */
+    #page-couple h1 {
+      margin-bottom: 1rem;
+    }
+
+    #page-couple p {
+      max-width: 280px;
+    }
+
+    #page-bride h1,
+    #page-groom h1 {
+      font-size: 2.6rem;
+      margin-bottom: 1rem;
+    }
+
+    #page-bride .script-text,
+    #page-groom .script-text {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    #page-date h2 {
+      font-size: 2.4rem;
+      color: var(--wood-dark);
+      margin-bottom: 0.3rem;
+    }
+
+    #page-date .script-text {
+      font-size: 1.6rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ================= RSVP PAGE ================= */
+    #page-rsvp {
+      gap: 1rem !important;
+      padding: 1.15rem !important;
+      justify-content: center !important;
+      align-items: center !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+    }
+
+    #page-rsvp .venue-card,
+    #page-rsvp .rsvp-card {
+      width: 100% !important;
+      max-width: 360px !important;
+      margin: 0 auto !important;
+      box-sizing: border-box !important;
+      border-radius: 28px !important;
+      padding: 1.28rem 1.35rem 1.45rem !important;
+      max-height: calc(100svh - 6.3rem) !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+    }
+
+    #page-rsvp .ornament {
+      width: 42px;
+      height: 42px;
+      margin: 0 auto 0.28rem;
+    }
+
+    #page-rsvp .ornament::before {
+      font-size: 2rem;
+    }
+
+    #page-rsvp h2 {
+      font-size: 1.95rem;
+      margin-bottom: 0.6rem;
+    }
+
+    #page-rsvp .venue-card > p {
+      margin-bottom: 0.95rem;
+      font-size: 1.04rem;
+      line-height: 1.45;
+      text-align: center;
+    }
+
+    #page-rsvp strong {
+      color: var(--terracotta);
+      font-weight: 600;
+    }
+
+    #page-rsvp form {
+      width: 100% !important;
+      max-width: none !important;
+      text-align: left !important;
+    }
+
+    #page-rsvp label {
+      font-size: 1rem;
+      margin-bottom: 0.32rem;
+      color: var(--wood-dark);
+      line-height: 1.2;
+    }
+
+    #page-rsvp input,
+    #page-rsvp select,
+    #page-rsvp textarea {
+      width: 100% !important;
+      box-sizing: border-box !important;
+      margin-bottom: 0.78rem;
+      border-radius: 14px;
+      border: 1.5px solid rgba(139, 105, 20, 0.15);
+      background: linear-gradient(145deg, rgba(255,255,255,0.9) 0%, rgba(250,246,240,0.9) 100%);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      color: var(--text-primary);
+      box-shadow: none;
+    }
+
+    #page-rsvp select {
+      height: 54px;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    #page-rsvp textarea {
+      height: 98px;
+    }
+
+    #page-rsvp button[type="submit"] {
+      display: block !important;
+      width: 100% !important;
+      max-width: none !important;
+      min-width: 0 !important;
+      margin: 0 !important;
+      padding: 0.92rem 1.4rem !important;
+      border-radius: 999px !important;
+      background: linear-gradient(135deg, var(--deep-green) 0%, var(--sage-green) 100%);
+      box-shadow:
+        0 4px 15px rgba(90, 122, 90, 0.3),
+        0 2px 4px rgba(90, 122, 90, 0.2);
+    }
+
+    #page-venue > button.secondary,
+    #page-rundown > button.secondary,
+    #page-dress > button.secondary,
+    #page-rsvp > button.secondary {
+      display: inline-flex !important;
+      width: auto !important;
+      min-width: 0 !important;
+      margin: 0.35rem auto 0 !important;
+      padding: 0.9rem 2rem !important;
+      justify-content: center !important;
+      align-items: center !important;
+      background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(250,246,240,0.9) 100%);
+      color: var(--wood-dark);
+      border: 1.5px solid rgba(139, 105, 20, 0.2);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+
+    /* ================= ANIMATED ENTRANCE ================= */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .page > * {
+      animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      opacity: 0;
+    }
+
+    .page > *:nth-child(1) {
+      animation-delay: 0.1s;
+    }
+
+    .page > *:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .page > *:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+
+    .page > *:nth-child(4) {
+      animation-delay: 0.4s;
+    }
+
+    .page > *:nth-child(5) {
+      animation-delay: 0.5s;
+    }
+
+    .page > *:nth-child(6) {
+      animation-delay: 0.6s;
+    }
+
+    /* ================= SCROLLBAR HIDE ================= */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* ================= RESPONSIVE ADJUSTMENTS ================= */
+    @media (max-height: 720px) {
+      #page-rsvp {
+        justify-content: flex-start !important;
+        padding-top: 0.85rem !important;
+      }
+
+      #page-rsvp .venue-card,
+      #page-rsvp .rsvp-card {
+        width: 100% !important;
+        max-width: 360px !important;
+        margin: 0 auto !important;
+        padding: 1.05rem 1.12rem 1.22rem !important;
+        max-height: calc(100svh - 5.7rem) !important;
+      }
+
+      #page-rsvp .ornament {
+        width: 34px;
+        height: 34px;
+        margin-bottom: 0.15rem;
+      }
+
+      #page-rsvp .ornament::before {
+        font-size: 1.7rem;
+      }
+
+      #page-rsvp h2 {
+        font-size: 1.68rem;
+        margin-bottom: 0.45rem;
+      }
+
+      #page-rsvp .venue-card > p {
+        margin-bottom: 0.72rem;
+        font-size: 0.98rem;
+      }
+
+      #page-rsvp label {
+        font-size: 0.96rem;
+      }
+
+      #page-rsvp select {
+        height: 49px;
+      }
+
+      #page-rsvp textarea {
+        height: 78px;
+      }
+
+      #page-rsvp input,
+      #page-rsvp select,
+      #page-rsvp textarea {
+        margin-bottom: 0.62rem;
+      }
+
+      #page-rsvp button[type="submit"] {
+        padding: 0.82rem 1.2rem !important;
+      }
+    }
+
+    @media (max-height: 700px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.7rem;
+      }
+
+      .couple-images img {
+        width: 110px;
+        height: 110px;
+      }
+
+      .time-box span {
+        font-size: 1.7rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      #page-rsvp {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+      }
+
+      #page-rsvp .venue-card,
+      #page-rsvp .rsvp-card {
+        width: 100% !important;
+        max-width: 360px !important;
+      }
     }
   </style>
 </head>
@@ -290,78 +1131,95 @@
   <div class="app">
     <div class="page-wrapper">
 
-    <!-- INTRO -->
-    <section id="page-intro" class="page">
-      <p style="font-size:0.9rem; opacity:0.6;">Dear</p>
-      <h1 id="guest-name">Our Beloved Guest</h1>
-      <p style="margin-top:1rem;">Hanif & Winda</p>
-      <p>Are getting married</p>
-      <button onclick="startMusic(); goTo('couple')">Meet the Couple</button>
-    </section>
+      <!-- INTRO -->
+      <section id="page-intro" class="page">
+        <p style="font-size:1rem; opacity:0.5; letter-spacing:0.15em; text-transform:uppercase;">Dear</p>
+        <div class="ornament"></div>
+        <h1 id="guest-name">Our Beloved Guest</h1>
+        <p class="script-text">Hanif & Winda</p>
+        <p style="margin-top:0.5rem; font-style:italic;">Are getting married</p>
+        <button onclick="startMusic(); goTo('couple')">Meet the Couple</button>
+      </section>
 
-    <!-- COUPLE -->
-    <section id="page-couple" class="page">
-      <h1>Meet Hanif & Winda</h1>
-      <p>Two souls united by love, embarking on a beautiful journey together.</p>
-      <p>Hanif and Winda are excited to share this special day with you.</p>
-      <div class="couple-images">
-        <img src="assets/bride.png" onclick="choose('bride')" alt="Winda - Bride">
-        <img src="assets/groom.png" onclick="choose('groom')" alt="Hanif - Groom">
-      </div>
-      <button onclick="choose('bride')">Continue</button>
-    </section>
+      <!-- COUPLE -->
+      <section id="page-couple" class="page">
+        <div class="ornament"></div>
+        <h1>Meet Hanif & Winda</h1>
+        <p>Two souls united by love, embarking on a beautiful journey together.</p>
+        <p class="script-text">Hanif and Winda are excited to share this special day with you.</p>
+        <div class="couple-images">
+          <img src="assets/bride.png" onclick="choose('bride')" alt="Winda - Bride">
+          <img src="assets/groom.png" onclick="choose('groom')" alt="Hanif - Groom">
+        </div>
+        <button onclick="choose('bride')">Continue</button>
+      </section>
 
-    <!-- BRIDE -->
-    <section id="page-bride" class="page">
-      <h1>Winda</h1>
-      <p>The beautiful bride, radiant and full of grace.</p>
-      <p>Winda brings joy and warmth to every moment.</p>
-      <button onclick="nextFromBride()">Continue</button>
-    </section>
+      <!-- BRIDE -->
+      <section id="page-bride" class="page">
+        <div class="ornament"></div>
+        <h1>Winda</h1>
+        <p class="script-text">The Bride</p>
+        <p>The beautiful bride, radiant and full of grace.</p>
+        <p>Winda brings joy and warmth to every moment.</p>
+        <button onclick="nextFromBride()">Continue</button>
+      </section>
 
-    <!-- GROOM -->
-    <section id="page-groom" class="page">
-      <h1>Hanif</h1>
-      <p>The charming groom, strong and kind-hearted.</p>
-      <p>Hanif is devoted and ready to start this new chapter.</p>
-      <button onclick="nextFromGroom()">Continue</button>
-    </section>
+      <!-- GROOM -->
+      <section id="page-groom" class="page">
+        <div class="ornament"></div>
+        <h1>Hanif</h1>
+        <p class="script-text">The Groom</p>
+        <p>The charming groom, strong and kind-hearted.</p>
+        <p>Hanif is devoted and ready to start this new chapter.</p>
+        <button onclick="nextFromGroom()">Continue</button>
+      </section>
 
-    <!-- DATE -->
-    <section id="page-date" class="page">
-      <h2>14 June 2026</h2>
-      <p>Save the date</p>
-      <div class="countdown">
-        <div class="time-box"><span id="days">0</span>Days</div>
-        <div class="time-box"><span id="hours">0</span>Hours</div>
-        <div class="time-box"><span id="minutes">0</span>Minutes</div>
-        <div class="time-box"><span id="seconds">0</span>Seconds</div>
-      </div>
-      <button onclick="selectTrack(3); goTo('menu')">Explore</button>
-    </section>
+      <!-- DATE -->
+      <section id="page-date" class="page">
+        <div class="ornament"></div>
+        <h2>14 June 2026</h2>
+        <p class="script-text">Save the date</p>
+        <div class="countdown">
+          <div class="time-box"><span id="days">0</span>Days</div>
+          <div class="time-box"><span id="hours">0</span>Hours</div>
+          <div class="time-box"><span id="minutes">0</span>Minutes</div>
+          <div class="time-box"><span id="seconds">0</span>Seconds</div>
+        </div>
+        <button onclick="selectTrack(3); goTo('menu')">Explore</button>
+      </section>
 
-    <!-- MAP -->
-    <section id="page-menu" class="page" style="padding:0">
-      <div class="venue-map">
-        <div class="spot spot-couple" onclick="goTo('couple')"></div>
-        <div class="spot spot-venue" onclick="selectTrack(4); goTo('venue')"></div>
-        <div class="spot spot-rundown" onclick="selectTrack(5); goTo('rundown')"></div>
-        <div class="spot spot-dress" onclick="selectTrack(6); goTo('dress')"></div>
-        <div class="spot spot-rsvp" onclick="goTo('rsvp')"></div>
-      </div>
-    </section>
+      <!-- MAP -->
+      <section id="page-menu" class="page" style="padding:0">
+        <div class="venue-map">
+          <!-- Falling decorative leaves with individual side-to-side sway -->
+          <div class="floating-leaf" style="left:7%; animation-delay:0s; animation-duration:9s; --sway-a:22px; --sway-b:-34px; --sway-c:28px; --sway-d:-20px; --sway-e:16px; --spin:390deg;"></div>
+          <div class="floating-leaf" style="left:18%; animation-delay:1.4s; animation-duration:11s; width:15px; height:15px; --sway-a:-18px; --sway-b:30px; --sway-c:-26px; --sway-d:22px; --sway-e:-14px; --spin:-340deg;"></div>
+          <div class="floating-leaf" style="left:31%; animation-delay:3s; animation-duration:10s; width:18px; height:18px; --sway-a:30px; --sway-b:-20px; --sway-c:36px; --sway-d:-28px; --sway-e:20px; --spin:460deg;"></div>
+          <div class="floating-leaf" style="left:46%; animation-delay:0.8s; animation-duration:12s; width:12px; height:12px; --sway-a:-26px; --sway-b:18px; --sway-c:-34px; --sway-d:26px; --sway-e:-18px; --spin:-420deg;"></div>
+          <div class="floating-leaf" style="left:59%; animation-delay:2.2s; animation-duration:9.5s; width:16px; height:16px; --sway-a:16px; --sway-b:-38px; --sway-c:24px; --sway-d:-30px; --sway-e:22px; --spin:360deg;"></div>
+          <div class="floating-leaf" style="left:72%; animation-delay:4s; animation-duration:13s; width:19px; height:19px; --sway-a:-32px; --sway-b:26px; --sway-c:-18px; --sway-d:34px; --sway-e:-24px; --spin:-500deg;"></div>
+          <div class="floating-leaf" style="left:86%; animation-delay:1.1s; animation-duration:10.5s; width:14px; height:14px; --sway-a:24px; --sway-b:-28px; --sway-c:32px; --sway-d:-16px; --sway-e:26px; --spin:430deg;"></div>
+          <div class="floating-leaf" style="left:94%; animation-delay:5.3s; animation-duration:12.5s; width:17px; height:17px; --sway-a:-20px; --sway-b:36px; --sway-c:-30px; --sway-d:18px; --sway-e:-28px; --spin:-380deg;"></div>
+
+          <div class="spot spot-couple" onclick="goTo('couple')"></div>
+          <div class="spot spot-venue" onclick="selectTrack(4); goTo('venue')"></div>
+          <div class="spot spot-rundown" onclick="selectTrack(5); goTo('rundown')"></div>
+          <div class="spot spot-dress" onclick="selectTrack(6); goTo('dress')"></div>
+          <div class="spot spot-rsvp" onclick="goTo('rsvp')"></div>
+        </div>
+      </section>
 
     </div>
 
     <!-- VENUE -->
     <section id="page-venue" class="page overlay hidden">
       <div class="venue-card">
+        <div class="ornament" style="margin-bottom:0.5rem;"></div>
         <h2>Wedding Venue</h2>
         <p>150 Coffee Garden<br/>Bandung, Indonesia</p>
         <div class="venue-map-embed">
           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.8487574564438!2d107.6492045!3d-6.9086815!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e7eb0713d7e3%3A0x1bce438fe7ce32b7!2s150%20Coffee%20Garden!5e0!3m2!1sen!2sid!4v1770026256180!5m2!1sen!2sid" loading="lazy"></iframe>
         </div>
-        <!-- ===== MAP DIRECTIONS CTA ===== -->
         <a
           class="map-cta"
           href="https://maps.google.com/?q=150+Coffee+Garden+Bandung"
@@ -376,55 +1234,76 @@
 
     <!-- RUNDOWN -->
     <section id="page-rundown" class="page overlay hidden">
-      <h2>Event Rundown</h2>
-      <p>Ceremony and reception flow will be shared soon.</p>
+      <div class="venue-card">
+        <div class="ornament" style="margin-bottom:0.5rem;"></div>
+        <h2>Event Rundown</h2>
+        <p>Ceremony and reception flow will be shared soon.</p>
+      </div>
       <button class="secondary" onclick="goTo('menu')">Back to Map</button>
     </section>
 
     <!-- DRESS CODE -->
     <section id="page-dress" class="page overlay hidden">
-      <h2>Dress Code</h2>
-      <p>Please wear elegant and comfortable attire.</p>
+      <div class="venue-card">
+        <div class="ornament" style="margin-bottom:0.5rem;"></div>
+        <h2>Dress Code</h2>
+        <p>Please wear elegant and comfortable attire.</p>
+      </div>
       <button class="secondary" onclick="goTo('menu')">Back to Map</button>
     </section>
-    
+
     <!-- RSVP -->
     <section id="page-rsvp" class="page overlay hidden">
-      <h2>RSVP</h2>
-      <p>Dear <strong id="rsvp-guest-name">Our Guest</strong>,</p>
+      <div class="venue-card">
+        <div class="ornament" style="margin-bottom:0.5rem;"></div>
+        <h2>RSVP</h2>
+        <p>Dear <strong id="rsvp-guest-name">Our Guest</strong>,</p>
 
-      <form
-        id="RSVP"
-        action="https://docs.google.com/forms/d/e/1FAIpQLSdx3Tnzma1Zska1BjSQcnhQDu7s7zVEyyMM7d2VkqeVljuv5w/formResponse"
-        method="POST"
-        target="hidden_iframe"
-      >    
-        <input type="hidden" name="entry.729439469" id="form-guest-name">
-        <label>Will you attend?</label>
-        <select name="entry.698873189" required>
-          <option value="">Select</option>
-          <option value="Yes, happily">Yes, happily</option>
-          <option value="Sorry, can’t make it">Sorry, can’t make it</option>
-        </select>
-        <input type="hidden" name="entry.698873189_sentinel">
-        <label>Number of guests</label>
-        <select name="entry.1305280995" required>
-          <option value="">Select</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-        </select>
-        <input type="hidden" name="entry.1305280995_sentinel">
-        <label>Message</label>
-        <textarea name="entry.1150859102"></textarea>
-        <button type="submit">Send RSVP</button>
-      </form>
+        <form
+          id="RSVP"
+          action="https://docs.google.com/forms/d/e/1FAIpQLSdx3Tnzma1Zska1BjSQcnhQDu7s7zVEyyMM7d2VkqeVljuv5w/formResponse"
+          method="POST"
+          target="hidden_iframe"
+        >
+          <div id="guest-name-field" style="display:none;">
+            <label>Your Name</label>
+            <input
+              type="text"
+              name="entry.729439469"
+              id="form-guest-name"
+              placeholder="Enter your name"
+            >
+          </div>
 
-      <iframe name="hidden_iframe" style="display:none;"></iframe>
+          <label>Will you attend?</label>
+          <select name="entry.698873189" required>
+            <option value="">Select</option>
+            <option value="Yes, happily">Yes, happily</option>
+            <option value="Sorry, can’t make it">Sorry, can’t make it</option>
+          </select>
+          <input type="hidden" name="entry.698873189_sentinel">
+
+          <label>Number of guests</label>
+          <select name="entry.1305280995" required>
+            <option value="">Select</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+          <input type="hidden" name="entry.1305280995_sentinel">
+
+          <label>Message</label>
+          <textarea name="entry.1150859102"></textarea>
+
+          <button type="submit">Send RSVP</button>
+        </form>
+
+        <iframe name="hidden_iframe" style="display:none;"></iframe>
+      </div>
+
       <button class="secondary" onclick="goTo('menu')">Back to Map</button>
     </section>
-
   </div>
 
   <script>
@@ -434,6 +1313,7 @@
     function choose(person) {
       if (!firstChoice) {
         firstChoice = person;
+
         if (person === 'groom') {
           const wrapper = document.querySelector('.page-wrapper');
           const bride = document.getElementById('page-bride');
@@ -441,6 +1321,7 @@
           wrapper.insertBefore(groom, bride);
         }
       }
+
       selectTrack(1);
       goTo(person);
     }
@@ -463,12 +1344,11 @@
     function goTo(target) {
       const sections = Array.from(document.querySelectorAll('.page-wrapper > .page'));
       const index = sections.findIndex(section => section.id === `page-${target}`);
+
       if (index !== -1) {
         pageWrapper.style.transform = `translateY(-${index * 100}svh)`;
-        // hide overlays
         document.querySelectorAll('.overlay').forEach(o => o.classList.add('hidden'));
       } else {
-        // for overlays: venue, rundown, dress, rsvp
         document.querySelectorAll('.overlay').forEach(o => o.classList.add('hidden'));
         document.getElementById(`page-${target}`).classList.remove('hidden');
       }
@@ -484,18 +1364,24 @@
       'assets/music/Piano_Solanum.mp3',
       'assets/music/Theremin_Prisoner.mp3',
     ];
-    const MAX_TRACK_VOLUME = 0.3; // reduce loudness (50% max)
+
+    const MAX_TRACK_VOLUME = 0.3;
+    const FADE_DURATION = 6000;
     const tracks = [];
+    const fadeTimers = {};
     let currentTrackIndex = -1;
-    let fadeTimers = [];
+    let musicStarted = false;
+    let musicStartPromise = null;
 
     function createTracks() {
       if (tracks.length) return;
+
       trackSources.forEach((src, idx) => {
         const audio = document.createElement('audio');
         audio.src = src;
         audio.loop = true;
         audio.preload = 'auto';
+        audio.playsInline = true;
         audio.muted = true;
         audio.volume = 0;
         audio.id = `track-${idx}`;
@@ -504,98 +1390,169 @@
       });
     }
 
-    async function startMusic() {
-      createTracks();
-      // Wait for all tracks to be ready to play
-      const readyPromises = tracks.map(track => {
-        return new Promise(resolve => {
-          if (track.readyState >= 3) { // HAVE_FUTURE_DATA
-            resolve();
-          } else {
-            track.addEventListener('canplay', resolve, { once: true });
-          }
-        });
+    function waitUntilReady(track) {
+      return new Promise(resolve => {
+        if (track.readyState >= 3) {
+          resolve();
+          return;
+        }
+
+        const done = () => {
+          track.removeEventListener('canplaythrough', done);
+          track.removeEventListener('canplay', done);
+          resolve();
+        };
+
+        track.addEventListener('canplaythrough', done, { once: true });
+        track.addEventListener('canplay', done, { once: true });
+
+        setTimeout(done, 3000);
       });
-      await Promise.all(readyPromises);
-      // Now start all tracks synchronously
-      tracks.forEach(track => {
-        track.play().catch(() => {});
-      });
-      selectTrack(0);
     }
 
-    function fadeTrack(track, targetVolume, duration = 6000) {
+    function resetAllTracksToStart() {
+      tracks.forEach(track => {
+        clearInterval(fadeTimers[track.id]);
+        track.pause();
+        track.muted = true;
+        track.volume = 0;
+
+        try {
+          track.currentTime = 0;
+        } catch (error) {
+          // Some browsers may block currentTime before metadata is available.
+        }
+      });
+    }
+
+    async function startMusic() {
+      createTracks();
+
+      if (musicStartPromise) {
+        return musicStartPromise;
+      }
+
+      musicStartPromise = (async () => {
+        await Promise.all(tracks.map(waitUntilReady));
+
+        resetAllTracksToStart();
+
+        const playPromises = tracks.map(track => {
+          track.muted = false;
+          track.volume = 0;
+          return track.play().catch(() => null);
+        });
+
+        await Promise.all(playPromises);
+        musicStarted = true;
+        selectTrack(0);
+      })();
+
+      return musicStartPromise;
+    }
+
+    function fadeTrack(track, targetVolume, duration = FADE_DURATION) {
       clearInterval(fadeTimers[track.id]);
-      const startVolume = Number(track.volume);
+
+      const startVolume = Number(track.volume) || 0;
       const startTime = performance.now();
+      track.muted = false;
+
       fadeTimers[track.id] = setInterval(() => {
         const elapsed = performance.now() - startTime;
         const progress = Math.min(elapsed / duration, 1);
         track.volume = Math.max(0, Math.min(1, startVolume + (targetVolume - startVolume) * progress));
+
         if (progress >= 1) {
           clearInterval(fadeTimers[track.id]);
+          track.volume = targetVolume;
+
           if (targetVolume === 0) {
             track.muted = true;
           }
         }
       }, 30);
-      if (targetVolume > 0) {
-        track.muted = false;
-      }
     }
-
 
     function selectTrack(index) {
       if (!tracks.length) createTracks();
       if (index < 0 || index >= tracks.length) return;
 
-      const nextTrack = tracks[index];
-      if (!nextTrack) return;
-
-      if (nextTrack.volume > 0) {
+      if (!musicStarted && !musicStartPromise) {
+        startMusic().then(() => selectTrack(index));
         return;
       }
 
-      nextTrack.muted = false;
-      fadeTrack(nextTrack, MAX_TRACK_VOLUME, 6000);
-      // Removed play() call since tracks are already started in startMusic()
+      const nextTrack = tracks[index];
+
+      if (!nextTrack || nextTrack.volume > 0) return;
+
+      fadeTrack(nextTrack, MAX_TRACK_VOLUME, FADE_DURATION);
       currentTrackIndex = index;
     }
 
-    window.addEventListener('load', async () => {
+    window.addEventListener('load', () => {
       createTracks();
-      // Wait for all tracks to be ready
-      const readyPromises = tracks.map(track => {
-        return new Promise(resolve => {
-          if (track.readyState >= 3) {
-            resolve();
-          } else {
-            track.addEventListener('canplay', resolve, { once: true });
-          }
-        });
-      });
-      await Promise.all(readyPromises);
-      tracks.forEach((track) => {
-        track.play().catch(() => {});
-      });
-      selectTrack(0);
+      tracks.forEach(track => track.load());
     });
 
+    // ================= INVITATION TYPE + GUEST NAME LOGIC =================
     const params = new URLSearchParams(window.location.search);
+    const rawInvitationType = (params.get('type') || 'general').trim().toLowerCase();
     const guest = params.get('to');
 
-    if (guest) {
-      const name = decodeURIComponent(guest.replace(/\+/g, ' '));
-      document.getElementById('guest-name').innerText = name;
-      document.getElementById('rsvp-guest-name').innerText = name;
-      document.getElementById('form-guest-name').value = name;
+    function normalizeInvitationType(type) {
+      return type
+        .replace(/[\s_]+/g, '-')
+        .replace(/^-+|-+$/g, '');
     }
 
+    function decodeGuestName(value) {
+      return decodeURIComponent(value.replace(/\+/g, ' ')).trim();
+    }
+
+    const invitationType = normalizeInvitationType(rawInvitationType);
+    const nameSpecificTypes = ['family', 'friend', 'friends'];
+
+    const guestNameTitle = document.getElementById('guest-name');
+    const rsvpGuestName = document.getElementById('rsvp-guest-name');
+    const formGuestName = document.getElementById('form-guest-name');
+    const guestNameField = document.getElementById('guest-name-field');
+
+    function applyInvitationContext() {
+      const hasSpecificName = nameSpecificTypes.includes(invitationType) && guest;
+
+      if (hasSpecificName) {
+        const name = decodeGuestName(guest);
+
+        guestNameTitle.innerText = name || 'Our Beloved Guest';
+        rsvpGuestName.innerText = name || 'Our Guest';
+
+        formGuestName.value = name;
+        formGuestName.defaultValue = name;
+        formGuestName.required = false;
+        guestNameField.style.display = 'none';
+      } else {
+        guestNameTitle.innerText = 'Our Beloved Guest';
+        rsvpGuestName.innerText = 'Our Guest';
+
+        formGuestName.value = '';
+        formGuestName.defaultValue = '';
+        formGuestName.required = true;
+        guestNameField.style.display = 'block';
+      }
+    }
+
+    applyInvitationContext();
+
     const weddingDate = new Date('June 14, 2026 00:00:00').getTime();
+
     setInterval(() => {
       const now = new Date().getTime();
       const distance = weddingDate - now;
+
       if (distance < 0) return;
+
       document.getElementById('days').innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
       document.getElementById('hours').innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       document.getElementById('minutes').innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -624,8 +1581,10 @@
 
     iframe.addEventListener("load", () => {
       if (!rsvpSubmitted) return;
+
       modal.classList.remove("hidden");
       form.reset();
+      applyInvitationContext();
       rsvpSubmitted = false;
     });
 
