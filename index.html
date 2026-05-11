@@ -2465,6 +2465,150 @@
     }
 
 
+    /* ================= ELEGANT OPENING SCREEN ================= */
+    .music-loading-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+      background: #000000;
+    }
+
+    .music-loading-screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(1.015) !important;
+    }
+
+    .music-loading-screen::before {
+      content: '';
+      position: absolute;
+      inset: -34px;
+      background-image: url('assets/intro.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      filter: blur(20px) brightness(0.58);
+      transform: scale(1.08);
+      z-index: 0;
+    }
+
+    .music-loading-screen::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 38%, rgba(0, 0, 0, 0.10) 0%, rgba(0, 0, 0, 0.34) 48%, rgba(0, 0, 0, 0.62) 100%),
+        rgba(0, 0, 0, 0.28);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .music-loading-card {
+      position: relative;
+      z-index: 2;
+      width: min(88vw, 360px);
+      min-height: 360px;
+      padding: 2.2rem 1.4rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+    }
+
+    .music-loading-title {
+      font-family: 'Great Vibes', cursive;
+      color: #ffffff;
+      font-size: clamp(3.1rem, 15vw, 4.8rem);
+      line-height: 0.92;
+      margin-bottom: 1.25rem;
+      font-weight: 400;
+      text-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.55),
+        0 1px 2px rgba(0, 0, 0, 0.42);
+    }
+
+    .music-open-button {
+      min-width: 148px;
+      margin-top: 0.2rem;
+      padding: 0.9rem 2.1rem;
+      background: rgba(255, 255, 255, 0.90);
+      color: #3d3d3d;
+      border: 1px solid rgba(255, 255, 255, 0.58);
+      box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .music-open-button:hover {
+      background: #ffffff;
+      box-shadow:
+        0 14px 36px rgba(0, 0, 0, 0.26),
+        inset 0 1px 0 rgba(255, 255, 255, 0.75);
+    }
+
+    .music-loading-screen.is-loading .music-open-button {
+      display: none;
+    }
+
+    .music-loading-leaf {
+      position: relative;
+      width: 64px;
+      height: 64px;
+      margin-top: 0.15rem;
+      opacity: 0;
+      transform: translateY(8px) scale(0.96);
+      pointer-events: none;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.34));
+    }
+
+    .music-loading-screen.is-loading .music-loading-leaf {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .music-loading-leaf-base,
+    .music-loading-leaf-fill {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      line-height: 1;
+      font-family: serif;
+    }
+
+    .music-loading-leaf-base {
+      color: rgba(255, 255, 255, 0.28);
+    }
+
+    .music-loading-leaf-fill {
+      color: #ffffff;
+      height: 0%;
+      overflow: hidden;
+      align-items: flex-end;
+      bottom: 0;
+      top: auto;
+      transition: height 0.24s ease;
+    }
+
+
   </style>
 <base target="_blank">
 </head>
@@ -2479,6 +2623,20 @@
       <div class="ambient-cloud"></div>
       <div class="ambient-cloud"></div>
       <div class="ambient-cloud"></div>
+    </div>
+
+
+
+    <!-- Opening Screen -->
+    <div id="music-loading-screen" class="music-loading-screen" aria-live="polite">
+      <div class="music-loading-card">
+        <div id="music-loading-title" class="music-loading-title">Hanif &amp; Winda</div>
+        <button id="music-open-button" class="music-open-button" onclick="startExperience('intro')">Open</button>
+        <div class="music-loading-leaf" aria-hidden="true">
+          <span class="music-loading-leaf-base">❦</span>
+          <span id="music-loading-leaf-fill" class="music-loading-leaf-fill">❦</span>
+        </div>
+      </div>
     </div>
 
     <!-- Cloud Transition Overlay (rushes in/out for DATE→MAP) -->
@@ -2499,7 +2657,7 @@
         <h1 id="guest-name">Our Beloved Guest</h1>
         <p id="intro-couple-name" class="script-text">Hanif & Winda</p>
         <p id="intro-subtitle" style="margin-top:0.5rem; font-style:italic;">Are getting married</p>
-        <button id="intro-button" onclick="startMusic(); goTo('couple')">Meet the Couple</button>
+        <button id="intro-button" onclick="goTo('couple')">Meet the Couple</button>
       </section>
 
       <!-- COUPLE -->
@@ -2898,7 +3056,9 @@
       }
     }
 
-    // ================= AUDIO MIXER (7 TRACK - SYNCED HTML AUDIO, LOW LAG) =================
+    // ================= MOBILE-FIRST AUDIO ENGINE (WEB AUDIO, SYNCED + SMOOTH LOOP) =================
+    // Replaces multiple independent <audio> clocks with one AudioContext clock.
+    // This is much more stable on mobile/iPhone.
     const trackSources = [
       'assets/music/Banjo.mp3',
       'assets/music/Harmonica.mp3',
@@ -2910,187 +3070,268 @@
     ];
 
     const TRACK_MAX_VOLUMES = [
-      0.1,  // Banjo.mp3
-      0.1,  // Harmonica.mp3
-      0.1,  // Whistling.mp3
-      0.13,  // Flute.mp3
-      0.1,  // Drums.mp3
-      0.04, // Piano_Solanum.mp3 - slightly quieter than the other tracks
-      0.1,  // Theremin_Prisoner.mp3
+      0.10, // Banjo.mp3
+      0.10, // Harmonica.mp3
+      0.10, // Whistling.mp3
+      0.13, // Flute.mp3
+      0.10, // Drums.mp3
+      0.04, // Piano_Solanum.mp3
+      0.10, // Theremin_Prisoner.mp3
     ];
+
     const FADE_DURATION = 6000;
-    const SYNC_CHECK_INTERVAL = 1000;
-    const MAX_ALLOWED_DRIFT = 0.12;
+    const MANUAL_LOOP_SECONDS = null; // Optional: set to 42 if you want to force an exact 42-second cycle.
+    const LOOP_SAFETY_TRIM_SECONDS = 0.11; // Tiny trim avoids MP3 encoder padding clicks at the very end.
+    const LOOP_START_FADE_SECONDS = 0.02; // Fade-in at the start of each loop cycle.
+    const LOOP_END_FADE_SECONDS = 0.05; // Fade-out at the end of each loop cycle.
+    const LOOP_CROSSFADE_SECONDS = 0.16; // Tiny boundary overlap to avoid dead silence between cycles.
+    const SCHEDULE_AHEAD_SECONDS = 3;
 
-    const tracks = [];
-    const fadeTimers = {};
-    let currentTrackIndex = -1;
+    let audioContext = null;
+    let audioBuffers = [];
+    let trackGains = [];
     let musicStarted = false;
-    let syncTimer = null;
+    let musicLoadingPromise = null;
+    let schedulerTimer = null;
+    let nextLoopTime = 0;
+    let loopInterval = 0;
+    let currentTrackIndex = -1;
 
-    function createTracks() {
-      if (tracks.length) return;
+    const loadingScreen = document.getElementById('music-loading-screen');
+    const loadingLeafFill = document.getElementById('music-loading-leaf-fill');
+    const loadingOpenButton = document.getElementById('music-open-button');
+    let loadedAudioBufferCount = 0;
 
-      trackSources.forEach((src, idx) => {
-        const audio = document.createElement('audio');
-        audio.src = src;
-        audio.loop = true;
-        audio.preload = 'auto';
-        audio.playsInline = true;
-        audio.muted = false;
-        audio.volume = 0;
-        audio.id = `track-${idx}`;
-        audio.dataset.trackIndex = String(idx);
-        document.body.appendChild(audio);
-        tracks.push(audio);
+    function showMusicLoading() {
+      if (!loadingScreen) return;
+      loadingScreen.classList.remove('hidden');
+      loadingScreen.classList.add('is-loading');
+      if (loadingOpenButton) loadingOpenButton.disabled = true;
+      setMusicLoadingProgress(8);
+    }
+
+    function hideMusicLoading() {
+      if (!loadingScreen) return;
+      setMusicLoadingProgress(100);
+      setTimeout(() => {
+        loadingScreen.classList.add('hidden');
+        loadingScreen.classList.remove('is-loading');
+      }, 260);
+    }
+
+    function setMusicLoadingProgress(percent) {
+      const safePercent = Math.max(0, Math.min(100, Math.round(percent)));
+      if (loadingLeafFill) loadingLeafFill.style.height = `${safePercent}%`;
+    }
+
+    function getAudioContext() {
+      if (!audioContext) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        audioContext = new AudioContextClass();
+      }
+      return audioContext;
+    }
+
+    async function loadOneAudioBuffer(src, index) {
+      const response = await fetch(src, { cache: 'force-cache' });
+      if (!response.ok) {
+        throw new Error(`Failed to load ${src}: ${response.status}`);
+      }
+
+      const arrayBuffer = await response.arrayBuffer();
+      const context = getAudioContext();
+      const audioBuffer = await context.decodeAudioData(arrayBuffer);
+      loadedAudioBufferCount += 1;
+      setMusicLoadingProgress(8 + (loadedAudioBufferCount / trackSources.length) * 88);
+      return audioBuffer;
+    }
+
+    function preloadMusicBuffers() {
+      if (musicLoadingPromise) return musicLoadingPromise;
+
+      loadedAudioBufferCount = 0;
+      musicLoadingPromise = Promise.all(
+        trackSources.map((src, index) => loadOneAudioBuffer(src, index))
+      ).then(buffers => {
+        audioBuffers = buffers;
+        return buffers;
       });
+
+      return musicLoadingPromise;
     }
 
-    function resetAllTracksToStart() {
-      tracks.forEach(track => {
-        clearInterval(fadeTimers[track.id]);
-        track.pause();
-        track.muted = false;
-        track.volume = 0;
+    function createGainNodes() {
+      const context = getAudioContext();
+      if (trackGains.length) return;
 
-        try {
-          track.currentTime = 0;
-        } catch (error) {
-          // Some browsers may block currentTime before metadata is available.
-        }
+      trackGains = audioBuffers.map(() => {
+        const gain = context.createGain();
+        gain.gain.value = 0;
+        gain.connect(context.destination);
+        return gain;
       });
-    }
-
-    function getMasterTrack() {
-      return tracks[0] || null;
-    }
-
-    function syncTracksToMaster(force = false) {
-      const master = getMasterTrack();
-
-      if (!master || master.readyState < 2 || master.paused) return;
-
-      tracks.forEach((track, index) => {
-        if (index === 0 || track.readyState < 2 || track.paused) return;
-
-        const drift = Math.abs(track.currentTime - master.currentTime);
-
-        if (force || drift > MAX_ALLOWED_DRIFT) {
-          try {
-            track.currentTime = master.currentTime;
-          } catch (error) {
-            // Ignore sync correction errors on browsers that restrict seeking while loading.
-          }
-        }
-      });
-    }
-
-    function startSyncMonitor() {
-      if (syncTimer) return;
-
-      syncTimer = setInterval(() => {
-        syncTracksToMaster(false);
-      }, SYNC_CHECK_INTERVAL);
     }
 
     function getTrackMaxVolume(index) {
-      return TRACK_MAX_VOLUMES[index] ?? MAX_TRACK_VOLUME;
+      return TRACK_MAX_VOLUMES[index] ?? 0.1;
     }
 
-    function fadeTrack(track, targetVolume, duration = FADE_DURATION) {
-      if (!track) return;
+    function getSharedLoopDuration() {
+      const decodedDurations = audioBuffers.map(buffer => buffer.duration).filter(Boolean);
+      const shortestDuration = Math.min(...decodedDurations);
 
-      clearInterval(fadeTimers[track.id]);
+      // The safest synced loop is one shared duration for every instrument.
+      // MP3 files often decode with slightly different lengths because of encoder padding.
+      // Using the shortest decoded duration keeps every instrument aligned and prevents overlap.
+      const automaticDuration = Math.max(1, shortestDuration - LOOP_SAFETY_TRIM_SECONDS);
+      const requestedDuration = Number(MANUAL_LOOP_SECONDS);
 
-      const startVolume = Number(track.volume) || 0;
-      const startTime = performance.now();
-      track.muted = false;
+      if (Number.isFinite(requestedDuration) && requestedDuration > 0) {
+        return Math.min(requestedDuration, automaticDuration);
+      }
 
-      fadeTimers[track.id] = setInterval(() => {
-        const elapsed = performance.now() - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        track.volume = Math.max(0, Math.min(1, startVolume + (targetVolume - startVolume) * progress));
+      return automaticDuration;
+    }
 
-        if (progress >= 1) {
-          clearInterval(fadeTimers[track.id]);
-          track.volume = targetVolume;
+    function getSafeCrossfadeDuration(playDuration, startFade, endFade) {
+      return Math.max(0, Math.min(
+        LOOP_CROSSFADE_SECONDS,
+        startFade,
+        endFade,
+        playDuration / 6
+      ));
+    }
+
+    function scheduleTrackBuffer(index, when, playDuration) {
+      const context = getAudioContext();
+      const buffer = audioBuffers[index];
+      const trackGain = trackGains[index];
+
+      if (!buffer || !trackGain) return;
+
+      const source = context.createBufferSource();
+      const edgeGain = context.createGain();
+      const startFade = Math.min(LOOP_START_FADE_SECONDS, playDuration / 8);
+      const endFade = Math.min(LOOP_END_FADE_SECONDS, playDuration / 8);
+
+      source.buffer = buffer;
+      source.connect(edgeGain);
+      edgeGain.connect(trackGain);
+
+      // IMPORTANT:
+      // - Every instrument starts at the same AudioContext timestamp.
+      // - Every instrument uses the same shared cycle duration.
+      // - Start and end fades are now separate, so they can be tuned independently.
+      // - The next cycle starts only LOOP_CROSSFADE_SECONDS before the cycle boundary.
+      // - This creates a tiny smooth overlap without layering the same instrument for a long time.
+      edgeGain.gain.setValueAtTime(0, when);
+      edgeGain.gain.linearRampToValueAtTime(1, when + startFade);
+      edgeGain.gain.setValueAtTime(1, Math.max(when + startFade, when + playDuration - endFade));
+      edgeGain.gain.linearRampToValueAtTime(0, when + playDuration);
+
+      source.start(when, 0, playDuration);
+      source.stop(when + playDuration + 0.05);
+    }
+
+    function scheduleAllTracksAt(when, playDuration) {
+      audioBuffers.forEach((_, index) => scheduleTrackBuffer(index, when, playDuration));
+    }
+
+    function startLoopScheduler() {
+      const context = getAudioContext();
+
+      // One shared loop duration keeps all stems locked together across every repeat.
+      // The scheduling interval is slightly shorter than the play duration only by the tiny
+      // crossfade value, so there is no audible dead gap at the loop boundary.
+      const sharedLoopDuration = getSharedLoopDuration();
+      const startFade = Math.min(LOOP_START_FADE_SECONDS, sharedLoopDuration / 8);
+      const endFade = Math.min(LOOP_END_FADE_SECONDS, sharedLoopDuration / 8);
+      const safeCrossfade = getSafeCrossfadeDuration(sharedLoopDuration, startFade, endFade);
+
+      loopInterval = Math.max(0.5, sharedLoopDuration - safeCrossfade);
+      nextLoopTime = context.currentTime + 0.12;
+
+      scheduleAllTracksAt(nextLoopTime, sharedLoopDuration);
+      nextLoopTime += loopInterval;
+
+      clearInterval(schedulerTimer);
+      schedulerTimer = setInterval(() => {
+        while (nextLoopTime < context.currentTime + SCHEDULE_AHEAD_SECONDS) {
+          scheduleAllTracksAt(nextLoopTime, sharedLoopDuration);
+          nextLoopTime += loopInterval;
         }
-      }, 30);
+      }, 500);
     }
 
-    function startMusic() {
-      createTracks();
+    function fadeTrackGain(index, targetVolume, duration = FADE_DURATION) {
+      const context = getAudioContext();
+      const gain = trackGains[index];
+      if (!gain) return;
+
+      const now = context.currentTime;
+      const fadeSeconds = Math.max(0.05, duration / 1000);
+      const currentValue = gain.gain.value;
+
+      gain.gain.cancelScheduledValues(now);
+      gain.gain.setValueAtTime(currentValue, now);
+      gain.gain.linearRampToValueAtTime(targetVolume, now + fadeSeconds);
+    }
+
+    async function startMusic() {
+      const context = getAudioContext();
+      await context.resume();
 
       if (musicStarted) {
         selectTrack(0);
         return;
       }
 
-      resetAllTracksToStart();
-
-      // Start all 7 tracks immediately from the same user click.
-      // Tracks stay silent at volume 0 until selectTrack() fades them in.
-      tracks.forEach(track => {
-        track.muted = false;
-        track.volume = 0;
-
-        try {
-          track.currentTime = 0;
-        } catch (error) {
-          // Safe to ignore before metadata is ready.
-        }
-      });
-
-      const playPromises = tracks.map(track => track.play().catch(error => {
-        console.warn(`Audio track could not start: ${track.src}`, error);
-        return null;
-      }));
+      await preloadMusicBuffers();
+      createGainNodes();
+      startLoopScheduler();
 
       musicStarted = true;
-      startSyncMonitor();
-
-      // Make the first instrument audible immediately after the first click.
       selectTrack(0);
+    }
 
-      Promise.allSettled(playPromises).then(() => {
-        syncTracksToMaster(true);
-      });
+    async function startExperience(target = 'couple') {
+      showMusicLoading();
+
+      try {
+        await startMusic();
+        hideMusicLoading();
+        if (target) goTo(target);
+      } catch (error) {
+        console.warn('Music could not be prepared. Continuing without music.', error);
+        hideMusicLoading();
+        if (target) goTo(target);
+      }
     }
 
     function selectTrack(index) {
-      createTracks();
+      if (index < 0 || index >= trackSources.length) return;
 
-      if (index < 0 || index >= tracks.length) return;
-
+      // If user taps another page before music has started, start the full engine first.
       if (!musicStarted) {
-        startMusic();
+        startExperience(null);
         return;
       }
 
-      const nextTrack = tracks[index];
-
-      if (!nextTrack) return;
-
-      // If this track was delayed by browser loading, align it before fading in.
-      syncTracksToMaster(false);
-
       const targetVolume = getTrackMaxVolume(index);
-
-      if (Number(nextTrack.volume) >= targetVolume) return;
-
-      fadeTrack(nextTrack, targetVolume, FADE_DURATION);
+      fadeTrackGain(index, targetVolume, FADE_DURATION);
       currentTrackIndex = index;
     }
 
-    window.addEventListener('load', () => {
-      createTracks();
-      tracks.forEach(track => {
+    document.addEventListener('visibilitychange', async () => {
+      // iOS may suspend AudioContext when the browser/tab loses focus.
+      // Resume safely when the page becomes visible again.
+      if (!document.hidden && audioContext && audioContext.state === 'suspended') {
         try {
-          track.load();
+          await audioContext.resume();
         } catch (error) {
-          // Ignore preload errors. Playback will retry after the first user click.
+          // It may require the next user tap. Safe to ignore.
         }
-      });
+      }
     });
 
     // ================= INVITATION TYPE + LANGUAGE + COUPLE NAME LOGIC =================
@@ -3163,6 +3404,9 @@
       const name = hasSpecificName ? decodeGuestName(guest) : '';
 
       document.documentElement.setAttribute('data-lang', language);
+
+      setText('music-loading-title', couple.display);
+      setText('music-open-button', 'Open');
 
       setText('intro-couple-name', couple.display);
       setText('couple-title', couple.display);
