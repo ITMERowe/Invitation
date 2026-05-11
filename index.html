@@ -3080,11 +3080,11 @@
     ];
 
     const FADE_DURATION = 6000;
-    const MANUAL_LOOP_SECONDS = null; // Optional: set to 42 if you want to force an exact 42-second cycle.
-    const LOOP_SAFETY_TRIM_SECONDS = 0.11; // Tiny trim avoids MP3 encoder padding clicks at the very end.
-    const LOOP_START_FADE_SECONDS = 0.05; // Fade-in at the start of each loop cycle.
-    const LOOP_END_FADE_SECONDS = 0.05; // Fade-out at the end of each loop cycle.
-    const LOOP_CROSSFADE_SECONDS = 0.23; // Tiny boundary overlap to avoid dead silence between cycles.
+    const MANUAL_LOOP_SECONDS = 41.858; // Optional: set to 42 if you want to force an exact 42-second cycle.
+    const LOOP_SAFETY_TRIM_SECONDS = 0.01; // Tiny trim avoids MP3 encoder padding clicks at the very end.
+    const LOOP_START_FADE_SECONDS = 0.03; // Fade-in at the start of each loop cycle.
+    const LOOP_END_FADE_SECONDS = 0.03; // Fade-out at the end of each loop cycle.
+    const LOOP_CROSSFADE_SECONDS = 0.03; // Tiny boundary overlap to avoid dead silence between cycles.
     const SCHEDULE_AHEAD_SECONDS = 3;
 
     let audioContext = null;
