@@ -64,8 +64,7 @@
         180deg,
         #ffffff 0%,
         #ffffff 16%,
-        #dcfbfc 58%,
-        #9af5f8 100%
+        #fafafa 100%
       );
       transform: translateY(calc(var(--page-index, 0) * -100svh));
       transition:
@@ -112,8 +111,7 @@
         180deg,
         #ffffff 0%,
         #ffffff 16%,
-        #dcfbfc 58%,
-        #9af5f8 100%
+        #fafafa 100%
       );
       background-size: 100% 500svh;
       background-repeat: no-repeat;
@@ -804,32 +802,7 @@
       }
     }
 
-    .couple-images {
-      display: flex;
-      justify-content: center;
-      gap: 2.5rem;
-      margin: 2.5rem 0;
-    }
 
-    .couple-images img {
-      width: 130px;
-      height: 130px;
-      border-radius: 50%;
-      object-fit: cover;
-      cursor: pointer;
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      border: 4px solid rgba(255,255,255,0.9);
-      box-shadow:
-        0 8px 25px rgba(107, 68, 35, 0.15),
-        0 0 0 1px rgba(139, 105, 20, 0.1);
-    }
-
-    .couple-images img:hover {
-      transform: scale(1.08) translateY(-5px);
-      box-shadow:
-        0 15px 40px rgba(107, 68, 35, 0.2),
-        0 0 0 2px rgba(139, 105, 20, 0.15);
-    }
 
     #page-intro h1 {
       font-size: 2.8rem;
@@ -869,25 +842,9 @@
       margin: 0 auto 0.55rem;
     }
 
-    #page-couple h1 {
-      margin-bottom: 1rem;
-    }
 
-    #page-couple p {
-      max-width: 280px;
-    }
 
-    #page-bride h1,
-    #page-groom h1 {
-      font-size: 2.6rem;
-      margin-bottom: 1rem;
-    }
 
-    #page-bride .script-text,
-    #page-groom .script-text {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
 
     #page-date h2 {
       font-size: 2.4rem;
@@ -1192,6 +1149,371 @@
       text-transform: uppercase;
     }
 
+    /* ================= HERO PHOTO LAYOUTS ================= */
+
+    /* ---- COUPLE HERO ---- */
+    .couple-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100%;
+      width: 100%;
+      position: relative;
+      padding-top: 1.15rem;
+    }
+
+    .couple-hero-images {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      width: 100%;
+      flex: 1.18;
+      min-height: 0;
+      gap: clamp(0.8rem, 5vw, 1.35rem);
+      padding: 0 0.6rem 0.1rem;
+      z-index: 1;
+    }
+
+    .couple-hero-photo {
+      position: relative;
+      width: clamp(158px, 45vw, 202px);
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      cursor: pointer;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      border: none;
+      border-radius: 16px;
+      box-shadow: 0 12px 40px rgba(107, 68, 35, 0.18);
+      -webkit-mask-image: radial-gradient(ellipse 75% 75% at 50% 50%, black 50%, transparent 85%);
+      mask-image: radial-gradient(ellipse 75% 75% at 50% 50%, black 50%, transparent 85%);
+    }
+
+    .couple-hero-photo.bride-photo {
+      transform: translateY(4%) rotate(-3deg);
+      z-index: 2;
+    }
+
+    .couple-hero-photo.groom-photo {
+      transform: translateY(-4%) rotate(3deg);
+      z-index: 1;
+    }
+
+    .couple-hero-photo:hover {
+      transform: translateY(var(--hy, 0)) rotate(var(--hr, 0deg)) scale(1.05);
+      box-shadow: 0 18px 50px rgba(107, 68, 35, 0.28);
+      z-index: 3;
+    }
+
+    .couple-hero-photo.bride-photo:hover {
+      --hy: 4%;
+      --hr: -3deg;
+    }
+
+    .couple-hero-photo.groom-photo:hover {
+      --hy: -4%;
+      --hr: 3deg;
+    }
+
+    .couple-hero-text {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      flex: 0.82;
+      justify-content: flex-start;
+      padding: 0.85rem 1.2rem 0.75rem;
+      width: min(100%, 350px);
+      position: relative;
+      z-index: 4;
+      margin-top: -4.2rem;
+      border-radius: 30px 30px 0 0;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.70) 0%, rgba(250, 246, 240, 0.34) 74%, rgba(250, 246, 240, 0) 100%);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+    }
+
+    .couple-hero-text h1 {
+      font-size: clamp(1.9rem, 7vw, 2.6rem);
+      margin-bottom: 0.35rem;
+    }
+
+    .couple-hero-text p {
+      max-width: 300px;
+      margin-bottom: 0.9rem;
+    }
+
+    .couple-hero-text .script-text {
+      font-size: 1.4rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .couple-hero-text button {
+      margin-top: 0.3rem;
+    }
+
+    /* ---- SINGLE HERO (Bride / Groom) ---- */
+    .single-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      height: 100%;
+      width: 100%;
+      position: relative;
+      padding-top: 0.35rem;
+    }
+
+    .single-hero-image {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1.08;
+      min-height: 0;
+      position: relative;
+    }
+
+    .single-hero-image img {
+      width: min(58vw, 260px);
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border: none;
+      border-radius: 18px;
+      box-shadow: 0 14px 45px rgba(107, 68, 35, 0.18);
+      -webkit-mask-image: radial-gradient(ellipse 75% 75% at 50% 50%, black 50%, transparent 85%);
+      mask-image: radial-gradient(ellipse 75% 75% at 50% 50%, black 50%, transparent 85%);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .single-hero-image img:hover {
+      transform: scale(1.03);
+      box-shadow: 0 20px 55px rgba(107, 68, 35, 0.26);
+    }
+
+    .single-hero-text {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: min(100%, 340px);
+      padding: 0.9rem 1.35rem 1rem;
+      position: relative;
+      z-index: 2;
+      border-radius: 28px 28px 0 0;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.58) 0%, rgba(250, 246, 240, 0.28) 72%, rgba(250, 246, 240, 0) 100%);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+    }
+
+    /* Move the copy block higher and overlap it with the lower part of the photo */
+    .single-hero-text.overlap-text {
+      margin-top: -7.4rem;
+      transform: translateY(-0.75rem);
+    }
+
+    .single-hero-text h1 {
+      font-size: clamp(2rem, 7.5vw, 2.8rem);
+      margin-top: -0.08rem;
+      margin-bottom: 0.18rem;
+      line-height: 1.02;
+    }
+
+    .single-hero-text .script-text {
+      font-size: 1.5rem;
+      margin-bottom: 0.12rem;
+      line-height: 1.1;
+    }
+
+    .parent-line {
+      width: 100%;
+      max-width: 330px;
+      margin: 0 0 0.55rem !important;
+      color: var(--wood-dark);
+      font-size: clamp(0.72rem, 2.7vw, 0.88rem) !important;
+      line-height: 1.18 !important;
+      letter-spacing: 0.03em;
+      white-space: normal;
+      overflow: visible;
+      text-overflow: clip;
+    }
+
+    .parent-line span {
+      display: inline-block;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .single-hero-text p {
+      max-width: 300px;
+      margin-bottom: 0.38rem;
+      font-size: 1.06rem;
+    }
+
+    .single-hero-text button {
+      margin-top: 0.35rem;
+    }
+
+    /* Keep bride and groom detail pages visually identical */
+    #page-bride .single-hero,
+    #page-groom .single-hero {
+      padding-top: 0.35rem;
+    }
+
+    #page-bride .single-hero-image,
+    #page-groom .single-hero-image {
+      flex: 1.08;
+    }
+
+    #page-bride .single-hero-text,
+    #page-groom .single-hero-text {
+      width: min(100%, 340px);
+      padding: 0.9rem 1.35rem 1rem;
+    }
+
+    #page-bride .single-hero-text.overlap-text,
+    #page-groom .single-hero-text.overlap-text {
+      margin-top: -7.4rem;
+      transform: translateY(-0.75rem);
+    }
+
+    /* Compact language overrides for hero layouts */
+    html[data-lang="en"] #page-couple .couple-hero-text h1,
+    html[data-lang="id"] #page-couple .couple-hero-text h1 {
+      font-size: clamp(1.78rem, 6.6vw, 2.3rem);
+      line-height: 1.12;
+      margin-bottom: 0.5rem;
+      max-width: 330px;
+    }
+
+    html[data-lang="en"] #page-couple .couple-hero-text p,
+    html[data-lang="id"] #page-couple .couple-hero-text p {
+      font-size: 1.03rem;
+      line-height: 1.42;
+      margin-bottom: 0.65rem;
+      max-width: 292px;
+    }
+
+    html[data-lang="en"] #page-couple .couple-hero-text .script-text,
+    html[data-lang="id"] #page-couple .couple-hero-text .script-text {
+      font-family: 'Cormorant Garamond', Georgia, serif !important;
+      font-size: 1.03rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1.42;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.85rem;
+      max-width: 292px;
+      color: var(--text-secondary);
+    }
+
+    html[data-lang="en"] #bride-desc-1,
+    html[data-lang="en"] #bride-desc-2,
+    html[data-lang="en"] #groom-desc-1,
+    html[data-lang="en"] #groom-desc-2,
+    html[data-lang="id"] #bride-desc-1,
+    html[data-lang="id"] #bride-desc-2,
+    html[data-lang="id"] #groom-desc-1,
+    html[data-lang="id"] #groom-desc-2 {
+      font-size: 0.98rem;
+      line-height: 1.34;
+      margin-bottom: 0.42rem;
+      max-width: 300px;
+    }
+
+    html[data-lang="en"] .parent-line,
+    html[data-lang="id"] .parent-line {
+      font-size: clamp(0.68rem, 2.45vw, 0.84rem) !important;
+      line-height: 1.12 !important;
+      margin-bottom: 0.5rem !important;
+    }
+
+    /* Responsive hero sizing */
+    @media (max-height: 720px) {
+      .couple-hero {
+        padding-top: 0.85rem;
+      }
+
+      .couple-hero-photo {
+        width: clamp(145px, 40vw, 178px);
+      }
+
+      .couple-hero-images {
+        flex: 1.08;
+        gap: clamp(0.75rem, 4.5vw, 1.15rem);
+      }
+
+      .couple-hero-text {
+        margin-top: -4.0rem;
+      }
+
+      .single-hero-image img {
+        width: min(52vw, 230px);
+      }
+
+      .single-hero-text.overlap-text {
+        margin-top: -6.4rem;
+        transform: translateY(-0.65rem);
+      }
+
+      .couple-hero-text h1 {
+        font-size: clamp(1.7rem, 6.5vw, 2.2rem);
+      }
+
+      .single-hero-text h1 {
+        font-size: clamp(1.8rem, 7vw, 2.4rem);
+      }
+    }
+
+    @media (max-height: 640px) {
+      .couple-hero {
+        padding-top: 0.55rem;
+      }
+
+      .couple-hero-photo {
+        width: clamp(128px, 36vw, 158px);
+      }
+
+      .couple-hero-images {
+        flex: 1.0;
+        gap: clamp(0.65rem, 4vw, 1rem);
+      }
+
+      .couple-hero-text {
+        margin-top: -3.7rem;
+      }
+
+      .couple-hero-photo.bride-photo {
+        transform: translateY(4%) rotate(-3deg);
+      }
+
+      .couple-hero-photo.groom-photo {
+        transform: translateY(-4%) rotate(3deg);
+      }
+
+      .couple-hero-photo.bride-photo:hover {
+        --hy: 4%;
+        --hr: -3deg;
+      }
+
+      .couple-hero-photo.groom-photo:hover {
+        --hy: -4%;
+        --hr: 3deg;
+      }
+
+      .single-hero-image img {
+        width: min(46vw, 200px);
+      }
+
+      .single-hero-text.overlap-text {
+        margin-top: -5.5rem;
+        transform: translateY(-0.55rem);
+      }
+    }
+
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -1294,21 +1616,9 @@
         padding: 0.82rem 1.2rem !important;
       }
 
-      html[data-lang="en"] #page-couple .couple-images img,
-      html[data-lang="id"] #page-couple .couple-images img {
-        width: 104px;
-        height: 104px;
-      }
 
-      html[data-lang="en"] #page-couple .couple-images,
-      html[data-lang="id"] #page-couple .couple-images {
-        margin: 1.1rem 0;
-      }
 
-      html[data-lang="en"] #couple-script,
-      html[data-lang="id"] #couple-script {
-        font-size: 1.03rem;
-      }
+
     }
 
     @media (max-height: 700px) {
@@ -1318,11 +1628,6 @@
 
       h2 {
         font-size: 1.7rem;
-      }
-
-      .couple-images img {
-        width: 110px;
-        height: 110px;
       }
 
       .time-box span {
@@ -1599,7 +1904,544 @@
       background: none !important;
     }
 
+
+    /* ================= USER REQUESTED LAYOUT FIXES v6 ================= */
+    /* Remove the transparent card look from couple and bride/groom text blocks */
+    .couple-hero-text,
+    .single-hero-text,
+    #page-bride .single-hero-text,
+    #page-groom .single-hero-text {
+      background: transparent !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+
+    /* Keep couple text above the photos, but without any card background */
+    .couple-hero-text {
+      z-index: 5 !important;
+      margin-top: -4.45rem !important;
+      padding: 0.15rem 0.8rem 0.75rem !important;
+      width: 100% !important;
+      max-width: 390px !important;
+    }
+
+    /* Force couple name to stay in one line */
+    .couple-hero-text h1,
+    #couple-title,
+    html[data-lang="en"] #page-couple .couple-hero-text h1,
+    html[data-lang="id"] #page-couple .couple-hero-text h1 {
+      white-space: nowrap !important;
+      overflow: visible !important;
+      text-overflow: clip !important;
+      max-width: none !important;
+      width: auto !important;
+      font-size: clamp(1.82rem, 7.4vw, 2.45rem) !important;
+      line-height: 1.05 !important;
+      letter-spacing: 0.07em !important;
+      margin-bottom: 0.42rem !important;
+    }
+
+    /* Remove the fading/masked edge effect from all bride and groom photos */
+    .couple-hero-photo,
+    .single-hero-image img,
+    #bride-photo,
+    #groom-photo {
+      -webkit-mask-image: none !important;
+      mask-image: none !important;
+      -webkit-mask: none !important;
+      mask: none !important;
+    }
+
+    /* Keep bride and groom detail pages identical without the card layer */
+    .single-hero-text,
+    #page-bride .single-hero-text,
+    #page-groom .single-hero-text {
+      padding: 0.35rem 1.25rem 1rem !important;
+      width: min(100%, 350px) !important;
+    }
+
+    .single-hero-text.overlap-text,
+    #page-bride .single-hero-text.overlap-text,
+    #page-groom .single-hero-text.overlap-text {
+      margin-top: -6.75rem !important;
+      transform: translateY(-0.45rem) !important;
+    }
+
+    .single-hero-text .script-text {
+      margin-bottom: 0.05rem !important;
+    }
+
+    .single-hero-text h1 {
+      margin-top: 0 !important;
+      margin-bottom: 0.12rem !important;
+    }
+
+    .parent-line {
+      white-space: normal !important;
+      max-width: 100% !important;
+      font-size: clamp(0.68rem, 2.35vw, 0.82rem) !important;
+      line-height: 1.18 !important;
+    }
+
+    .parent-line span {
+      white-space: nowrap !important;
+    }
+
+    @media (max-height: 720px) {
+      .couple-hero-text {
+        margin-top: -4.15rem !important;
+      }
+
+      .single-hero-text.overlap-text,
+      #page-bride .single-hero-text.overlap-text,
+      #page-groom .single-hero-text.overlap-text {
+        margin-top: -6.05rem !important;
+        transform: translateY(-0.35rem) !important;
+      }
+    }
+
+    @media (max-height: 640px) {
+      .couple-hero-text {
+        margin-top: -3.65rem !important;
+      }
+
+      .couple-hero-text h1,
+      #couple-title,
+      html[data-lang="en"] #page-couple .couple-hero-text h1,
+      html[data-lang="id"] #page-couple .couple-hero-text h1 {
+        font-size: clamp(1.56rem, 6.5vw, 2.05rem) !important;
+      }
+
+      .single-hero-text.overlap-text,
+      #page-bride .single-hero-text.overlap-text,
+      #page-groom .single-hero-text.overlap-text {
+        margin-top: -5.25rem !important;
+        transform: translateY(-0.25rem) !important;
+      }
+    }
+
+
+    /* ================= USER REQUESTED LAYOUT FIXES v8 ================= */
+    /* Couple page: move photos higher, keep them straight, and let only the name overlap the photo edge */
+    #page-couple .couple-hero {
+      justify-content: flex-start !important;
+      padding-top: 0.35rem !important;
+    }
+
+    #page-couple .couple-hero-images {
+      flex: 0 0 48svh !important;
+      height: 48svh !important;
+      align-items: flex-start !important;
+      padding: 0.55rem 0.45rem 0 !important;
+      gap: clamp(0.35rem, 2.5vw, 0.8rem) !important;
+      overflow: visible !important;
+      z-index: 1 !important;
+    }
+
+    #page-couple .couple-hero-photo {
+      width: clamp(172px, 46vw, 220px) !important;
+      transform: none !important;
+      rotate: 0deg !important;
+      object-position: center top !important;
+      border-radius: 0 !important;
+    }
+
+    #page-couple .couple-hero-photo.bride-photo,
+    #page-couple .couple-hero-photo.groom-photo,
+    #page-couple .couple-hero-photo.bride-photo:hover,
+    #page-couple .couple-hero-photo.groom-photo:hover {
+      transform: none !important;
+      rotate: 0deg !important;
+      --hy: 0 !important;
+      --hr: 0deg !important;
+    }
+
+    #page-couple .couple-hero-photo:hover {
+      transform: scale(1.015) !important;
+      rotate: 0deg !important;
+    }
+
+    #page-couple .couple-hero-text {
+      flex: 0 0 auto !important;
+      margin-top: -2.95rem !important;
+      padding: 0 0.8rem 0.5rem !important;
+      position: relative !important;
+      z-index: 6 !important;
+    }
+
+    #page-couple .couple-hero-text h1,
+    #couple-title,
+    html[data-lang="en"] #page-couple .couple-hero-text h1,
+    html[data-lang="id"] #page-couple .couple-hero-text h1 {
+      margin-bottom: 1.28rem !important;
+      position: relative !important;
+      z-index: 7 !important;
+    }
+
+    #page-couple .couple-hero-text p,
+    #page-couple .couple-hero-text .script-text,
+    #page-couple .couple-hero-text button {
+      position: relative !important;
+      z-index: 7 !important;
+    }
+
+    @media (max-height: 720px) {
+      #page-couple .couple-hero-images {
+        flex-basis: 46svh !important;
+        height: 46svh !important;
+      }
+
+      #page-couple .couple-hero-photo {
+        width: clamp(154px, 42vw, 202px) !important;
+      }
+
+      #page-couple .couple-hero-text {
+        margin-top: -2.65rem !important;
+      }
+    }
+
+    @media (max-height: 640px) {
+      #page-couple .couple-hero-images {
+        flex-basis: 44svh !important;
+        height: 44svh !important;
+      }
+
+      #page-couple .couple-hero-photo {
+        width: clamp(142px, 38vw, 184px) !important;
+      }
+
+      #page-couple .couple-hero-text {
+        margin-top: -2.35rem !important;
+      }
+    }
+
+
+    /* ================= USER REQUESTED LAYOUT FIXES v9 ================= */
+    /* Couple page: prevent side clipping and rebalance the page vertically */
+    #page-couple {
+      overflow: hidden !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+
+    #page-couple .couple-hero {
+      height: 100% !important;
+      justify-content: center !important;
+      padding-top: 0 !important;
+      padding-bottom: 0.15rem !important;
+      overflow: visible !important;
+    }
+
+    #page-couple .couple-hero-images {
+      width: 100% !important;
+      max-width: 100% !important;
+      flex: 0 0 45svh !important;
+      height: 45svh !important;
+      min-height: 0 !important;
+      align-items: flex-end !important;
+      justify-content: center !important;
+      gap: clamp(0.45rem, 2vw, 0.75rem) !important;
+      padding: 0 1.35rem !important;
+      overflow: visible !important;
+      z-index: 1 !important;
+    }
+
+    #page-couple .couple-hero-photo {
+      width: clamp(136px, 38vw, 178px) !important;
+      max-width: calc((100vw - 3.4rem) / 2) !important;
+      aspect-ratio: 4 / 5 !important;
+      object-fit: cover !important;
+      object-position: center top !important;
+      flex: 0 1 auto !important;
+      transform: none !important;
+      rotate: 0deg !important;
+      border-radius: 0 !important;
+    }
+
+    #page-couple .couple-hero-photo.bride-photo,
+    #page-couple .couple-hero-photo.groom-photo,
+    #page-couple .couple-hero-photo.bride-photo:hover,
+    #page-couple .couple-hero-photo.groom-photo:hover,
+    #page-couple .couple-hero-photo:hover {
+      transform: none !important;
+      rotate: 0deg !important;
+      --hy: 0 !important;
+      --hr: 0deg !important;
+    }
+
+    #page-couple .couple-hero-text {
+      width: 100% !important;
+      max-width: 360px !important;
+      flex: 0 0 auto !important;
+      margin-top: -2.25rem !important;
+      padding: 0 1.2rem 0 !important;
+      position: relative !important;
+      z-index: 6 !important;
+    }
+
+    #page-couple .couple-hero-text h1,
+    #couple-title,
+    html[data-lang="en"] #page-couple .couple-hero-text h1,
+    html[data-lang="id"] #page-couple .couple-hero-text h1 {
+      white-space: nowrap !important;
+      font-size: clamp(1.62rem, 6.4vw, 2.18rem) !important;
+      line-height: 1.04 !important;
+      margin-bottom: 0.95rem !important;
+      position: relative !important;
+      z-index: 7 !important;
+    }
+
+    #page-couple .couple-hero-text p,
+    #page-couple .couple-hero-text .script-text {
+      max-width: 305px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      margin-bottom: 0.58rem !important;
+      line-height: 1.38 !important;
+      position: relative !important;
+      z-index: 7 !important;
+    }
+
+    #page-couple .couple-hero-text button {
+      margin-top: 0.55rem !important;
+      position: relative !important;
+      z-index: 7 !important;
+    }
+
+    @media (max-width: 420px) {
+      #page-couple .couple-hero-images {
+        padding-left: 1.15rem !important;
+        padding-right: 1.15rem !important;
+        gap: 0.42rem !important;
+      }
+
+      #page-couple .couple-hero-photo {
+        width: clamp(130px, 37vw, 168px) !important;
+        max-width: calc((100vw - 2.9rem) / 2) !important;
+      }
+    }
+
+    @media (max-height: 720px) {
+      #page-couple .couple-hero-images {
+        flex-basis: 43svh !important;
+        height: 43svh !important;
+      }
+
+      #page-couple .couple-hero-photo {
+        width: clamp(124px, 35vw, 158px) !important;
+      }
+
+      #page-couple .couple-hero-text {
+        margin-top: -2.05rem !important;
+      }
+
+      #page-couple .couple-hero-text h1,
+      #couple-title,
+      html[data-lang="en"] #page-couple .couple-hero-text h1,
+      html[data-lang="id"] #page-couple .couple-hero-text h1 {
+        font-size: clamp(1.48rem, 5.9vw, 1.95rem) !important;
+        margin-bottom: 0.82rem !important;
+      }
+    }
+
+    @media (max-height: 640px) {
+      #page-couple .couple-hero-images {
+        flex-basis: 40svh !important;
+        height: 40svh !important;
+      }
+
+      #page-couple .couple-hero-photo {
+        width: clamp(112px, 32vw, 144px) !important;
+      }
+
+      #page-couple .couple-hero-text {
+        margin-top: -1.75rem !important;
+      }
+    }
+
+
+
+    /* ================= USER REQUESTED LAYOUT FIXES v11 ================= */
+    /* Apply to every invitation type/language: general, work, friends, family/Indonesian */
+    /* Remove shadows from all bride and groom photos, including hover states */
+    .couple-hero-photo,
+    .couple-hero-photo:hover,
+    .single-hero-image img,
+    .single-hero-image img:hover,
+    #bride-photo,
+    #bride-photo:hover,
+    #groom-photo,
+    #groom-photo:hover {
+      box-shadow: none !important;
+      filter: none !important;
+    }
+
+    /* Couple page: move the photo row higher and make the name barely overlap the photo bottom */
+    #page-couple .couple-hero {
+      justify-content: flex-start !important;
+      padding-top: 4svh !important;
+      padding-bottom: 0 !important;
+      overflow: visible !important;
+    }
+
+    #page-couple .couple-hero-images {
+      flex: 0 0 45svh !important;
+      height: 45svh !important;
+      min-height: 0 !important;
+      align-items: flex-end !important;
+      justify-content: center !important;
+      padding: 0 1.35rem !important;
+      gap: clamp(0.45rem, 2vw, 0.75rem) !important;
+      overflow: visible !important;
+      z-index: 1 !important;
+    }
+
+    #page-couple .couple-hero-photo {
+      width: clamp(136px, 38vw, 178px) !important;
+      max-width: calc((100vw - 3.4rem) / 2) !important;
+      aspect-ratio: 4 / 5 !important;
+      object-fit: cover !important;
+      object-position: center top !important;
+      flex: 0 1 auto !important;
+      transform: none !important;
+      rotate: 0deg !important;
+      border-radius: 0 !important;
+    }
+
+    #page-couple .couple-hero-photo.bride-photo,
+    #page-couple .couple-hero-photo.groom-photo,
+    #page-couple .couple-hero-photo.bride-photo:hover,
+    #page-couple .couple-hero-photo.groom-photo:hover,
+    #page-couple .couple-hero-photo:hover {
+      transform: none !important;
+      rotate: 0deg !important;
+      --hy: 0 !important;
+      --hr: 0deg !important;
+      box-shadow: none !important;
+      filter: none !important;
+    }
+
+    #page-couple .couple-hero-text {
+      width: 100% !important;
+      max-width: 360px !important;
+      flex: 0 0 auto !important;
+      margin-top: -0.8rem !important;
+      padding: 0 1.2rem 0 !important;
+      position: relative !important;
+      z-index: 6 !important;
+    }
+
+    #page-couple .couple-hero-text h1,
+    #couple-title,
+    html[data-lang="en"] #page-couple .couple-hero-text h1,
+    html[data-lang="id"] #page-couple .couple-hero-text h1 {
+      white-space: nowrap !important;
+      font-size: clamp(1.62rem, 6.4vw, 2.18rem) !important;
+      line-height: 1.04 !important;
+      margin-bottom: 0.85rem !important;
+      position: relative !important;
+      z-index: 7 !important;
+    }
+
+    #page-couple .couple-hero-text p,
+    #page-couple .couple-hero-text .script-text {
+      max-width: 305px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      margin-bottom: 0.58rem !important;
+      line-height: 1.38 !important;
+      position: relative !important;
+      z-index: 7 !important;
+    }
+
+    #page-couple .couple-hero-text button {
+      margin-top: 0.55rem !important;
+      position: relative !important;
+      z-index: 7 !important;
+    }
+
+    @media (max-width: 420px) {
+      #page-couple .couple-hero-images {
+        padding-left: 1.15rem !important;
+        padding-right: 1.15rem !important;
+        gap: 0.42rem !important;
+      }
+
+      #page-couple .couple-hero-photo {
+        width: clamp(130px, 37vw, 168px) !important;
+        max-width: calc((100vw - 2.9rem) / 2) !important;
+      }
+    }
+
+    @media (max-height: 720px) {
+      #page-couple .couple-hero {
+        padding-top: 3.5svh !important;
+      }
+
+      #page-couple .couple-hero-images {
+        flex-basis: 43svh !important;
+        height: 43svh !important;
+      }
+
+      #page-couple .couple-hero-photo {
+        width: clamp(124px, 35vw, 158px) !important;
+      }
+
+      #page-couple .couple-hero-text {
+        margin-top: -0.7rem !important;
+      }
+
+      #page-couple .couple-hero-text h1,
+      #couple-title,
+      html[data-lang="en"] #page-couple .couple-hero-text h1,
+      html[data-lang="id"] #page-couple .couple-hero-text h1 {
+        font-size: clamp(1.48rem, 5.9vw, 1.95rem) !important;
+        margin-bottom: 0.72rem !important;
+      }
+    }
+
+    @media (max-height: 640px) {
+      #page-couple .couple-hero {
+        padding-top: 2.6svh !important;
+      }
+
+      #page-couple .couple-hero-images {
+        flex-basis: 40svh !important;
+        height: 40svh !important;
+      }
+
+      #page-couple .couple-hero-photo {
+        width: clamp(112px, 32vw, 144px) !important;
+      }
+
+      #page-couple .couple-hero-text {
+        margin-top: -0.62rem !important;
+      }
+    }
+
+
+
+    /* ================= USER REQUESTED LAYOUT FIXES v12 ================= */
+    /* Bride and groom pages: move only the text/button block 10px higher while keeping the photo position unchanged */
+    #page-bride .single-hero-text.overlap-text,
+    #page-groom .single-hero-text.overlap-text {
+      transform: translateY(calc(-0.45rem - 10px)) !important;
+    }
+
+
+
+    /* ================= USER REQUESTED LAYOUT FIXES v13 ================= */
+    /* Bride and groom pages: move the entire photo + text + button layout 50px higher */
+    #page-bride .single-hero,
+    #page-groom .single-hero {
+      transform: translateY(-50px) !important;
+    }
+
+
   </style>
+<base target="_blank">
 <base target="_blank">
 </head>
 
@@ -1638,35 +2480,52 @@
 
       <!-- COUPLE -->
       <section id="page-couple" class="page">
-        <div class="ornament"></div>
-        <h1 id="couple-title">Hanif & Winda</h1>
-        <p id="couple-description">Two souls united by love, embarking on a beautiful journey together.</p>
-        <p id="couple-script" class="script-text">Hanif and Winda are excited to share this special day with you.</p>
-        <div class="couple-images">
-          <img src="assets/bride.png" onclick="choose('bride')" alt="Bride">
-          <img src="assets/groom.png" onclick="choose('groom')" alt="Groom">
+        <div class="couple-hero">
+          <div class="couple-hero-images">
+            <img class="couple-hero-photo groom-photo" src="assets/groom.png" onclick="choose('groom')" alt="Groom">
+            <img class="couple-hero-photo bride-photo" src="assets/bride.png" onclick="choose('bride')" alt="Bride">
+          </div>
+          <div class="couple-hero-text">
+            <h1 id="couple-title">Hanif & Winda</h1>
+            <p id="couple-description">Two souls united by love, embarking on a beautiful journey together.</p>
+            <p id="couple-script" class="script-text">Hanif and Winda are excited to share this special day with you.</p>
+            <button id="couple-button" onclick="choose('groom')">Continue</button>
+          </div>
         </div>
-        <button id="couple-button" onclick="choose('bride')">Continue</button>
       </section>
 
       <!-- BRIDE -->
       <section id="page-bride" class="page">
-        <div class="ornament"></div>
-        <h1 id="bride-name">Winda</h1>
-        <p id="bride-role" class="script-text">The Bride</p>
-        <p id="bride-desc-1">The beautiful bride, radiant and full of grace.</p>
-        <p id="bride-desc-2">Winda brings joy and warmth to every moment.</p>
-        <button id="bride-button" onclick="nextFromBride()">Continue</button>
+        <div class="single-hero">
+          <div class="single-hero-image">
+            <img id="bride-photo" src="assets/bride.png" alt="Bride">
+          </div>
+          <div class="single-hero-text overlap-text">
+            <p id="bride-role" class="script-text">The Bride</p>
+            <h1 id="bride-name">Winda</h1>
+            <p id="bride-parent-line" class="parent-line">Daughter of<br><span>[insert father name] &amp; [insert mother name]</span></p>
+            <p id="bride-desc-1">The beautiful bride, radiant and full of grace.</p>
+            <p id="bride-desc-2">Winda brings joy and warmth to every moment.</p>
+            <button id="bride-button" onclick="nextFromBride()">Continue</button>
+          </div>
+        </div>
       </section>
 
       <!-- GROOM -->
       <section id="page-groom" class="page">
-        <div class="ornament"></div>
-        <h1>Hanif</h1>
-        <p id="groom-role" class="script-text">The Groom</p>
-        <p id="groom-desc-1">The charming groom, strong and kind-hearted.</p>
-        <p id="groom-desc-2">Hanif is devoted and ready to start this new chapter.</p>
-        <button id="groom-button" onclick="nextFromGroom()">Continue</button>
+        <div class="single-hero">
+          <div class="single-hero-image">
+            <img id="groom-photo" src="assets/groom.png" alt="Groom">
+          </div>
+          <div class="single-hero-text overlap-text">
+            <p id="groom-role" class="script-text">The Groom</p>
+            <h1 id="groom-name">Hanif</h1>
+            <p id="groom-parent-line" class="parent-line">Son of<br><span>[insert father name] &amp; [insert mother name]</span></p>
+            <p id="groom-desc-1">The charming groom, strong and kind-hearted.</p>
+            <p id="groom-desc-2">Hanif is devoted and ready to start this new chapter.</p>
+            <button id="groom-button" onclick="nextFromGroom()">Continue</button>
+          </div>
+        </div>
       </section>
 
       <!-- DATE -->
@@ -2252,6 +3111,14 @@
           bride: 'Winda'
         };
 
+    // Replace these placeholder names when the final parent names are available.
+    const parents = {
+      groomFather: '[insert father name]',
+      groomMother: '[insert mother name]',
+      brideFather: '[insert father name]',
+      brideMother: '[insert mother name]'
+    };
+
     const guestNameTitle = document.getElementById('guest-name');
     const rsvpGuestName = document.getElementById('rsvp-guest-name');
     const formGuestName = document.getElementById('form-guest-name');
@@ -2295,11 +3162,13 @@
         setText('couple-button', 'Lanjutkan');
 
         setText('bride-role', 'Mempelai Wanita');
+        setHTML('bride-parent-line', `Putri dari<br><span>${parents.brideFather} & ${parents.brideMother}</span>`);
         setText('bride-desc-1', `${couple.bride}, mempelai wanita yang anggun.`);
         setText('bride-desc-2', `${couple.bride} membawa kehangatan di setiap momen.`);
         setText('bride-button', 'Lanjutkan');
 
         setText('groom-role', 'Mempelai Pria');
+        setHTML('groom-parent-line', `Putra dari<br><span>${parents.groomFather} & ${parents.groomMother}</span>`);
         setText('groom-desc-1', 'Hanif, mempelai pria yang penuh kasih.');
         setText('groom-desc-2', 'Hanif siap memulai babak baru kehidupan.');
         setText('groom-button', 'Lanjutkan');
@@ -2356,11 +3225,13 @@
         setText('couple-button', 'Continue');
 
         setText('bride-role', 'The Bride');
+        setHTML('bride-parent-line', `Daughter of<br><span>${parents.brideFather} & ${parents.brideMother}</span>`);
         setText('bride-desc-1', `The beautiful bride, radiant and full of grace.`);
         setText('bride-desc-2', `${couple.bride} brings joy and warmth to every moment.`);
         setText('bride-button', 'Continue');
 
         setText('groom-role', 'The Groom');
+        setHTML('groom-parent-line', `Son of<br><span>${parents.groomFather} & ${parents.groomMother}</span>`);
         setText('groom-desc-1', 'The charming groom, strong and kind-hearted.');
         setText('groom-desc-2', 'Hanif is devoted and ready to start this new chapter.');
         setText('groom-button', 'Continue');

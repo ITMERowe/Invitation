@@ -1,9 +1,13 @@
 
+LIVE TESTING
 https://itmerowe.github.io/Invitation/index.html?type=family&to=Dika
-
-https://itmerowe.github.io/Invitation/index.html?type=family&to=Ceci
-
+https://itmerowe.github.io/Invitation/index.html?type=friends&to=Ceci
 https://itmerowe.github.io/Invitation/
 
 
+LOCAL TESTING
 http://127.0.0.1:3000/index.html?vscode-livepreview=true&type=family&to=Bapak%20Ahmad%20dan%20Ibu
+http://127.0.0.1:3000/index.html?vscode-livepreview=true&type=friends&to=Ceci
+
+http://127.0.0.1:3000/tesinggrunds.html?vscode-livepreview=true&type=family&to=Bapak%20Ahmad%20dan%20Ibu
+http://127.0.0.1:3000/tesinggrunds.html?vscode-livepreview=true&type=friends&to=Ceci
