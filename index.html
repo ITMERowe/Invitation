@@ -865,6 +865,10 @@
       opacity: 0.7;
     }
 
+    #page-intro .ornament {
+      margin: 0 auto 0.55rem;
+    }
+
     #page-couple h1 {
       margin-bottom: 1rem;
     }
@@ -1019,26 +1023,27 @@
     /* ================= COMPACT TEXT LAYOUT FOR BOTH ENGLISH AND INDONESIAN ================= */
     html[data-lang="en"] #intro-dear-label,
     html[data-lang="id"] #intro-dear-label {
-      font-size: 0.86rem !important;
-      letter-spacing: 0.09em !important;
-      line-height: 1.25;
-      margin-bottom: 0.75rem;
+      font-size: 1rem !important;
+      letter-spacing: 0.11em !important;
+      line-height: 1.3;
+      margin-bottom: 1.1rem;
       max-width: 300px;
     }
 
     html[data-lang="en"] #guest-name,
     html[data-lang="id"] #guest-name {
-      font-size: clamp(2rem, 7.6vw, 2.55rem);
+      font-size: clamp(1.85rem, 6.9vw, 2.3rem);
       line-height: 1.05;
-      margin-bottom: 0.55rem;
+      margin-bottom: 0.95rem;
       max-width: 330px;
       overflow-wrap: anywhere;
     }
 
     html[data-lang="en"] #intro-couple-name,
     html[data-lang="id"] #intro-couple-name {
-      font-size: 2.05rem;
+      font-size: clamp(2.25rem, 8.2vw, 2.95rem);
       line-height: 1.1;
+      margin-bottom: 0.35rem;
     }
 
     html[data-lang="en"] #intro-subtitle,
@@ -1066,10 +1071,15 @@
 
     html[data-lang="en"] #couple-script,
     html[data-lang="id"] #couple-script {
-      font-size: 1.36rem;
-      line-height: 1.22;
+      font-family: 'Cormorant Garamond', Georgia, serif !important;
+      font-size: 1.03rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1.42;
+      letter-spacing: 0.02em;
       margin-bottom: 0.72rem;
       max-width: 292px;
+      color: var(--text-secondary);
     }
 
     html[data-lang="en"] #page-couple .couple-images,
@@ -1150,6 +1160,36 @@
     html[data-lang="id"] #rsvp-submit-button {
       font-size: 0.82rem !important;
       padding: 0.8rem 1.15rem !important;
+    }
+
+
+    /* ================= DRESS CODE EARTH TONE PALETTE ================= */
+    .dress-color-palette {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .dress-swatch {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      border: 1px solid rgba(107, 68, 35, 0.18);
+      box-shadow: 0 4px 10px rgba(107, 68, 35, 0.10);
+    }
+
+    .dress-no-heels {
+      margin-top: 1rem;
+      margin-bottom: 0;
+      color: var(--terracotta);
+      font-family: 'Cinzel', serif;
+      font-size: 1.08rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     @keyframes fadeInUp {
@@ -1267,7 +1307,7 @@
 
       html[data-lang="en"] #couple-script,
       html[data-lang="id"] #couple-script {
-        font-size: 1.25rem;
+        font-size: 1.03rem;
       }
     }
 
@@ -1588,8 +1628,8 @@
 
       <!-- INTRO -->
       <section id="page-intro" class="page">
-        <p id="intro-dear-label" style="font-size:1rem; opacity:0.5; letter-spacing:0.15em; text-transform:uppercase;">Dear</p>
         <div class="ornament"></div>
+        <p id="intro-dear-label" style="font-size:1rem; opacity:0.5; letter-spacing:0.15em; text-transform:uppercase;">Dear</p>
         <h1 id="guest-name">Our Beloved Guest</h1>
         <p id="intro-couple-name" class="script-text">Hanif & Winda</p>
         <p id="intro-subtitle" style="margin-top:0.5rem; font-style:italic;">Are getting married</p>
@@ -1702,7 +1742,17 @@
       <div class="venue-card">
         <div class="ornament" style="margin-bottom:0.5rem;"></div>
         <h2 id="dress-title">Dress Code</h2>
-        <p id="dress-description">Please wear elegant and comfortable attire.</p>
+        <p id="dress-description">Please wear formal attire in earth tone color schemes.</p>
+
+        <div class="dress-color-palette" aria-label="Earth tone color palette examples">
+          <div class="dress-swatch" style="background:#d8c3a5;" title="Sand"></div>
+          <div class="dress-swatch" style="background:#bfa58a;" title="Taupe"></div>
+          <div class="dress-swatch" style="background:#a67c52;" title="Camel"></div>
+          <div class="dress-swatch" style="background:#8b6b4a;" title="Mocha"></div>
+          <div class="dress-swatch" style="background:#7d8b5a;" title="Olive"></div>
+        </div>
+
+        <p id="dress-no-heels" class="dress-no-heels">No heels.</p>
       </div>
       <button id="dress-back-button" class="secondary" onclick="goTo('menu')">Back to Map</button>
     </section>
@@ -1965,7 +2015,7 @@
       }
     }
 
-    // ================= AUDIO MIXER (7 TRACK) =================
+    // ================= AUDIO MIXER (7 TRACK - SYNCED HTML AUDIO, LOW LAG) =================
     const trackSources = [
       'assets/music/Banjo.mp3',
       'assets/music/Harmonica.mp3',
@@ -1976,13 +2026,24 @@
       'assets/music/Theremin_Prisoner.mp3',
     ];
 
-    const MAX_TRACK_VOLUME = 0.1;
+    const TRACK_MAX_VOLUMES = [
+      0.1,  // Banjo.mp3
+      0.1,  // Harmonica.mp3
+      0.1,  // Whistling.mp3
+      0.13,  // Flute.mp3
+      0.1,  // Drums.mp3
+      0.04, // Piano_Solanum.mp3 - slightly quieter than the other tracks
+      0.1,  // Theremin_Prisoner.mp3
+    ];
     const FADE_DURATION = 6000;
+    const SYNC_CHECK_INTERVAL = 1000;
+    const MAX_ALLOWED_DRIFT = 0.12;
+
     const tracks = [];
     const fadeTimers = {};
     let currentTrackIndex = -1;
     let musicStarted = false;
-    let musicStartPromise = null;
+    let syncTimer = null;
 
     function createTracks() {
       if (tracks.length) return;
@@ -1993,31 +2054,12 @@
         audio.loop = true;
         audio.preload = 'auto';
         audio.playsInline = true;
-        audio.muted = true;
+        audio.muted = false;
         audio.volume = 0;
         audio.id = `track-${idx}`;
+        audio.dataset.trackIndex = String(idx);
         document.body.appendChild(audio);
         tracks.push(audio);
-      });
-    }
-
-    function waitUntilReady(track) {
-      return new Promise(resolve => {
-        if (track.readyState >= 3) {
-          resolve();
-          return;
-        }
-
-        const done = () => {
-          track.removeEventListener('canplaythrough', done);
-          track.removeEventListener('canplay', done);
-          resolve();
-        };
-
-        track.addEventListener('canplaythrough', done, { once: true });
-        track.addEventListener('canplay', done, { once: true });
-
-        setTimeout(done, 3000);
       });
     }
 
@@ -2025,7 +2067,7 @@
       tracks.forEach(track => {
         clearInterval(fadeTimers[track.id]);
         track.pause();
-        track.muted = true;
+        track.muted = false;
         track.volume = 0;
 
         try {
@@ -2036,33 +2078,45 @@
       });
     }
 
-    async function startMusic() {
-      createTracks();
+    function getMasterTrack() {
+      return tracks[0] || null;
+    }
 
-      if (musicStartPromise) {
-        return musicStartPromise;
-      }
+    function syncTracksToMaster(force = false) {
+      const master = getMasterTrack();
 
-      musicStartPromise = (async () => {
-        await Promise.all(tracks.map(waitUntilReady));
+      if (!master || master.readyState < 2 || master.paused) return;
 
-        resetAllTracksToStart();
+      tracks.forEach((track, index) => {
+        if (index === 0 || track.readyState < 2 || track.paused) return;
 
-        const playPromises = tracks.map(track => {
-          track.muted = false;
-          track.volume = 0;
-          return track.play().catch(() => null);
-        });
+        const drift = Math.abs(track.currentTime - master.currentTime);
 
-        await Promise.all(playPromises);
-        musicStarted = true;
-        selectTrack(0);
-      })();
+        if (force || drift > MAX_ALLOWED_DRIFT) {
+          try {
+            track.currentTime = master.currentTime;
+          } catch (error) {
+            // Ignore sync correction errors on browsers that restrict seeking while loading.
+          }
+        }
+      });
+    }
 
-      return musicStartPromise;
+    function startSyncMonitor() {
+      if (syncTimer) return;
+
+      syncTimer = setInterval(() => {
+        syncTracksToMaster(false);
+      }, SYNC_CHECK_INTERVAL);
+    }
+
+    function getTrackMaxVolume(index) {
+      return TRACK_MAX_VOLUMES[index] ?? MAX_TRACK_VOLUME;
     }
 
     function fadeTrack(track, targetVolume, duration = FADE_DURATION) {
+      if (!track) return;
+
       clearInterval(fadeTimers[track.id]);
 
       const startVolume = Number(track.volume) || 0;
@@ -2077,34 +2131,83 @@
         if (progress >= 1) {
           clearInterval(fadeTimers[track.id]);
           track.volume = targetVolume;
-
-          if (targetVolume === 0) {
-            track.muted = true;
-          }
         }
       }, 30);
     }
 
+    function startMusic() {
+      createTracks();
+
+      if (musicStarted) {
+        selectTrack(0);
+        return;
+      }
+
+      resetAllTracksToStart();
+
+      // Start all 7 tracks immediately from the same user click.
+      // Tracks stay silent at volume 0 until selectTrack() fades them in.
+      tracks.forEach(track => {
+        track.muted = false;
+        track.volume = 0;
+
+        try {
+          track.currentTime = 0;
+        } catch (error) {
+          // Safe to ignore before metadata is ready.
+        }
+      });
+
+      const playPromises = tracks.map(track => track.play().catch(error => {
+        console.warn(`Audio track could not start: ${track.src}`, error);
+        return null;
+      }));
+
+      musicStarted = true;
+      startSyncMonitor();
+
+      // Make the first instrument audible immediately after the first click.
+      selectTrack(0);
+
+      Promise.allSettled(playPromises).then(() => {
+        syncTracksToMaster(true);
+      });
+    }
+
     function selectTrack(index) {
-      if (!tracks.length) createTracks();
+      createTracks();
+
       if (index < 0 || index >= tracks.length) return;
 
-      if (!musicStarted && !musicStartPromise) {
-        startMusic().then(() => selectTrack(index));
+      if (!musicStarted) {
+        startMusic();
         return;
       }
 
       const nextTrack = tracks[index];
 
-      if (!nextTrack || nextTrack.volume > 0) return;
+      if (!nextTrack) return;
 
-      fadeTrack(nextTrack, MAX_TRACK_VOLUME, FADE_DURATION);
+      // If this track was delayed by browser loading, align it before fading in.
+      syncTracksToMaster(false);
+
+      const targetVolume = getTrackMaxVolume(index);
+
+      if (Number(nextTrack.volume) >= targetVolume) return;
+
+      fadeTrack(nextTrack, targetVolume, FADE_DURATION);
       currentTrackIndex = index;
     }
 
     window.addEventListener('load', () => {
       createTracks();
-      tracks.forEach(track => track.load());
+      tracks.forEach(track => {
+        try {
+          track.load();
+        } catch (error) {
+          // Ignore preload errors. Playback will retry after the first user click.
+        }
+      });
     });
 
     // ================= INVITATION TYPE + LANGUAGE + COUPLE NAME LOGIC =================
@@ -2218,7 +2321,8 @@
         setText('rundown-back-button', 'Kembali ke Peta');
 
         setText('dress-title', 'Kode Pakaian');
-        setText('dress-description', 'Mohon mengenakan pakaian rapi, elegan, dan nyaman.');
+        setText('dress-description', 'Mohon mengenakan pakaian formal dengan nuansa warna earth tone.');
+        setText('dress-no-heels', 'Tanpa heels.');
         setText('dress-back-button', 'Kembali ke Peta');
 
         setText('rsvp-title', 'Konfirmasi Kehadiran');
@@ -2278,7 +2382,8 @@
         setText('rundown-back-button', 'Back to Map');
 
         setText('dress-title', 'Dress Code');
-        setText('dress-description', 'Please wear elegant and comfortable attire.');
+        setText('dress-description', 'Please wear formal attire in earth tone color schemes.');
+        setText('dress-no-heels', 'No heels.');
         setText('dress-back-button', 'Back to Map');
 
         setText('rsvp-title', 'RSVP');
