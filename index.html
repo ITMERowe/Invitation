@@ -43,6 +43,31 @@
       padding: 0;
     }
 
+    /* Remove mobile blue tap highlight on Android/iOS browsers */
+    button,
+    a,
+    img,
+    .spot,
+    .couple-hero-photo,
+    .single-hero-image img,
+    [onclick] {
+      -webkit-tap-highlight-color: transparent;
+      tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      user-select: none;
+    }
+
+    button:focus,
+    a:focus,
+    img:focus,
+    .spot:focus,
+    .couple-hero-photo:focus,
+    .single-hero-image img:focus,
+    [onclick]:focus {
+      outline: none;
+    }
+
+
     html,
     body {
       background: #ffffff !important;
@@ -2441,7 +2466,6 @@
 
 
   </style>
-<base target="_blank">
 <base target="_blank">
 </head>
 
