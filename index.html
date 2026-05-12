@@ -501,30 +501,33 @@
     }
 
     .spot-couple {
-      top: 10%;
-      left: 50%;
+      top: 1%;
+      left: 38%;
       transform: translateX(-50%);
     }
 
     .spot-venue {
-      top: 37%;
-      left: 18%;
+      top: 20%;
+      left: 38%;
       transform: translateX(-50%);
     }
 
     .spot-rundown {
-      bottom: 18%;
-      left: 8%;
+      top: 35%;
+      left: 15%;
+      transform: translateX(-50%);
     }
 
     .spot-dress {
-      bottom: 18%;
-      right: 8%;
+      top: 50%;
+      right: 10%;
+      transform: translateX(50%);
     }
 
     .spot-rsvp {
-      top: 50%;
-      right: 6%;
+      bottom: 15%;
+      left: 8%;
+      transform: translateX(-50%);
     }
 
     @keyframes gentlePulse {
@@ -2465,6 +2468,34 @@
     }
 
 
+
+
+    /* ================= USER REQUESTED NAME FIX v14 ================= */
+    /* Bride and groom detail pages use full government names, so allow wrapping neatly. */
+    #bride-name,
+    #groom-name {
+      max-width: 330px !important;
+      white-space: normal !important;
+      overflow-wrap: anywhere !important;
+      font-size: clamp(1.55rem, 6.2vw, 2.1rem) !important;
+      line-height: 1.05 !important;
+      letter-spacing: 0.04em !important;
+    }
+
+    @media (max-height: 720px) {
+      #bride-name,
+      #groom-name {
+        font-size: clamp(1.38rem, 5.7vw, 1.85rem) !important;
+      }
+    }
+
+    @media (max-height: 640px) {
+      #bride-name,
+      #groom-name {
+        font-size: clamp(1.22rem, 5.1vw, 1.65rem) !important;
+      }
+    }
+
     /* ================= ELEGANT OPENING SCREEN ================= */
     .music-loading-screen {
       position: fixed;
@@ -2575,6 +2606,7 @@
       pointer-events: none;
       transition: opacity 0.35s ease, transform 0.35s ease;
       filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.34));
+      --leaf-progress: 0%;
     }
 
     .music-loading-screen.is-loading .music-loading-leaf {
@@ -2586,12 +2618,15 @@
     .music-loading-leaf-fill {
       position: absolute;
       inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: grid;
+      place-items: center;
+      width: 64px;
+      height: 64px;
       font-size: 3.5rem;
-      line-height: 1;
+      line-height: 64px;
       font-family: serif;
+      text-align: center;
+      transform: translateZ(0);
     }
 
     .music-loading-leaf-base {
@@ -2600,12 +2635,10 @@
 
     .music-loading-leaf-fill {
       color: #ffffff;
-      height: 0%;
       overflow: hidden;
-      align-items: flex-end;
-      bottom: 0;
-      top: auto;
-      transition: height 0.24s ease;
+      clip-path: inset(calc(100% - var(--leaf-progress, 0%)) 0 0 0);
+      -webkit-clip-path: inset(calc(100% - var(--leaf-progress, 0%)) 0 0 0);
+      transition: clip-path 0.24s ease, -webkit-clip-path 0.24s ease;
     }
 
 
@@ -2684,7 +2717,7 @@
           </div>
           <div class="single-hero-text overlap-text">
             <p id="bride-role" class="script-text">The Bride</p>
-            <h1 id="bride-name">Winda</h1>
+            <h1 id="bride-name">Winda [Full Government Name]</h1>
             <p id="bride-parent-line" class="parent-line">Daughter of<br><span>[insert father name] &amp; [insert mother name]</span></p>
             <p id="bride-desc-1">The beautiful bride, radiant and full of grace.</p>
             <p id="bride-desc-2">Winda brings joy and warmth to every moment.</p>
@@ -2701,7 +2734,7 @@
           </div>
           <div class="single-hero-text overlap-text">
             <p id="groom-role" class="script-text">The Groom</p>
-            <h1 id="groom-name">Hanif</h1>
+            <h1 id="groom-name">Hanif [Full Government Name]</h1>
             <p id="groom-parent-line" class="parent-line">Son of<br><span>[insert father name] &amp; [insert mother name]</span></p>
             <p id="groom-desc-1">The charming groom, strong and kind-hearted.</p>
             <p id="groom-desc-2">Hanif is devoted and ready to start this new chapter.</p>
@@ -3082,9 +3115,9 @@
     const FADE_DURATION = 6000;
     const MANUAL_LOOP_SECONDS = 41.858; // Optional: set to 42 if you want to force an exact 42-second cycle.
     const LOOP_SAFETY_TRIM_SECONDS = 0.02; // Tiny trim avoids MP3 encoder padding clicks at the very end.
-    const LOOP_START_FADE_SECONDS = 0.08; // Fade-in at the start of each loop cycle.
-    const LOOP_END_FADE_SECONDS = 0.08; // Fade-out at the end of each loop cycle.
-    const LOOP_CROSSFADE_SECONDS = 0.08; // Tiny boundary overlap to avoid dead silence between cycles.
+    const LOOP_START_FADE_SECONDS = 0.10; // Fade-in at the start of each loop cycle.
+    const LOOP_END_FADE_SECONDS = 0.10; // Fade-out at the end of each loop cycle.
+    const LOOP_CROSSFADE_SECONDS = 0.10; // Tiny boundary overlap to avoid dead silence between cycles.
     const SCHEDULE_AHEAD_SECONDS = 3;
 
     let audioContext = null;
@@ -3121,7 +3154,17 @@
 
     function setMusicLoadingProgress(percent) {
       const safePercent = Math.max(0, Math.min(100, Math.round(percent)));
-      if (loadingLeafFill) loadingLeafFill.style.height = `${safePercent}%`;
+      const loadingLeaf = document.querySelector('.music-loading-leaf');
+
+      if (loadingLeaf) {
+        loadingLeaf.style.setProperty('--leaf-progress', `${safePercent}%`);
+      }
+
+      // Keep height updated only as a harmless fallback for older browsers.
+      // The real visual fill now uses clip-path, so the base and filled icons stay perfectly aligned.
+      if (loadingLeafFill) {
+        loadingLeafFill.style.height = '100%';
+      }
     }
 
     function getAudioContext() {
@@ -3322,15 +3365,69 @@
       currentTrackIndex = index;
     }
 
-    document.addEventListener('visibilitychange', async () => {
-      // iOS may suspend AudioContext when the browser/tab loses focus.
-      // Resume safely when the page becomes visible again.
-      if (!document.hidden && audioContext && audioContext.state === 'suspended') {
-        try {
-          await audioContext.resume();
-        } catch (error) {
-          // It may require the next user tap. Safe to ignore.
+    let wasPausedByHiddenTab = false;
+
+    async function pauseMusicForHiddenTab() {
+      if (!musicStarted || !audioContext) return;
+
+      try {
+        if (audioContext.state === 'running') {
+          wasPausedByHiddenTab = true;
+          await audioContext.suspend();
         }
+      } catch (error) {
+        console.warn('Could not suspend audio when tab was hidden.', error);
+      }
+    }
+
+    async function resumeMusicAfterHiddenTab() {
+      if (!musicStarted || !audioContext || !wasPausedByHiddenTab) return;
+
+      try {
+        if (audioContext.state === 'suspended') {
+          await audioContext.resume();
+        }
+
+        wasPausedByHiddenTab = false;
+      } catch (error) {
+        console.warn('Could not resume audio automatically.', error);
+
+        // Some mobile browsers require user interaction before audio can resume again.
+        const resumeOnNextTap = async () => {
+          try {
+            if (audioContext && audioContext.state === 'suspended') {
+              await audioContext.resume();
+            }
+            wasPausedByHiddenTab = false;
+          } catch (e) {
+            console.warn('Audio resume after tap failed.', e);
+          }
+
+          document.removeEventListener('touchstart', resumeOnNextTap);
+          document.removeEventListener('click', resumeOnNextTap);
+        };
+
+        document.addEventListener('touchstart', resumeOnNextTap, { once: true });
+        document.addEventListener('click', resumeOnNextTap, { once: true });
+      }
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        pauseMusicForHiddenTab();
+      } else {
+        resumeMusicAfterHiddenTab();
+      }
+    });
+
+    // Extra support for iOS Safari / mobile browsers
+    window.addEventListener('pagehide', () => {
+      pauseMusicForHiddenTab();
+    });
+
+    window.addEventListener('pageshow', () => {
+      if (!document.hidden) {
+        resumeMusicAfterHiddenTab();
       }
     });
 
@@ -3368,20 +3465,30 @@
       ? {
           display: 'Hanif & Amel',
           text: 'Hanif and Amel',
-          bride: 'Amel'
+          groom: 'Hanif',
+          bride: 'Amel',
+          // Bride/Groom detail pages use full government names.
+          // Update these two values with the exact legal names when finalized.
+          groomFullGovernmentName: 'Hanif',
+          brideFullGovernmentName: 'Amel'
         }
       : {
           display: 'Hanif & Winda',
           text: 'Hanif and Winda',
-          bride: 'Winda'
+          groom: 'Hanif',
+          bride: 'Winda',
+          // Bride/Groom detail pages use full government names.
+          // Update these two values with the exact legal names when finalized.
+          groomFullGovernmentName: 'Muhammad Hanif Atthariq',
+          brideFullGovernmentName: 'Winda Natakusumah'
         };
 
     // Replace these placeholder names when the final parent names are available.
     const parents = {
-      groomFather: '[insert father name]',
-      groomMother: '[insert mother name]',
-      brideFather: '[insert father name]',
-      brideMother: '[insert mother name]'
+      groomFather: 'Pudjo Prasetyo',
+      groomMother: 'Efda R. Bandini',
+      brideFather: 'Ir. Hidayat Natakusumah',
+      brideMother: 'Wini Dewi Kania'
     };
 
     const guestNameTitle = document.getElementById('guest-name');
@@ -3415,7 +3522,7 @@
         : `${couple.text} are excited to share this special day with you.`
       );
 
-      setText('bride-name', couple.bride);
+      setText('bride-name', couple.brideFullGovernmentName);
       document.querySelector('img[alt="Bride"]')?.setAttribute('alt', `${couple.bride} - Bride`);
 
       if (language === 'id') {
@@ -3423,11 +3530,11 @@
 
         setText('intro-dear-label', 'Yth. Bapak/Ibu');
         setText('guest-name', name || 'Tamu Undangan');
-        setText('intro-subtitle', 'Akan melangsungkan pernikahan');
-        setText('intro-button', 'Lihat Undangan');
+        setText('intro-subtitle', 'Are getting married');
+        setText('intro-button', 'Meet the Couple');
 
         setText('couple-description', 'Dengan bahagia, kami mengundang Bapak/Ibu untuk hadir.');
-        setText('couple-button', 'Lanjutkan');
+        setText('couple-button', 'Continue');
 
         setText('bride-role', 'Mempelai Wanita');
         setHTML('bride-parent-line', `Putri dari<br><span>${parents.brideFather} & ${parents.brideMother}</span>`);
@@ -3436,33 +3543,34 @@
         setText('bride-button', 'Lanjutkan');
 
         setText('groom-role', 'Mempelai Pria');
+        setText('groom-name', couple.groomFullGovernmentName);
         setHTML('groom-parent-line', `Putra dari<br><span>${parents.groomFather} & ${parents.groomMother}</span>`);
-        setText('groom-desc-1', 'Hanif, mempelai pria yang penuh kasih.');
-        setText('groom-desc-2', 'Hanif siap memulai babak baru kehidupan.');
-        setText('groom-button', 'Lanjutkan');
+        setText('groom-desc-1', `${couple.groom}, mempelai pria yang penuh kasih.`);
+        setText('groom-desc-2', `${couple.groom} siap memulai babak baru kehidupan.`);
+        setText('groom-button', 'Continue');
 
         setText('date-subtitle', 'Simpan tanggalnya');
         setHTML('countdown-days-label', '<span id="days">0</span>Hari');
         setHTML('countdown-hours-label', '<span id="hours">0</span>Jam');
         setHTML('countdown-minutes-label', '<span id="minutes">0</span>Menit');
         setHTML('countdown-seconds-label', '<span id="seconds">0</span>Detik');
-        setText('date-button', 'Buka Peta');
+        setText('date-button', 'Explore');
 
         setText('venue-title', 'Lokasi Acara');
         setHTML('venue-address', '150 Coffee Garden<br/>Bandung, Indonesia');
         setText('map-cta', '📍 Buka di Google Maps');
-        setText('venue-back-button', 'Kembali ke Peta');
+        setText('venue-back-button', 'Back to Map');
 
-        setText('rundown-title', 'Susunan Acara');
+        setText('rundown-title', 'Event Rundown');
         setText('rundown-description', 'Rangkaian acara akan diinformasikan segera.');
-        setText('rundown-back-button', 'Kembali ke Peta');
+        setText('rundown-back-button', 'Back to Map');
 
-        setText('dress-title', 'Kode Pakaian');
+        setText('dress-title', 'Dress Code');
         setText('dress-description', 'Mohon mengenakan pakaian formal dengan nuansa warna earth tone.');
         setText('dress-no-heels', 'Tanpa heels.');
-        setText('dress-back-button', 'Kembali ke Peta');
+        setText('dress-back-button', 'Back to Map');
 
-        setText('rsvp-title', 'Konfirmasi Kehadiran');
+        setText('rsvp-title', 'RSVP');
         setHTML('rsvp-greeting', `Yth. Bapak/Ibu <strong id="rsvp-guest-name">${name || 'Tamu Undangan'}</strong>,`);
         setText('guest-name-label', 'Nama');
         formGuestName.placeholder = 'Masukkan nama Anda';
@@ -3476,11 +3584,11 @@
         setText('guest-count-empty', 'Pilih');
         setText('message-label', 'Ucapan / Pesan');
         setText('rsvp-submit-button', 'Kirim RSVP');
-        setText('rsvp-back-button', 'Kembali ke Peta');
+        setText('rsvp-back-button', 'Back to Map');
 
         setText('modal-title', 'Terima Kasih!');
         setText('modal-description', 'Konfirmasi kehadiran Anda berhasil dikirim.');
-        setText('modal-button', 'Kembali ke Peta');
+        setText('modal-button', 'Back to Map');
       } else {
         document.documentElement.lang = 'en';
 
@@ -3499,9 +3607,10 @@
         setText('bride-button', 'Continue');
 
         setText('groom-role', 'The Groom');
+        setText('groom-name', couple.groomFullGovernmentName);
         setHTML('groom-parent-line', `Son of<br><span>${parents.groomFather} & ${parents.groomMother}</span>`);
         setText('groom-desc-1', 'The charming groom, strong and kind-hearted.');
-        setText('groom-desc-2', 'Hanif is devoted and ready to start this new chapter.');
+        setText('groom-desc-2', `${couple.groom} is devoted and ready to start this new chapter.`);
         setText('groom-button', 'Continue');
 
         setText('date-subtitle', 'Save the date');
