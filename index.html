@@ -106,7 +106,7 @@
     }
 
     html[data-page="venue"] body::before,
-    html[data-page="rundown"] body::before,
+    html[data-page="gifts"] body::before,
     html[data-page="dress"] body::before,
     html[data-page="rsvp"] body::before {
       height: 100svh;
@@ -174,7 +174,7 @@
     }
 
     #page-venue,
-    #page-rundown,
+    #page-gifts,
     #page-dress,
     #page-rsvp {
       background: transparent !important;
@@ -485,8 +485,8 @@
       filter: drop-shadow(0 4px 8px rgba(107, 68, 35, 0.25)) sepia(0.2) saturate(1.2);
     }
 
-    .spot-rundown {
-      background-image: url('assets/btn-rundown.png');
+    .spot-gifts {
+      background-image: url('assets/btn-gifts.png');
       filter: drop-shadow(0 4px 8px rgba(107, 68, 35, 0.25)) sepia(0.2) saturate(1.2);
     }
 
@@ -512,7 +512,7 @@
       transform: translateX(-50%);
     }
 
-    .spot-rundown {
+    .spot-gifts {
       top: 35%;
       left: 15%;
       transform: translateX(-50%);
@@ -545,7 +545,7 @@
     }
 
     #page-venue,
-    #page-rundown,
+    #page-gifts,
     #page-dress,
     #page-rsvp {
       gap: 1rem;
@@ -556,7 +556,7 @@
     }
 
     #page-venue::before,
-    #page-rundown::before,
+    #page-gifts::before,
     #page-dress::before,
     #page-rsvp::before {
       content: '' !important;
@@ -574,7 +574,7 @@
     }
 
     #page-venue::after,
-    #page-rundown::after,
+    #page-gifts::after,
     #page-dress::after,
     #page-rsvp::after {
       content: '' !important;
@@ -589,7 +589,7 @@
     }
 
     #page-venue > *,
-    #page-rundown > *,
+    #page-gifts > *,
     #page-dress > *,
     #page-rsvp > * {
       position: relative;
@@ -987,7 +987,7 @@
     }
 
     #page-venue > button.secondary,
-    #page-rundown > button.secondary,
+    #page-gifts > button.secondary,
     #page-dress > button.secondary,
     #page-rsvp > button.secondary {
       display: inline-flex !important;
@@ -1920,11 +1920,11 @@
     }
 
     #page-venue::before,
-    #page-rundown::before,
+    #page-gifts::before,
     #page-dress::before,
     #page-rsvp::before,
     #page-venue::after,
-    #page-rundown::after,
+    #page-gifts::after,
     #page-dress::after,
     #page-rsvp::after {
       content: none !important;
@@ -2496,6 +2496,163 @@
       }
     }
 
+
+
+    /* ================= DATE PAGE COUNTDOWN + SCHEDULE LAYOUT ================= */
+    #page-date {
+      justify-content: center !important;
+      gap: 0.7rem !important;
+      padding: 1.25rem !important;
+    }
+
+    #page-date .ornament {
+      width: 46px !important;
+      height: 46px !important;
+      margin: 0 auto 0.15rem !important;
+    }
+
+    #page-date .ornament::before {
+      font-size: 2rem !important;
+    }
+
+    #page-date h2 {
+      margin-bottom: 0.15rem !important;
+    }
+
+    #page-date .script-text {
+      margin-bottom: 0.75rem !important;
+    }
+
+    #page-date .countdown {
+      display: grid !important;
+      grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+      gap: 0.45rem !important;
+      width: 100% !important;
+      max-width: 360px !important;
+      margin: 0 auto !important;
+    }
+
+    #page-date .time-box {
+      border-radius: 16px !important;
+      padding: 0.82rem 0.28rem 0.68rem !important;
+      font-size: 0.63rem !important;
+      letter-spacing: 0.06em !important;
+      line-height: 1.1 !important;
+    }
+
+    #page-date .time-box span {
+      font-size: clamp(1.15rem, 5.5vw, 1.62rem) !important;
+      margin-bottom: 0.22rem !important;
+      line-height: 1 !important;
+    }
+
+    .date-schedule {
+      width: 100%;
+      max-width: 360px;
+      margin: 0.95rem auto 0;
+      padding: 1rem 1.05rem;
+      border-radius: 22px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.94) 0%, rgba(250,246,240,0.94) 100%);
+      border: 1px solid rgba(139, 105, 20, 0.08);
+      box-shadow:
+        0 4px 15px rgba(107, 68, 35, 0.08),
+        0 1px 3px rgba(107, 68, 35, 0.05);
+    }
+
+    .date-schedule-title {
+      font-family: 'Cinzel', serif;
+      color: var(--wood-dark);
+      font-size: 0.86rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.72rem;
+    }
+
+    .date-schedule-row {
+      display: grid;
+      grid-template-columns: 70px 1fr;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.62rem 0;
+      border-top: 1px solid rgba(139, 105, 20, 0.10);
+      text-align: left;
+    }
+
+    .date-schedule-row:first-of-type {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .date-schedule-time {
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--terracotta);
+      letter-spacing: 0.04em;
+    }
+
+    .date-schedule-event {
+      font-size: 1.08rem;
+      line-height: 1.2;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    #page-date #date-button {
+      margin-top: 0.55rem !important;
+    }
+
+    @media (max-width: 360px) {
+      #page-date .countdown {
+        gap: 0.32rem !important;
+      }
+
+      #page-date .time-box {
+        padding-left: 0.18rem !important;
+        padding-right: 0.18rem !important;
+        font-size: 0.58rem !important;
+      }
+
+      .date-schedule {
+        padding: 0.9rem 0.9rem;
+      }
+    }
+
+    @media (max-height: 640px) {
+      #page-date {
+        gap: 0.45rem !important;
+      }
+
+      #page-date .ornament {
+        width: 36px !important;
+        height: 36px !important;
+      }
+
+      #page-date h2 {
+        font-size: 2rem !important;
+      }
+
+      #page-date .script-text {
+        margin-bottom: 0.45rem !important;
+      }
+
+      .date-schedule {
+        margin-top: 0.65rem;
+        padding: 0.82rem 0.92rem;
+      }
+
+      .date-schedule-title {
+        margin-bottom: 0.48rem;
+        font-size: 0.78rem;
+      }
+
+      .date-schedule-row {
+        padding: 0.48rem 0;
+      }
+    }
+
+
     /* ================= ELEGANT OPENING SCREEN ================= */
     .music-loading-screen {
       position: fixed;
@@ -2642,6 +2799,822 @@
     }
 
 
+    /* ================= GIFTS PAGE ================= */
+    .gift-card {
+      padding: 1.35rem 1.18rem !important;
+      max-height: calc(100svh - 6.2rem) !important;
+      overflow-y: auto !important;
+    }
+
+    .gift-card .ornament {
+      width: 40px !important;
+      height: 40px !important;
+      margin-bottom: 0.2rem !important;
+    }
+
+    .gift-card .ornament::before {
+      font-size: 1.85rem !important;
+    }
+
+    #gifts-title {
+      font-size: 1.82rem !important;
+      margin-bottom: 0.55rem !important;
+    }
+
+    .gift-message {
+      font-size: 0.98rem !important;
+      line-height: 1.35 !important;
+      margin-bottom: 0.75rem !important;
+    }
+
+    .gift-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.58rem;
+      margin-top: 0.25rem;
+      text-align: left;
+    }
+
+    .gift-option {
+      width: 100%;
+      border-radius: 16px;
+      padding: 0.68rem 0.78rem;
+      background: linear-gradient(145deg, rgba(255,255,255,0.82) 0%, rgba(250,246,240,0.82) 100%);
+      border: 1px solid rgba(139, 105, 20, 0.10);
+      box-shadow: 0 4px 14px rgba(107, 68, 35, 0.06);
+    }
+
+    .gift-option-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--wood-dark);
+      margin-bottom: 0.4rem;
+      text-align: center;
+    }
+
+    .gift-detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.55rem;
+      padding: 0.22rem 0;
+      border-bottom: 1px solid rgba(139, 105, 20, 0.08);
+      font-size: 0.9rem;
+      line-height: 1.18;
+      color: var(--text-secondary);
+    }
+
+    .gift-detail-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .gift-detail-row strong {
+      color: var(--wood-dark);
+      font-weight: 600;
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+
+    .gift-bank-account {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.08rem;
+      text-align: right;
+    }
+
+    .gift-bank-name {
+      color: var(--wood-dark);
+      font-weight: 600;
+    }
+
+    .gift-account-number {
+      color: var(--terracotta);
+      font-family: 'Cinzel', serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      overflow-wrap: anywhere;
+    }
+
+    .gift-wishlist-note {
+      margin: 0 0 0.55rem !important;
+      text-align: center;
+      font-size: 0.94rem !important;
+      line-height: 1.3 !important;
+      color: var(--text-secondary);
+    }
+
+    .gift-wishlist-button {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      margin: 0 !important;
+      padding: 0.72rem 1.1rem !important;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--soft-gold) 0%, #c9a86c 100%);
+      color: var(--wood-dark);
+      text-decoration: none;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 700;
+      font-size: 0.92rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      box-shadow: 0 4px 12px rgba(139, 105, 20, 0.18);
+    }
+
+    .gift-wishlist-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(139, 105, 20, 0.24);
+    }
+
+    @media (max-height: 640px) {
+      .gift-card {
+        padding: 1.05rem 1rem !important;
+      }
+
+      .gift-message {
+        font-size: 0.92rem !important;
+        margin-bottom: 0.55rem !important;
+      }
+
+      .gift-option {
+        padding: 0.58rem 0.68rem;
+      }
+
+      .gift-options {
+        gap: 0.45rem;
+      }
+    }
+
+
+
+    /* ================= GIFTS PAGE CLEAN CARD FIX v17 ================= */
+    #page-gifts {
+      justify-content: center !important;
+      align-items: center !important;
+      gap: 0.75rem !important;
+      padding: 1rem 1rem !important;
+      overflow: hidden !important;
+    }
+
+    #page-gifts .gift-card {
+      width: 100% !important;
+      max-width: 360px !important;
+      padding: 1.35rem 1.35rem 1.45rem !important;
+      border-radius: 28px !important;
+      max-height: none !important;
+      overflow: visible !important;
+    }
+
+    #page-gifts .gift-card .ornament {
+      width: 40px !important;
+      height: 40px !important;
+      margin: 0 auto 0.25rem !important;
+      line-height: 1 !important;
+      overflow: visible !important;
+    }
+
+    #page-gifts .gift-card .ornament::before {
+      display: block !important;
+      font-size: 1.85rem !important;
+      line-height: 1 !important;
+    }
+
+    #page-gifts #gifts-title {
+      font-size: 1.9rem !important;
+      line-height: 1.05 !important;
+      margin: 0 0 0.65rem !important;
+      padding: 0 !important;
+      overflow: visible !important;
+      text-align: center !important;
+    }
+
+    #page-gifts .gift-message {
+      max-width: 300px !important;
+      margin: 0 auto 0.85rem !important;
+      font-size: 0.98rem !important;
+      line-height: 1.32 !important;
+      text-align: center !important;
+    }
+
+    #page-gifts .gift-options {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 0.62rem !important;
+      margin: 0 !important;
+      text-align: center !important;
+    }
+
+    #page-gifts .gift-option {
+      width: 100% !important;
+      border-radius: 18px !important;
+      padding: 0.72rem 0.85rem !important;
+      background: linear-gradient(145deg, rgba(255,255,255,0.82) 0%, rgba(250,246,240,0.82) 100%) !important;
+      border: 1px solid rgba(139, 105, 20, 0.10) !important;
+      box-shadow: 0 4px 14px rgba(107, 68, 35, 0.06) !important;
+      overflow: hidden !important;
+    }
+
+    #page-gifts .gift-account-option {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    #page-gifts .gift-bank-name {
+      max-width: 100% !important;
+      color: var(--wood-dark) !important;
+      font-size: 0.95rem !important;
+      font-weight: 600 !important;
+      line-height: 1.15 !important;
+      text-align: center !important;
+      overflow-wrap: anywhere !important;
+    }
+
+    #page-gifts .gift-account-number {
+      max-width: 100% !important;
+      margin-top: 0.12rem !important;
+      color: var(--terracotta) !important;
+      font-family: 'Cinzel', serif !important;
+      font-size: 1.05rem !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.04em !important;
+      line-height: 1.15 !important;
+      text-align: center !important;
+      overflow-wrap: anywhere !important;
+    }
+
+    #page-gifts .gift-copy-button {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: auto !important;
+      min-width: 120px !important;
+      margin: 0.4rem auto 0.45rem !important;
+      padding: 0.45rem 0.95rem !important;
+      border-radius: 999px !important;
+      background: linear-gradient(135deg, var(--deep-green) 0%, var(--sage-green) 100%) !important;
+      color: var(--cream) !important;
+      font-family: 'Cormorant Garamond', serif !important;
+      font-size: 0.72rem !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.08em !important;
+      line-height: 1 !important;
+      text-transform: uppercase !important;
+      box-shadow: 0 3px 10px rgba(90, 122, 90, 0.22) !important;
+    }
+
+    #page-gifts .gift-account-holder-label {
+      color: var(--text-light) !important;
+      font-size: 0.76rem !important;
+      line-height: 1.1 !important;
+      margin-bottom: 0.1rem !important;
+    }
+
+    #page-gifts .gift-account-holder {
+      max-width: 100% !important;
+      color: var(--wood-dark) !important;
+      font-size: 0.9rem !important;
+      font-weight: 600 !important;
+      line-height: 1.15 !important;
+      overflow-wrap: anywhere !important;
+    }
+
+    #page-gifts .gift-option-title {
+      font-size: 0.84rem !important;
+      line-height: 1.1 !important;
+      margin: 0 0 0.45rem !important;
+      text-align: center !important;
+    }
+
+    #page-gifts .gift-wishlist-note {
+      margin: 0 0 0.55rem !important;
+      font-size: 0.9rem !important;
+      line-height: 1.25 !important;
+      text-align: center !important;
+    }
+
+    #page-gifts .gift-wishlist-button {
+      padding: 0.68rem 1rem !important;
+      font-size: 0.86rem !important;
+      line-height: 1 !important;
+    }
+
+    #page-gifts > button.secondary {
+      margin: 0 !important;
+      padding: 0.78rem 1.65rem !important;
+      font-size: 0.82rem !important;
+      line-height: 1 !important;
+    }
+
+    @media (max-height: 700px) {
+      #page-gifts {
+        gap: 0.55rem !important;
+        padding: 0.75rem 0.9rem !important;
+      }
+
+      #page-gifts .gift-card {
+        padding: 1rem 1rem 1.1rem !important;
+        border-radius: 24px !important;
+      }
+
+      #page-gifts .gift-card .ornament {
+        width: 30px !important;
+        height: 28px !important;
+        margin-bottom: 0.12rem !important;
+      }
+
+      #page-gifts .gift-card .ornament::before {
+        font-size: 1.35rem !important;
+      }
+
+      #page-gifts #gifts-title {
+        font-size: 1.55rem !important;
+        margin-bottom: 0.38rem !important;
+      }
+
+      #page-gifts .gift-message {
+        font-size: 0.82rem !important;
+        line-height: 1.18 !important;
+        margin-bottom: 0.55rem !important;
+      }
+
+      #page-gifts .gift-options {
+        gap: 0.42rem !important;
+      }
+
+      #page-gifts .gift-option {
+        padding: 0.52rem 0.68rem !important;
+        border-radius: 15px !important;
+      }
+
+      #page-gifts .gift-bank-name {
+        font-size: 0.8rem !important;
+      }
+
+      #page-gifts .gift-account-number {
+        font-size: 0.86rem !important;
+      }
+
+      #page-gifts .gift-copy-button {
+        min-width: 105px !important;
+        margin-top: 0.28rem !important;
+        margin-bottom: 0.3rem !important;
+        padding: 0.34rem 0.75rem !important;
+        font-size: 0.62rem !important;
+      }
+
+      #page-gifts .gift-account-holder-label {
+        font-size: 0.66rem !important;
+      }
+
+      #page-gifts .gift-account-holder {
+        font-size: 0.76rem !important;
+      }
+
+      #page-gifts .gift-option-title {
+        font-size: 0.72rem !important;
+        margin-bottom: 0.3rem !important;
+      }
+
+      #page-gifts .gift-wishlist-note {
+        font-size: 0.72rem !important;
+        margin-bottom: 0.35rem !important;
+      }
+
+      #page-gifts .gift-wishlist-button {
+        padding: 0.5rem 0.85rem !important;
+        font-size: 0.7rem !important;
+      }
+
+      #page-gifts > button.secondary {
+        padding: 0.58rem 1.3rem !important;
+        font-size: 0.68rem !important;
+      }
+    }
+
+
+
+    /* ================= FINAL FIX: MAP GIFTS SPOT + SHARED OVERLAY CARD DESIGN ================= */
+    .spot-gifts {
+      background-image: url('assets/btn-gifts.png');
+      filter: drop-shadow(0 4px 8px rgba(107, 68, 35, 0.25)) sepia(0.2) saturate(1.2);
+    }
+
+    .spot-gifts {
+      top: 35%;
+      left: 15%;
+      transform: translateX(-50%);
+    }
+
+    #page-venue,
+    #page-gifts,
+    #page-dress,
+    #page-rsvp {
+      gap: 1rem !important;
+      padding: 1.15rem !important;
+      justify-content: center !important;
+      align-items: center !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+    }
+
+    #page-venue .venue-card,
+    #page-gifts .venue-card,
+    #page-dress .venue-card,
+    #page-rsvp .venue-card,
+    #page-rsvp .rsvp-card {
+      width: 100% !important;
+      max-width: 360px !important;
+      background: linear-gradient(145deg, rgba(255,255,255,0.96) 0%, rgba(250,246,240,0.96) 100%) !important;
+      border-radius: 28px !important;
+      padding: 1.8rem !important;
+      box-shadow:
+        0 20px 50px rgba(107, 68, 35, 0.1),
+        0 8px 20px rgba(107, 68, 35, 0.06) !important;
+      border: 1px solid rgba(139, 105, 20, 0.08) !important;
+      position: relative !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      max-height: calc(100svh - 6.3rem) !important;
+      box-sizing: border-box !important;
+    }
+
+    #page-venue .venue-card::before,
+    #page-gifts .venue-card::before,
+    #page-dress .venue-card::before,
+    #page-rsvp .venue-card::before,
+    #page-rsvp .rsvp-card::before {
+      content: '' !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      height: 4px !important;
+      background: linear-gradient(90deg, var(--sage-green), var(--soft-gold), var(--terracotta), var(--soft-gold), var(--sage-green)) !important;
+      z-index: 0 !important;
+    }
+
+    #page-venue .venue-card > *,
+    #page-gifts .venue-card > *,
+    #page-dress .venue-card > *,
+    #page-rsvp .venue-card > *,
+    #page-rsvp .rsvp-card > * {
+      position: relative !important;
+      z-index: 1 !important;
+    }
+
+    #page-gifts .gift-card {
+      padding: 1.8rem !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      max-height: calc(100svh - 6.3rem) !important;
+    }
+
+    #page-gifts .gift-card .ornament {
+      width: 60px !important;
+      height: 60px !important;
+      margin: 0 auto 0.5rem !important;
+      overflow: visible !important;
+    }
+
+    #page-gifts .gift-card .ornament::before {
+      font-size: 2.5rem !important;
+      line-height: 1 !important;
+    }
+
+    #page-gifts #gifts-title {
+      font-size: 2rem !important;
+      line-height: 1.12 !important;
+      margin: 0 0 0.8rem !important;
+      text-align: center !important;
+      color: var(--wood-dark) !important;
+    }
+
+    #page-gifts .gift-message {
+      margin: 0 0 1rem !important;
+      color: var(--text-secondary) !important;
+      font-size: 1.02rem !important;
+      line-height: 1.42 !important;
+      text-align: center !important;
+    }
+
+    #page-gifts .gift-options {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 0.72rem !important;
+      margin: 0 !important;
+      width: 100% !important;
+      text-align: center !important;
+    }
+
+    #page-gifts .gift-option {
+      width: 100% !important;
+      border-radius: 18px !important;
+      padding: 0.78rem 0.9rem !important;
+      background: linear-gradient(145deg, rgba(255,255,255,0.82) 0%, rgba(250,246,240,0.82) 100%) !important;
+      border: 1px solid rgba(139, 105, 20, 0.10) !important;
+      box-shadow: 0 4px 14px rgba(107, 68, 35, 0.06) !important;
+      overflow: hidden !important;
+    }
+
+    #page-gifts .gift-copy-button,
+    #page-gifts .gift-wishlist-button {
+      max-width: 100% !important;
+      white-space: normal !important;
+    }
+
+    @media (max-height: 700px) {
+      #page-gifts .gift-card {
+        padding: 1.1rem 1rem !important;
+        max-height: calc(100svh - 5.4rem) !important;
+      }
+
+      #page-gifts .gift-card .ornament {
+        width: 34px !important;
+        height: 34px !important;
+        margin-bottom: 0.15rem !important;
+      }
+
+      #page-gifts .gift-card .ornament::before {
+        font-size: 1.7rem !important;
+      }
+
+      #page-gifts #gifts-title {
+        font-size: 1.65rem !important;
+        margin-bottom: 0.45rem !important;
+      }
+
+      #page-gifts .gift-message {
+        font-size: 0.86rem !important;
+        line-height: 1.24 !important;
+        margin-bottom: 0.55rem !important;
+      }
+
+      #page-gifts .gift-options {
+        gap: 0.45rem !important;
+      }
+
+      #page-gifts .gift-option {
+        padding: 0.54rem 0.68rem !important;
+      }
+    }
+
+
+    /* ================= GIFTS PAGE REFINEMENT v18 ================= */
+    /* Match RSVP ornament spacing so the leaf-to-title gap is not too large */
+    #page-gifts .gift-card .ornament {
+      width: 42px !important;
+      height: 42px !important;
+      margin: 0 auto 0.28rem !important;
+      line-height: 1 !important;
+      overflow: visible !important;
+    }
+
+    #page-gifts .gift-card .ornament::before {
+      display: block !important;
+      font-size: 2rem !important;
+      line-height: 1 !important;
+    }
+
+    #page-gifts #gifts-title {
+      margin-top: 0 !important;
+      margin-bottom: 0.6rem !important;
+    }
+
+    /* Make Gifts Back to Map button use the same size as the other overlay / RSVP back button */
+    #page-gifts > button.secondary,
+    #gifts-back-button {
+      display: inline-flex !important;
+      width: auto !important;
+      min-width: 0 !important;
+      margin: 0.35rem auto 0 !important;
+      padding: 0.9rem 2rem !important;
+      justify-content: center !important;
+      align-items: center !important;
+      font-size: 0.9rem !important;
+      line-height: 1 !important;
+      border-radius: 50px !important;
+    }
+
+    /* Bank account card layout:
+       [bank name] [account number]
+                   [copy number]
+             account name
+       [account holder name]
+    */
+    #page-gifts .gift-account-option {
+      display: grid !important;
+      grid-template-columns: minmax(0, 1fr) auto !important;
+      column-gap: 0.7rem !important;
+      row-gap: 0.28rem !important;
+      align-items: start !important;
+      text-align: left !important;
+    }
+
+    #page-gifts .gift-bank-name {
+      grid-column: 1 !important;
+      grid-row: 1 !important;
+      align-self: start !important;
+      text-align: left !important;
+      font-size: 0.95rem !important;
+      line-height: 1.18 !important;
+      margin: 0 !important;
+    }
+
+    #page-gifts .gift-account-number {
+      grid-column: 2 !important;
+      grid-row: 1 !important;
+      justify-self: end !important;
+      align-self: start !important;
+      text-align: right !important;
+      font-size: 0.95rem !important;
+      line-height: 1.18 !important;
+      margin: 0 !important;
+      max-width: 145px !important;
+      overflow-wrap: anywhere !important;
+    }
+
+    #page-gifts .gift-copy-button {
+      grid-column: 2 !important;
+      grid-row: 2 !important;
+      justify-self: end !important;
+      width: auto !important;
+      min-width: 104px !important;
+      margin: 0.08rem 0 0.16rem !important;
+      padding: 0.44rem 0.82rem !important;
+      font-size: 0.68rem !important;
+      line-height: 1 !important;
+      white-space: nowrap !important;
+    }
+
+    #page-gifts .gift-account-holder-label {
+      grid-column: 1 / -1 !important;
+      grid-row: 3 !important;
+      justify-self: center !important;
+      text-align: center !important;
+      margin: 0.1rem 0 0 !important;
+      color: var(--text-light) !important;
+      font-size: 0.78rem !important;
+      line-height: 1.1 !important;
+      text-transform: lowercase !important;
+    }
+
+    #page-gifts .gift-account-holder {
+      grid-column: 1 / -1 !important;
+      grid-row: 4 !important;
+      justify-self: center !important;
+      text-align: center !important;
+      max-width: 100% !important;
+      color: var(--wood-dark) !important;
+      font-size: 0.92rem !important;
+      font-weight: 600 !important;
+      line-height: 1.18 !important;
+      overflow-wrap: anywhere !important;
+    }
+
+    @media (max-height: 700px) {
+      #page-gifts .gift-card .ornament {
+        width: 34px !important;
+        height: 34px !important;
+        margin: 0 auto 0.15rem !important;
+      }
+
+      #page-gifts .gift-card .ornament::before {
+        font-size: 1.7rem !important;
+      }
+
+      #page-gifts > button.secondary,
+      #gifts-back-button {
+        padding: 0.82rem 1.8rem !important;
+        font-size: 0.82rem !important;
+      }
+
+      #page-gifts .gift-account-option {
+        column-gap: 0.55rem !important;
+        row-gap: 0.22rem !important;
+      }
+
+      #page-gifts .gift-bank-name,
+      #page-gifts .gift-account-number {
+        font-size: 0.78rem !important;
+      }
+
+      #page-gifts .gift-copy-button {
+        min-width: 94px !important;
+        padding: 0.34rem 0.68rem !important;
+        font-size: 0.58rem !important;
+      }
+
+      #page-gifts .gift-account-holder-label {
+        font-size: 0.66rem !important;
+      }
+
+      #page-gifts .gift-account-holder {
+        font-size: 0.76rem !important;
+      }
+    }
+
+
+    /* ================= GIFTS PAGE COMPACT BANK CARDS v19 ================= */
+    #page-gifts .gift-card .ornament {
+      width: 38px !important;
+      height: 34px !important;
+      margin: 0 auto 0.12rem !important;
+    }
+
+    #page-gifts .gift-card .ornament::before {
+      font-size: 1.75rem !important;
+      line-height: 1 !important;
+    }
+
+    #page-gifts #gifts-title {
+      margin: 0 0 0.48rem !important;
+    }
+
+    #page-gifts .gift-options {
+      gap: 0.48rem !important;
+    }
+
+    #page-gifts .gift-option.gift-account-option {
+      padding: 0.55rem 0.68rem !important;
+      border-radius: 16px !important;
+      grid-template-columns: minmax(0, 1fr) minmax(96px, auto) !important;
+      column-gap: 0.45rem !important;
+      row-gap: 0.14rem !important;
+      align-items: start !important;
+    }
+
+    #page-gifts .gift-bank-name {
+      font-size: 0.78rem !important;
+      line-height: 1.14 !important;
+      letter-spacing: 0.015em !important;
+    }
+
+    #page-gifts .gift-account-number {
+      font-size: 0.78rem !important;
+      line-height: 1.14 !important;
+      letter-spacing: 0.035em !important;
+      max-width: 120px !important;
+    }
+
+    #page-gifts .gift-copy-button {
+      min-width: 88px !important;
+      margin: 0.02rem 0 0.12rem !important;
+      padding: 0.30rem 0.62rem !important;
+      font-size: 0.55rem !important;
+      letter-spacing: 0.075em !important;
+      line-height: 1 !important;
+      box-shadow: 0 2px 7px rgba(90, 122, 90, 0.18) !important;
+    }
+
+    #page-gifts .gift-account-holder-label {
+      margin-top: 0.02rem !important;
+      margin-bottom: 0.02rem !important;
+      font-size: 0.62rem !important;
+      line-height: 1 !important;
+    }
+
+    #page-gifts .gift-account-holder {
+      font-size: 0.78rem !important;
+      line-height: 1.12 !important;
+    }
+
+    @media (max-height: 700px) {
+      #page-gifts .gift-option.gift-account-option {
+        padding: 0.45rem 0.58rem !important;
+        border-radius: 15px !important;
+        column-gap: 0.38rem !important;
+        row-gap: 0.10rem !important;
+      }
+
+      #page-gifts .gift-bank-name,
+      #page-gifts .gift-account-number {
+        font-size: 0.70rem !important;
+      }
+
+      #page-gifts .gift-copy-button {
+        min-width: 78px !important;
+        padding: 0.26rem 0.52rem !important;
+        font-size: 0.49rem !important;
+      }
+
+      #page-gifts .gift-account-holder-label {
+        font-size: 0.56rem !important;
+      }
+
+      #page-gifts .gift-account-holder {
+        font-size: 0.70rem !important;
+      }
+    }
+
   </style>
 <base target="_blank">
 </head>
@@ -2754,6 +3727,19 @@
           <div id="countdown-minutes-label" class="time-box"><span id="minutes">0</span>Minutes</div>
           <div id="countdown-seconds-label" class="time-box"><span id="seconds">0</span>Seconds</div>
         </div>
+
+        <div class="date-schedule" aria-label="Wedding day schedule">
+          <div id="date-schedule-title" class="date-schedule-title">Schedule</div>
+          <div class="date-schedule-row">
+            <div class="date-schedule-time">08:00</div>
+            <p id="date-schedule-wedding" class="date-schedule-event">Wedding</p>
+          </div>
+          <div class="date-schedule-row">
+            <div class="date-schedule-time">11:00</div>
+            <p id="date-schedule-reception" class="date-schedule-event">Reception</p>
+          </div>
+        </div>
+
         <button id="date-button" onclick="selectTrack(3); goTo('menu')">Explore</button>
       </section>
 
@@ -2771,7 +3757,7 @@
 
           <div class="spot spot-couple" onclick="goTo('couple')"></div>
           <div class="spot spot-venue" onclick="selectTrack(4); goTo('venue')"></div>
-          <div class="spot spot-rundown" onclick="selectTrack(5); goTo('rundown')"></div>
+          <div class="spot spot-gifts" onclick="selectTrack(5); goTo('gifts')"></div>
           <div class="spot spot-dress" onclick="selectTrack(6); goTo('dress')"></div>
           <div class="spot spot-rsvp" onclick="goTo('rsvp')"></div>
         </div>
@@ -2801,14 +3787,44 @@
       <button id="venue-back-button" class="secondary" onclick="goTo('menu')">Back to Map</button>
     </section>
 
-    <!-- RUNDOWN -->
-    <section id="page-rundown" class="page overlay hidden">
-      <div class="venue-card">
+    <!-- GIFTS -->
+    <section id="page-gifts" class="page overlay hidden">
+      <div class="venue-card gift-card">
         <div class="ornament" style="margin-bottom:0.5rem;"></div>
-        <h2 id="rundown-title">Event Rundown</h2>
-        <p id="rundown-description">Ceremony and reception flow will be shared soon.</p>
+        <h2 id="gifts-title">Gifts</h2>
+        <p id="gifts-description" class="gift-message">Your presence and prayers are the greatest gift. If you would like to send a gift or blessing, you may use the details below.</p>
+
+        <div class="gift-options" aria-label="Gift and money transfer details">
+          <div class="gift-option gift-account-option">
+            <div class="gift-bank-name" id="gift-groom-bank-name">[Groom Bank Name]</div>
+            <div class="gift-account-number" id="gift-groom-account-number">[Groom Account Number]</div>
+            <button id="gift-groom-copy-button" class="gift-copy-button" type="button" onclick="copyGiftAccount('gift-groom-account-number', 'gift-groom-copy-button')">Copy Number</button>
+            <div class="gift-account-holder-label" id="gift-groom-holder-label">Account Name</div>
+            <div class="gift-account-holder" id="gift-groom-account-holder">[Groom Account Holder Name]</div>
+          </div>
+
+          <div class="gift-option gift-account-option">
+            <div class="gift-bank-name" id="gift-bride-bank-name">[Bride Bank Name]</div>
+            <div class="gift-account-number" id="gift-bride-account-number">[Bride Account Number]</div>
+            <button id="gift-bride-copy-button" class="gift-copy-button" type="button" onclick="copyGiftAccount('gift-bride-account-number', 'gift-bride-copy-button')">Copy Number</button>
+            <div class="gift-account-holder-label" id="gift-bride-holder-label">Account Name</div>
+            <div class="gift-account-holder" id="gift-bride-account-holder">[Bride Account Holder Name]</div>
+          </div>
+
+          <div class="gift-option gift-wishlist-option">
+            <div id="gift-wishlist-label" class="gift-option-title">Wishlist</div>
+            <p id="gift-wishlist-note" class="gift-wishlist-note">You may also view our wishlist through the link below.</p>
+            <a
+              id="gift-wishlist-button"
+              class="gift-wishlist-button"
+              href="https://example.com/wishlist"
+              target="_blank"
+              rel="noopener"
+            >Open Wishlist</a>
+          </div>
+        </div>
       </div>
-      <button id="rundown-back-button" class="secondary" onclick="goTo('menu')">Back to Map</button>
+      <button id="gifts-back-button" class="secondary" onclick="goTo('menu')">Back to Map</button>
     </section>
 
     <!-- DRESS CODE -->
@@ -2999,9 +4015,9 @@
         return;
       }
 
-      // ================= MAP OVERLAY transitions: venue / rundown / dress / rsvp =================
+      // ================= MAP OVERLAY transitions: venue / gifts / dress / rsvp =================
       const app = document.querySelector('.app');
-      const overlayTargets = ['venue', 'rundown', 'dress', 'rsvp'];
+      const overlayTargets = ['venue', 'gifts', 'dress', 'rsvp'];
       const menuIndex = sections.findIndex(section => section.id === 'page-menu');
 
       if (overlayTargets.includes(target)) {
@@ -3554,6 +4570,9 @@
         setHTML('countdown-hours-label', '<span id="hours">0</span>Jam');
         setHTML('countdown-minutes-label', '<span id="minutes">0</span>Menit');
         setHTML('countdown-seconds-label', '<span id="seconds">0</span>Detik');
+        setText('date-schedule-title', 'Jadwal Acara');
+        setText('date-schedule-wedding', 'Akad Nikah');
+        setText('date-schedule-reception', 'Resepsi');
         setText('date-button', 'Explore');
 
         setText('venue-title', 'Lokasi Acara');
@@ -3561,9 +4580,20 @@
         setText('map-cta', '📍 Buka di Google Maps');
         setText('venue-back-button', 'Back to Map');
 
-        setText('rundown-title', 'Event Rundown');
-        setText('rundown-description', 'Rangkaian acara akan diinformasikan segera.');
-        setText('rundown-back-button', 'Back to Map');
+        setText('gifts-title', 'Gifts');
+        setText('gifts-description', 'Doa dan kehadiran Bapak/Ibu merupakan hadiah terbaik bagi kami. Jika Bapak/Ibu ingin mengirimkan hadiah atau tanda kasih, Bapak/Ibu dapat memilih rekening pihak mempelai pria atau mempelai wanita sesuai kenyamanan keluarga.');
+        setText('gift-groom-transfer-label', 'Rekening Mempelai Pria');
+        setText('gift-groom-bank-account-label', 'Bank / No. Rekening');
+        setText('gift-groom-holder-label', 'Nama Rekening');
+        setText('gift-bride-transfer-label', 'Rekening Mempelai Wanita');
+        setText('gift-bride-bank-account-label', 'Bank / No. Rekening');
+        setText('gift-bride-holder-label', 'Nama Rekening');
+        setText('gift-wishlist-label', 'Wishlist');
+        setText('gift-wishlist-note', 'Bapak/Ibu juga dapat melihat wishlist kami melalui tautan berikut.');
+        setText('gift-wishlist-button', 'Buka Wishlist');
+        setText('gift-groom-copy-button', 'Salin Nomor');
+        setText('gift-bride-copy-button', 'Salin Nomor');
+        setText('gifts-back-button', 'Back to Map');
 
         setText('dress-title', 'Dress Code');
         setText('dress-description', 'Mohon mengenakan pakaian formal dengan nuansa warna earth tone.');
@@ -3618,6 +4648,9 @@
         setHTML('countdown-hours-label', '<span id="hours">0</span>Hours');
         setHTML('countdown-minutes-label', '<span id="minutes">0</span>Minutes');
         setHTML('countdown-seconds-label', '<span id="seconds">0</span>Seconds');
+        setText('date-schedule-title', 'Schedule');
+        setText('date-schedule-wedding', 'Wedding');
+        setText('date-schedule-reception', 'Reception');
         setText('date-button', 'Explore');
 
         setText('venue-title', 'Wedding Venue');
@@ -3625,9 +4658,20 @@
         setText('map-cta', '📍 Open in Google Maps');
         setText('venue-back-button', 'Back to Map');
 
-        setText('rundown-title', 'Event Rundown');
-        setText('rundown-description', 'Ceremony and reception flow will be shared soon.');
-        setText('rundown-back-button', 'Back to Map');
+        setText('gifts-title', 'Gifts');
+        setText('gifts-description', 'Your presence and prayers are the greatest gift. If you would like to send a gift or blessing, you may use the details below.');
+        setText('gift-groom-transfer-label', 'Groom Bank Account');
+        setText('gift-groom-bank-account-label', 'Bank / Account No.');
+        setText('gift-groom-holder-label', 'Account Name');
+        setText('gift-bride-transfer-label', 'Bride Bank Account');
+        setText('gift-bride-bank-account-label', 'Bank / Account No.');
+        setText('gift-bride-holder-label', 'Account Name');
+        setText('gift-wishlist-label', 'Wishlist');
+        setText('gift-wishlist-note', 'You may also view our wishlist through the link below.');
+        setText('gift-wishlist-button', 'Open Wishlist');
+        setText('gift-groom-copy-button', 'Copy Number');
+        setText('gift-bride-copy-button', 'Copy Number');
+        setText('gifts-back-button', 'Back to Map');
 
         setText('dress-title', 'Dress Code');
         setText('dress-description', 'Please wear formal attire in earth tone color schemes.');
@@ -3676,6 +4720,43 @@
           updatedRsvpGuestName.innerText = language === 'id' ? 'Tamu Undangan' : 'Our Guest';
         }
       }
+    }
+
+
+    async function copyGiftAccount(accountNumberId, buttonId) {
+      const accountElement = document.getElementById(accountNumberId);
+      const button = document.getElementById(buttonId);
+      if (!accountElement || !button) return;
+
+      const number = accountElement.innerText.trim();
+      const originalText = button.innerText;
+      const copiedText = language === 'id' ? 'Tersalin' : 'Copied';
+      const failedText = language === 'id' ? 'Gagal' : 'Failed';
+
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(number);
+        } else {
+          const tempInput = document.createElement('textarea');
+          tempInput.value = number;
+          tempInput.setAttribute('readonly', '');
+          tempInput.style.position = 'fixed';
+          tempInput.style.opacity = '0';
+          document.body.appendChild(tempInput);
+          tempInput.select();
+          document.execCommand('copy');
+          document.body.removeChild(tempInput);
+        }
+
+        button.innerText = copiedText;
+      } catch (error) {
+        console.warn('Could not copy account number.', error);
+        button.innerText = failedText;
+      }
+
+      setTimeout(() => {
+        button.innerText = originalText;
+      }, 1400);
     }
 
     applyInvitationContext();
