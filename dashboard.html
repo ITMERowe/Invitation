@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wedding Invitation Editor - Content & Settings</title>
+  <title>Wedding Invitation Editor - Centered Name Version</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&display=swap');
     :root {
@@ -19,6 +19,7 @@
       --danger: #cf222e;
       --danger-soft: #ffebe9;
       --success: #1a7f37;
+      --warning: #9a6700;
       --card: #ffffff;
       --sidebar-bg: #f6f8fa;
       --sidebar-active: #ffffff;
@@ -30,6 +31,9 @@
       --radius-sm: 6px;
       --radius-md: 8px;
       --radius-lg: 12px;
+      --topbar-height: 44px;
+      --editor-card-width: min(100%, 820px);
+      --editor-layout-grid-width: min(100%, 1120px);
       --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
       --font-mono: "SF Mono", SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
     }
@@ -46,10 +50,10 @@
       --danger: #f85149;
       --danger-soft: #f8514926;
       --success: #3fb950;
+      --warning: #d29922;
       --card: #161b22;
       --sidebar-bg: #010409;
       --sidebar-active: #0d1117;
-      --sidebar-active-border: #fd8c73;
       --sidebar-hover: #151b22;
       --input-bg: #0d1117;
       --input-focus: #010409;
@@ -58,951 +62,183 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body { font-family: var(--font-sans); background: var(--bg); color: var(--fg); line-height: 1.5; min-height: 100vh; }
-    .topbar { position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 22px; background: var(--card); border-bottom: 1px solid var(--border); box-shadow: var(--shadow-sm); }
-    .brand { min-width: 190px; }
-    .brand h1 { font-size: 16px; line-height: 1.1; font-weight: 650; letter-spacing: -0.02em; }
-    .brand p { color: var(--fg-muted); font-size: 11px; margin-top: 2px; }
-    .top-tabs { display: inline-flex; gap: 6px; padding: 4px; border: 1px solid var(--border); border-radius: 999px; background: var(--input-bg); }
-    .top-tab { border: 0; border-radius: 999px; background: transparent; color: var(--fg-muted); padding: 7px 18px; font-family: inherit; font-weight: 600; font-size: 13px; cursor: pointer; }
-    .top-tab.active { background: var(--accent); color: #fff; }
-    .file-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
-    .main { max-width: 1180px; margin: 0 auto; padding: 22px 22px 64px; }
+    .app-layout { display: grid; grid-template-columns: 160px 1fr; grid-template-rows: var(--topbar-height) 1fr; min-height: 100vh; transition: grid-template-columns 180ms ease; }
+    .app-layout.sidebar-collapsed { grid-template-columns: 44px 1fr; }
+    .topbar { grid-column: 1 / -1; grid-row: 1; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 8px; height: var(--topbar-height); padding: 5px 10px; background: var(--card); border-bottom: 1px solid var(--border); box-shadow: var(--shadow-sm); position: sticky; top: 0; }
+    .topbar-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .brand { min-width: 150px; }
+    .brand h1 { font-size: 14px; line-height: 1; font-weight: 650; letter-spacing: -0.02em; white-space: nowrap; }
+    .topbar-center { display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; min-width: 0; font-size: 12px; color: var(--fg-muted); padding: 0 8px; }
+    .topbar-center #statusText { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .status-dot { width: 8px; height: 8px; border-radius: 999px; background: var(--fg-muted); flex: 0 0 8px; }
+    .status-dot.active { background: var(--success); }
+    .file-actions { display: flex; gap: 6px; flex-wrap: nowrap; justify-content: flex-end; }
+    .sidebar { grid-column: 1; grid-row: 2; position: sticky; top: var(--topbar-height); height: calc(100vh - var(--topbar-height)); background: var(--sidebar-bg); border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; z-index: 40; }
+    .main-shell { grid-column: 2; grid-row: 2; min-width: 0; }
+    .main { max-width: 1180px; margin: 0 auto; padding: 12px 16px 40px; }
+    .collapse-button { width: 30px; height: 30px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--card); color: var(--fg-muted); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
+    .collapse-button:hover { background: var(--sidebar-hover); color: var(--fg); }
+    .collapse-icon, .theme-icon, .nav-icon, .collapse-icon svg, .theme-icon svg { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; min-width: 16px; flex: 0 0 16px; }
+    .sidebar-nav { display: flex; flex-direction: column; min-height: 0; overflow-y: auto; padding: 6px 0; flex: 1; }
+    .nav-section { margin-bottom: 4px; }
+    .nav-section-title { padding: 5px 9px 4px; font-size: 10.5px; line-height: 1.1; font-weight: 700; text-transform: uppercase; letter-spacing: 0.045em; color: var(--fg-muted); white-space: nowrap; overflow: hidden; }
+    .nav-link { display: flex; align-items: center; min-height: 31px; gap: 8px; padding: 6px 9px; font-size: 13px; line-height: 1.25; font-weight: 500; color: var(--fg-muted); text-decoration: none; border-left: 2px solid transparent; cursor: pointer; transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease; }
+    .nav-link:hover { background: var(--sidebar-hover); color: var(--fg); }
+    .nav-link.active { background: var(--sidebar-active); color: var(--fg); border-left-color: var(--sidebar-active-border); }
+    .nav-button { width: calc(100% - 12px); margin: 2px 6px; border: 0; background: transparent; font-family: inherit; text-align: left; }
+    .nav-text, #themeToggleText { display: inline-block; overflow: hidden; white-space: nowrap; }
+    .sidebar-bottom-actions { margin-top: auto; padding: 8px 6px; border-top: 1px solid var(--border-light); }
+    .theme-bottom-button { width: 100%; justify-content: flex-start; margin: 0; }
+    .app-layout.sidebar-collapsed .nav-section-title,
+    .app-layout.sidebar-collapsed .nav-text,
+    .app-layout.sidebar-collapsed #themeToggleText { display: none; }
+    .app-layout.sidebar-collapsed .nav-link,
+    .app-layout.sidebar-collapsed .nav-button,
+    .app-layout.sidebar-collapsed .theme-bottom-button { width: auto; min-height: 31px; margin: 2px 6px; padding: 7px 0; justify-content: center; gap: 0; font-size: 0; border-left-width: 0; border-radius: var(--radius-sm); }
+    .app-layout.sidebar-collapsed .nav-link.active { outline: 1px solid var(--sidebar-active-border); outline-offset: -1px; }
     .page { display: none; }
     .page.active { display: block; }
-    .page-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; margin-bottom: 16px; flex-wrap: wrap; }
-    .page-header h2 { font-size: 24px; letter-spacing: -0.025em; }
-    .page-header p { color: var(--fg-muted); font-size: 13px; margin-top: 4px; }
-    .status-dot { width: 8px; height: 8px; border-radius: 999px; background: var(--fg-muted); }
-    .status-dot.active { background: var(--success); }
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 7px 13px; font: inherit; font-size: 13px; font-weight: 600; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--card); color: var(--fg); cursor: pointer; transition: 120ms ease; }
+    .page-header { width: var(--editor-card-width); max-width: var(--editor-card-width); margin: 0 auto 10px; display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; flex-wrap: wrap; }
+    .page-header h2 { font-size: 20px; letter-spacing: -0.025em; }
+    .page-header p { color: var(--fg-muted); font-size: 12px; margin-top: 2px; }
+    #layoutsPage .page-header { width: var(--editor-layout-grid-width); max-width: var(--editor-layout-grid-width); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 5px 10px; font: inherit; font-size: 12px; font-weight: 600; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--card); color: var(--fg); cursor: pointer; transition: 120ms ease; min-height: 28px; }
     .btn:hover:not(:disabled) { background: var(--input-bg); border-color: var(--fg-muted); }
     .btn:disabled { opacity: .5; cursor: not-allowed; }
     .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
     .btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
     .btn-danger { color: var(--danger); border-color: var(--danger); }
     .btn-danger:hover:not(:disabled) { background: var(--danger-soft); }
-    .btn-sm { padding: 5px 10px; font-size: 12px; }
-    .subnav { display: flex; gap: 6px; overflow-x: auto; padding: 0 0 14px; margin-bottom: 14px; border-bottom: 1px solid var(--border-light); }
-    .subnav a { white-space: nowrap; text-decoration: none; color: var(--fg-muted); background: var(--input-bg); border: 1px solid var(--border); border-radius: 999px; padding: 6px 12px; font-size: 12px; font-weight: 600; }
-    .subnav a:hover { color: var(--accent); border-color: var(--accent-soft-border); }
-    .section-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 18px; overflow: hidden; box-shadow: var(--shadow-sm); scroll-margin-top: 84px; }
-    .section-header { padding: 12px 16px; background: var(--input-bg); border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-    .section-header h3 { font-size: 15px; }
-    .badge { font-size: 11px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); color: var(--fg-muted); }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; }
-    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); }
-    .field-grid { display: grid; grid-template-columns: repeat(2, minmax(220px, 1fr)); gap: 12px; padding: 14px; }
-    .settings-grid { display: grid; grid-template-columns: repeat(3, minmax(210px, 1fr)); gap: 12px; padding: 14px; }
-    .compare-head { display: grid; grid-template-columns: 1fr 1fr; background: var(--input-bg); border-bottom: 1px solid var(--border); }
-    .compare-title { padding: 8px 14px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--fg-muted); }
-    .compare-title:first-child, .compare-cell:first-child { border-right: 1px solid var(--border); }
-    .compare-row { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--border-light); }
-    .compare-cell { padding: 12px 14px; min-width: 0; }
-    label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 12px; color: var(--fg); }
-    .hint { color: var(--fg-muted); font-size: 11px; display: block; margin-bottom: 5px; line-height: 1.35; }
-    input, textarea, select { width: 100%; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 7px 9px; font-size: 13px; font-family: inherit; background: var(--input-bg); color: var(--fg); }
-    input[type="color"] { height: 36px; padding: 3px; }
-    textarea { min-height: 68px; resize: vertical; }
-    input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent); background: var(--input-focus); box-shadow: 0 0 0 3px var(--accent-soft); }
-    .save-bar { border-top: 1px solid var(--border-light); padding: 10px 14px; display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
-    .type-selector-wrap { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px; margin-bottom: 16px; }
-    .type-label { font-size: 11px; font-weight: 700; color: var(--fg-muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 8px; }
-    .type-selector { display: flex; gap: 8px; flex-wrap: wrap; }
-    .type-button { flex: 1; min-width: 110px; border: 1px solid var(--border); background: var(--input-bg); color: var(--fg-muted); padding: 9px 12px; border-radius: var(--radius-md); text-align: left; cursor: pointer; }
-    .type-button.active { background: var(--accent-soft); color: var(--accent); border-color: var(--accent-soft-border); font-weight: 700; }
-    .type-title { display: block; font-size: 13px; }
-    .type-subtitle { display: block; font-size: 11px; opacity: .85; }
-    .log-card pre { white-space: pre-wrap; word-break: break-word; background: #0d1117; color: #e6edf3; border-radius: var(--radius-md); padding: 14px; max-height: 260px; overflow: auto; font-family: var(--font-mono); font-size: 12px; }
-    .settings-intro { padding: 14px 16px; color: var(--fg-muted); font-size: 13px; border-bottom: 1px solid var(--border-light); }
-
-    .settings-map-rows { display: flex; flex-direction: column; gap: 0; }
-    .settings-map-row { display: grid; grid-template-columns: 180px 1fr; gap: 14px; padding: 14px; border-bottom: 1px solid var(--border-light); align-items: start; }
-    .settings-map-row:last-child { border-bottom: 0; }
-    .settings-map-row-title { font-size: 13px; font-weight: 700; color: var(--fg); line-height: 1.25; padding-top: 2px; }
-    .settings-map-row-title span { display: block; margin-top: 3px; font-size: 11px; font-weight: 500; color: var(--fg-muted); }
-    .settings-map-fields { display: grid; grid-template-columns: repeat(2, minmax(180px, 1fr)); gap: 12px; }
-    .settings-map-fields.one-field { grid-template-columns: minmax(180px, 360px); }
-    .settings-map-fields.font-fields { grid-template-columns: 1fr; }
-    .font-setting-field { display: grid; grid-template-columns: minmax(220px, 1fr) minmax(180px, 0.9fr); gap: 12px; align-items: stretch; }
-    .font-preview { border: 1px dashed var(--border); border-radius: var(--radius-md); background: var(--input-bg); padding: 10px 12px; min-height: 70px; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
-    .font-preview-label { color: var(--fg-muted); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 5px; }
-    .font-preview-text { color: var(--fg); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .font-preview-subtext { color: var(--fg-muted); font-size: 11px; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    @media (max-width: 850px) {
-      .topbar { align-items: stretch; flex-direction: column; }
-      .file-actions { justify-content: flex-start; }
-      .grid-2, .grid-3, .compare-head, .compare-row { grid-template-columns: 1fr; }
-      .compare-title:first-child, .compare-cell:first-child { border-right: 0; border-bottom: 1px solid var(--border); }
-      .field-grid, .settings-grid { grid-template-columns: 1fr; }
-      .settings-map-row { grid-template-columns: 1fr; }
-      .settings-map-fields { grid-template-columns: 1fr; }
-      .font-setting-field { grid-template-columns: 1fr; }
-    }
-
-
-    /* ===== RESTORED SIDEBAR NAVIGATION ===== */
-    .app-layout {
-      display: grid;
-      grid-template-columns: 150px 1fr;
-      min-height: 100vh;
-      transition: grid-template-columns 180ms ease;
-    }
-    .app-layout.sidebar-collapsed { grid-template-columns: 44px 1fr; }
-    .main-shell { min-width: 0; }
-    .sidebar {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      background: var(--sidebar-bg);
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      padding: 6px 0;
-      overflow: hidden;
-      z-index: 60;
-    }
-    .sidebar-tools {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      padding: 0 8px 7px;
-      border-bottom: 1px solid var(--border-light);
-      flex: 0 0 auto;
-    }
-    .collapse-button {
-      width: 30px;
-      height: 30px;
-      margin-left: auto;
-      margin-right: 0;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      background: var(--card);
-      color: var(--fg-muted);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
-    }
-    .collapse-button:hover { background: var(--sidebar-hover); color: var(--fg); }
-    .collapse-icon, .theme-icon, .nav-icon,
-    .collapse-icon svg, .theme-icon svg {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 16px;
-      height: 16px;
-      min-width: 16px;
-      flex: 0 0 16px;
-    }
-    .sidebar-nav {
-      display: flex;
-      flex-direction: column;
-      min-height: 0;
-      overflow-y: auto;
-      padding: 6px 0;
-      flex: 1 1 auto;
-    }
-    .nav-section { margin-bottom: 3px; }
-    .nav-section-title {
-      padding: 5px 9px 4px;
-      font-size: 10.5px;
-      line-height: 1.1;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.045em;
-      color: var(--fg-muted);
-      white-space: nowrap;
-      overflow: hidden;
-    }
-    .nav-link {
-      display: flex;
-      align-items: center;
-      min-height: 31px;
-      gap: 8px;
-      padding: 6px 9px;
-      font-size: 13px;
-      line-height: 1.25;
-      font-weight: 500;
-      color: var(--fg-muted);
-      text-decoration: none;
-      border-left: 2px solid transparent;
-      cursor: pointer;
-      transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
-    }
-    .nav-link:hover { background: var(--sidebar-hover); color: var(--fg); }
-    .nav-link.active {
-      background: var(--sidebar-active);
-      color: var(--fg);
-      border-left-color: var(--sidebar-active-border);
-    }
-    .nav-button {
-      width: calc(100% - 12px);
-      margin: 2px 6px;
-      border: 0;
-      background: transparent;
-      font-family: inherit;
-      text-align: left;
-    }
-    .nav-text, #themeToggleText {
-      display: inline-block;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-    .sidebar-bottom-actions {
-      margin-top: auto;
-      padding: 8px 6px;
-      border-top: 1px solid var(--border-light);
-      flex: 0 0 auto;
-    }
-    .theme-bottom-button {
-      width: 100%;
-      justify-content: flex-start;
-      margin: 0;
-    }
-    .app-layout.sidebar-collapsed .sidebar-tools { justify-content: center; padding-left: 6px; padding-right: 6px; }
-    .app-layout.sidebar-collapsed .collapse-button { margin-left: auto; margin-right: auto; }
-    .app-layout.sidebar-collapsed .nav-section-title,
-    .app-layout.sidebar-collapsed .nav-text,
-    .app-layout.sidebar-collapsed #themeToggleText { display: none; }
-    .app-layout.sidebar-collapsed .nav-link,
-    .app-layout.sidebar-collapsed .nav-button,
-    .app-layout.sidebar-collapsed .theme-bottom-button {
-      width: auto;
-      min-height: 31px;
-      margin: 2px 6px;
-      padding: 7px 0;
-      justify-content: center;
-      gap: 0;
-      font-size: 0;
-      border-left-width: 0;
-      border-radius: var(--radius-sm);
-    }
-    .app-layout.sidebar-collapsed .nav-link.active,
-    .app-layout.sidebar-collapsed .nav-button.active {
-      outline: 1px solid var(--sidebar-active-border);
-      outline-offset: -1px;
-    }
-    .app-layout.sidebar-collapsed .sidebar-bottom-actions { padding-left: 0; padding-right: 0; }
-    .top-tabs, .subnav { display: none !important; }
-    .topbar { position: sticky; top: 0; }
-    .main { max-width: 1180px; margin: 0 auto; padding: 22px 22px 64px; }
-    .section-card { scroll-margin-top: 86px; }
-    @media (max-width: 850px) {
-      .app-layout { grid-template-columns: 150px 1fr; }
-      .app-layout.sidebar-collapsed { grid-template-columns: 44px 1fr; }
-      .sidebar { display: flex; }
-      .main { min-width: 0; padding: 16px 10px 40px; }
-      .topbar { align-items: stretch; flex-direction: column; }
-    }
-
-
-    /* ===== USER REQUESTED COMPACT UPDATE ===== */
-    :root { --topbar-height: 58px; }
-    .topbar { min-height: var(--topbar-height); padding: 9px 18px; gap: 10px; }
-    .sidebar { padding-top: 0; }
-    .sidebar-tools {
-      height: var(--topbar-height);
-      padding: 0 8px !important;
-      display: flex;
-      align-items: center;
-      border-bottom: 1px solid var(--border);
-      box-shadow: var(--shadow-sm);
-    }
-    .collapse-button { width: 30px; height: 30px; }
-    .main { padding: 14px 16px 40px; }
-    .page-header { margin-bottom: 10px; }
-    .page-header h2 { font-size: 20px; }
-    .page-header p { font-size: 12px; margin-top: 2px; }
-
-    .section-card { margin-bottom: 10px; border-radius: var(--radius-md); scroll-margin-top: 72px; }
-    .section-header { padding: 8px 11px; }
+    .btn-warning { color: var(--warning); border-color: var(--warning); }
+    .subnav { display: none; }
+    .section-card, .type-selector-wrap, .log-card { width: var(--editor-card-width); max-width: var(--editor-card-width); margin-left: auto; margin-right: auto; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: 12px; overflow: hidden; box-shadow: var(--shadow-sm); scroll-margin-top: calc(var(--topbar-height) + 16px); }
+    .section-header { padding: 8px 11px; background: var(--input-bg); border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; gap: 10px; }
     .section-header h3 { font-size: 13px; }
-    .badge { font-size: 10px; padding: 1px 6px; }
-    .settings-intro { display: none; }
-    .settings-map-row { grid-template-columns: 155px 1fr; gap: 10px; padding: 8px 10px; }
-    .settings-map-row-title { font-size: 12px; line-height: 1.2; }
-    .settings-map-row-title span { font-size: 10px; margin-top: 2px; }
-    .settings-map-fields { gap: 8px; grid-template-columns: repeat(2, minmax(150px, 1fr)); }
-    .settings-map-fields.one-field { grid-template-columns: minmax(150px, 300px); }
-    .font-setting-field { grid-template-columns: minmax(210px, 1fr) minmax(170px, 0.75fr); gap: 8px; }
-    .font-preview { min-height: 50px; padding: 7px 9px; }
-    .font-preview-label { font-size: 9px; margin-bottom: 2px; }
-    .font-preview-text { line-height: 1.05; }
-    .font-preview-subtext { font-size: 10px; margin-top: 3px; }
-    .field-grid, .settings-grid { gap: 8px; padding: 10px; }
-    .compare-title { padding: 6px 10px; font-size: 10px; }
-    .compare-cell { padding: 8px 10px; }
-    label { margin-bottom: 3px; font-size: 11px; }
-    .hint { margin-bottom: 3px; font-size: 10px; line-height: 1.25; }
-    input, textarea, select { padding: 5px 7px; font-size: 12px; line-height: 1.3; }
-    textarea { min-height: 48px; }
+    .badge { font-size: 10px; padding: 1px 6px; border-radius: 999px; border: 1px solid var(--border); color: var(--fg-muted); }
+    .grid-2 { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+    .field-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 10px; }
+    .compare-head { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); background: var(--input-bg); border-bottom: 1px solid var(--border); }
+    .compare-title { padding: 6px 10px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--fg-muted); }
+    .compare-title:first-child, .compare-cell:first-child { border-right: 1px solid var(--border); }
+    .compare-row { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); border-bottom: 1px solid var(--border-light); }
+    .compare-cell { padding: 8px 10px; min-width: 0; }
+    label { display: block; margin-bottom: 3px; font-weight: 600; font-size: 11px; color: var(--fg); }
+    .hint { color: var(--fg-muted); font-size: 10px; display: block; margin-bottom: 3px; line-height: 1.25; }
+    input, textarea, select { width: 100%; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 5px 7px; font-size: 12px; line-height: 1.3; font-family: inherit; background: var(--input-bg); color: var(--fg); }
     input[type="color"] { height: 30px; padding: 2px; }
-    .save-bar { padding: 7px 9px; }
-    .btn { padding: 5px 10px; font-size: 12px; }
-    .type-selector-wrap { padding: 10px; margin-bottom: 10px; }
-    .type-label { margin-bottom: 6px; font-size: 10px; }
-    .type-button { padding: 7px 9px; }
-    .type-title { font-size: 12px; }
-    .type-subtitle { font-size: 10px; }
-    .sidebar-nav { padding-top: 6px; }
-    @media (max-width: 850px) {
-      :root { --topbar-height: 104px; }
-      .settings-map-row { grid-template-columns: 1fr; }
-      .settings-map-fields { grid-template-columns: 1fr; }
-      .font-setting-field { grid-template-columns: 1fr; }
-    }
-
-
-    /* ===== TIGHTER CARDS: SHRINK CARD BODY, NOT THE PAGE ===== */
-    .main { max-width: 1180px; }
-
-    #settingsPanels,
-        /* Layouts grid moved to final override section */
-
-    #settingsPanels .section-card,
-    #layoutsPanels .section-card {
-      width: fit-content;
-      max-width: 100%;
-      min-width: min(100%, 520px);
-      margin-bottom: 0;
-    }
-
-    #settingsPanels .section-header,
-    #layoutsPanels .section-header {
-      padding: 6px 9px;
-      min-height: 32px;
-    }
-
-    #settingsPanels .section-header h3,
-    #layoutsPanels .section-header h3 {
-      font-size: 12.5px;
-      line-height: 1.15;
-    }
-
-    #settingsPanels .badge,
-    #layoutsPanels .badge {
-      font-size: 9.5px;
-      padding: 0 5px;
-    }
-
-    #settingsPanels .settings-map-row,
-    #layoutsPanels .settings-map-row {
-      grid-template-columns: 124px auto;
-      gap: 7px;
-      padding: 5px 8px;
-    }
-
-    #settingsPanels .settings-map-row-title,
-    #layoutsPanels .settings-map-row-title {
-      font-size: 11px;
-      line-height: 1.12;
-      padding-top: 1px;
-    }
-
-    #settingsPanels .settings-map-row-title span,
-    #layoutsPanels .settings-map-row-title span {
-      font-size: 9.5px;
-      line-height: 1.15;
-      margin-top: 1px;
-    }
-
-    #settingsPanels .settings-map-fields,
-    #layoutsPanels .settings-map-fields {
-      grid-template-columns: repeat(2, 148px);
-      gap: 6px;
-      align-items: start;
-    }
-
-    #settingsPanels .settings-map-fields.one-field,
-    #layoutsPanels .settings-map-fields.one-field {
-      grid-template-columns: 230px;
-    }
-
-    #settingsPanels label,
-    #layoutsPanels label {
-      font-size: 10.5px;
-      line-height: 1.15;
-      margin-bottom: 2px;
-    }
-
-    #settingsPanels .hint,
-    #layoutsPanels .hint {
-      display: none;
-    }
-
-    #settingsPanels input,
-    #settingsPanels textarea,
-    #settingsPanels select,
-    #layoutsPanels input,
-    #layoutsPanels textarea,
-    #layoutsPanels select {
-      height: 26px;
-      padding: 4px 6px;
-      font-size: 11.5px;
-      line-height: 1.2;
-    }
-
-    #settingsPanels textarea,
-    #layoutsPanels textarea {
-      min-height: 38px;
-      height: 38px;
-    }
-
-    #settingsPanels .save-bar,
-    #layoutsPanels .save-bar {
-      padding: 5px 7px;
-    }
-
-    #settingsPanels .btn,
-    #layoutsPanels .btn {
-      padding: 4px 8px;
-      font-size: 11px;
-      min-height: 25px;
-    }
-
-    #settingsPanels .font-setting-field {
-      grid-template-columns: 230px 220px;
-      gap: 6px;
-      align-items: stretch;
-    }
-
-    #settingsPanels .settings-map-fields.font-fields {
-      grid-template-columns: 456px;
-    }
-
-    #settingsPanels .font-preview {
-      min-height: 44px;
-      padding: 5px 7px;
-    }
-
-    #settingsPanels .font-preview-label {
-      font-size: 8.5px;
-      margin-bottom: 1px;
-    }
-
-    #settingsPanels .font-preview-text {
-      line-height: 1;
-    }
-
-    #settingsPanels .font-preview-subtext {
-      font-size: 9px;
-      margin-top: 2px;
-    }
-
-    #contentPanels .section-card {
-      margin-bottom: 8px;
-    }
-
-    #contentPanels .section-header {
-      padding: 7px 10px;
-    }
-
-    #contentPanels .compare-cell {
-      padding: 7px 9px;
-    }
-
-    #contentPanels .field-grid {
-      gap: 7px;
-      padding: 8px;
-    }
-
-    #contentPanels .save-bar {
-      padding: 6px 8px;
-    }
-
-    @media (max-width: 850px) {
-      #settingsPanels .section-card,
-      #layoutsPanels .section-card {
-        width: 100%;
-        min-width: 0;
-      }
-      #settingsPanels .settings-map-row,
-      #layoutsPanels .settings-map-row {
-        grid-template-columns: 1fr;
-      }
-      #settingsPanels .settings-map-fields,
-      #settingsPanels .settings-map-fields.one-field,
-      #settingsPanels .settings-map-fields.font-fields,
-      #layoutsPanels .settings-map-fields,
-      #layoutsPanels .settings-map-fields.one-field {
-        grid-template-columns: 1fr;
-      }
-      #settingsPanels .font-setting-field {
-        grid-template-columns: 1fr;
-      }
-    }
-
-
-    /* ===== FINAL OVERRIDE: CENTERED UNIFORM CARD WIDTH ===== */
-    :root {
-      --editor-card-width: min(100%, 760px);
-    }
-
-    .main {
-      max-width: 1180px;
-    }
-
-    .type-selector-wrap,
-    .section-card,
-    .log-card {
-      width: var(--editor-card-width) !important;
-      max-width: var(--editor-card-width) !important;
-      min-width: 0 !important;
-      margin-left: auto !important;
-      margin-right: auto !important;
-    }
-
-    #contentPanels,
-    #settingsPanels,
-        /* Layouts grid moved to final override section */
-
-    #contentPanels .section-card,
-    #settingsPanels .section-card,
-    #layoutsPanels .section-card {
-      width: var(--editor-card-width) !important;
-      max-width: var(--editor-card-width) !important;
-      min-width: 0 !important;
-      margin-bottom: 0 !important;
-    }
-
-    #settingsPanels .settings-map-row,
-    #layoutsPanels .settings-map-row {
-      grid-template-columns: 145px 1fr !important;
-    }
-
-    #settingsPanels .settings-map-fields,
-    #layoutsPanels .settings-map-fields {
-      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-      width: 100% !important;
-    }
-
-    #settingsPanels .settings-map-fields.one-field,
-    #layoutsPanels .settings-map-fields.one-field {
-      grid-template-columns: minmax(0, 260px) !important;
-    }
-
-    #settingsPanels .settings-map-fields.font-fields {
-      grid-template-columns: 1fr !important;
-    }
-
-    #settingsPanels .font-setting-field {
-      grid-template-columns: minmax(0, 1fr) minmax(180px, 240px) !important;
-      width: 100% !important;
-    }
-
-    #contentPanels .compare-head,
-    #contentPanels .compare-row {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
-    }
-
-    #contentPanels .field-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    }
-
-    #contentPanels .grid-2 {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
-    }
-
-    @media (max-width: 850px) {
-      :root { --editor-card-width: 100%; }
-
-      .type-selector-wrap,
-      .section-card,
-      .log-card,
-      #contentPanels .section-card,
-      #settingsPanels .section-card,
-      #layoutsPanels .section-card {
-        width: 100% !important;
-        max-width: 100% !important;
-      }
-
-      #settingsPanels .settings-map-row,
-      #layoutsPanels .settings-map-row,
-      #settingsPanels .font-setting-field {
-        grid-template-columns: 1fr !important;
-      }
-
-      #settingsPanels .settings-map-fields,
-      #settingsPanels .settings-map-fields.one-field,
-      #settingsPanels .settings-map-fields.font-fields,
-      #layoutsPanels .settings-map-fields,
-      #layoutsPanels .settings-map-fields.one-field,
-      #contentPanels .field-grid,
-      #contentPanels .grid-2,
-      #contentPanels .compare-head,
-      #contentPanels .compare-row {
-        grid-template-columns: 1fr !important;
-      }
-    }
-
-    /* ===== TOPBAR STATUS CENTER + LAYOUTS 2-COLUMN ===== */
-    .topbar-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex: 0 0 auto;
-    }
-    .topbar-center {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      flex: 1 1 auto;
-      min-width: 0;
-      font-size: 12px;
-      color: var(--fg-muted);
-      padding: 0 12px;
-    }
-    .topbar-center .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: var(--fg-muted);
-      flex-shrink: 0;
-    }
-    .topbar-center .status-dot.active {
-      background: var(--success);
-    }
-    .topbar-center #statusText {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    /* Layouts page: 2 cards per row */
-    #layoutsPanels {
-      display: grid !important;
-      grid-template-columns: repeat(2, 1fr) !important;
-      gap: 12px !important;
-      align-items: start !important;
-      width: 100% !important;
-    }
-    #layoutsPanels .section-card {
-      width: 100% !important;
-      max-width: 100% !important;
-      min-width: 0 !important;
-      margin-left: 0 !important;
-      margin-right: 0 !important;
-    }
-    #layoutsPanels .settings-map-row {
-      grid-template-columns: 120px 1fr !important;
-    }
-    #layoutsPanels .settings-map-fields {
-      grid-template-columns: 1fr !important;
-    }
-    #layoutsPanels .settings-map-fields.one-field {
-      grid-template-columns: 1fr !important;
-    }
-
-    @media (max-width: 850px) {
-      #layoutsPanels {
-        grid-template-columns: 1fr !important;
-      }
-      .topbar-center {
-        display: none;
-      }
-    }
-
-
-
-    /* ===== FINAL REQUEST: SLIM TOP BAR + TOPBAR SIDEBAR BUTTON + LIVE INDEX PREVIEWS ===== */
-    :root { --topbar-height: 44px; }
-
-    .app-layout {
-      grid-template-columns: 150px 1fr !important;
-      grid-template-rows: var(--topbar-height) 1fr !important;
-      min-height: 100vh;
-    }
-
-    .app-layout.sidebar-collapsed { grid-template-columns: 44px 1fr !important; }
-
-    .topbar {
-      grid-column: 1 / -1 !important;
-      grid-row: 1 !important;
-      min-height: var(--topbar-height) !important;
-      height: var(--topbar-height) !important;
-      padding: 5px 10px !important;
-      gap: 8px !important;
-      align-items: center !important;
-      flex-direction: row !important;
-    }
-
-    .topbar-collapse-button {
-      flex: 0 0 30px !important;
-      width: 30px !important;
-      height: 30px !important;
-      margin: 0 !important;
-      align-self: center !important;
-    }
-
-    .brand { min-width: 145px !important; }
-    .brand h1 { font-size: 14px !important; line-height: 1 !important; }
-    .brand p { display: none !important; }
-
-    .file-actions { gap: 6px !important; }
-    .topbar .btn { padding: 4px 9px !important; font-size: 11.5px !important; min-height: 28px !important; }
-
-    .sidebar {
-      grid-column: 1 !important;
-      grid-row: 2 !important;
-      top: var(--topbar-height) !important;
-      height: calc(100vh - var(--topbar-height)) !important;
-      padding-top: 0 !important;
-    }
-
-    .main-shell {
-      grid-column: 2 !important;
-      grid-row: 2 !important;
-      min-width: 0 !important;
-    }
-
-    .sidebar-tools { display: none !important; }
-    .sidebar-nav { padding-top: 6px !important; }
-
-    .main { padding-top: 12px !important; }
-    .section-card { scroll-margin-top: calc(var(--topbar-height) + 16px) !important; }
-
-    @media (max-width: 850px) {
-      :root { --topbar-height: 44px; }
-      .topbar { flex-wrap: nowrap !important; overflow-x: auto !important; }
-      .brand { min-width: 132px !important; }
-      .file-actions { flex-wrap: nowrap !important; }
-    }
-
-
-    /* ===== HARD FINAL OVERRIDE V3: TRUE CENTERED CARDS + CLEAN LAYOUT COLUMNS + NO LOG ===== */
-    :root {
-      --editor-card-width: min(100%, 760px);
-      --editor-layout-grid-width: min(100%, 1120px);
-      --editor-layout-gap: 14px;
-    }
-
-    /* Content page and Settings page: centered single card column */
-    #contentPanels,
-    #settingsPanels {
-      width: var(--editor-card-width) !important;
-      max-width: var(--editor-card-width) !important;
-      margin-left: auto !important;
-      margin-right: auto !important;
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: stretch !important;
-      gap: 12px !important;
-    }
-
-    /* Name selector must match the exact Content card width */
-    #contentPage > .type-selector-wrap {
-      width: var(--editor-card-width) !important;
-      max-width: var(--editor-card-width) !important;
-      min-width: 0 !important;
-      margin-left: auto !important;
-      margin-right: auto !important;
-      margin-bottom: 12px !important;
-    }
-
-    #contentPanels > .section-card,
-    #settingsPanels > .section-card {
-      width: 100% !important;
-      max-width: 100% !important;
-      min-width: 0 !important;
-      margin-left: 0 !important;
-      margin-right: 0 !important;
-      margin-bottom: 0 !important;
-    }
-
-    /* Layouts page: two clean vertical columns, no grid row gaps */
-    #layoutsPanels {
-      width: var(--editor-layout-grid-width) !important;
-      max-width: var(--editor-layout-grid-width) !important;
-      margin-left: auto !important;
-      margin-right: auto !important;
-      display: flex !important;
-      align-items: flex-start !important;
-      justify-content: center !important;
-      gap: var(--editor-layout-gap) !important;
-    }
-
-    #layoutsPanels > .layout-column {
-      flex: 1 1 0 !important;
-      min-width: 0 !important;
-      display: flex !important;
-      flex-direction: column !important;
-      gap: var(--editor-layout-gap) !important;
-    }
-
-    #layoutsPanels .section-card {
-      width: 100% !important;
-      max-width: 100% !important;
-      min-width: 0 !important;
-      margin: 0 !important;
-    }
-
-    /* Layout form rows: compact, readable, and consistent inside half-width cards */
-    #layoutsPanels .settings-map-row {
-      grid-template-columns: 112px minmax(0, 1fr) !important;
-      gap: 8px !important;
-      padding: 7px 9px !important;
-      align-items: start !important;
-    }
-
-    #layoutsPanels .settings-map-row-title {
-      font-size: 11px !important;
-      line-height: 1.15 !important;
-    }
-
-    #layoutsPanels .settings-map-row-title span {
-      font-size: 9.5px !important;
-      line-height: 1.15 !important;
-    }
-
+    textarea { min-height: 48px; resize: vertical; }
+    input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent); background: var(--input-focus); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .save-bar { border-top: 1px solid var(--border-light); padding: 7px 9px; display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
+    .type-selector-wrap { padding: 10px; margin-bottom: 12px; }
+    .type-label { font-size: 10px; font-weight: 700; color: var(--fg-muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
+    .type-selector { display: flex; gap: 8px; flex-wrap: wrap; }
+    .type-button { flex: 1; min-width: 110px; border: 1px solid var(--border); background: var(--input-bg); color: var(--fg-muted); padding: 7px 9px; border-radius: var(--radius-md); text-align: left; cursor: pointer; }
+    .type-button.active { background: var(--accent-soft); color: var(--accent); border-color: var(--accent-soft-border); font-weight: 700; }
+    .type-title { display: block; font-size: 12px; }
+    .type-subtitle { display: block; font-size: 10px; opacity: .85; }
+    .settings-map-rows { display: flex; flex-direction: column; gap: 0; }
+    .settings-map-row { display: grid; grid-template-columns: 145px 1fr; gap: 8px; padding: 7px 9px; border-bottom: 1px solid var(--border-light); align-items: start; }
+    .settings-map-row:last-child { border-bottom: 0; }
+    .settings-map-row-title { font-size: 11px; font-weight: 700; color: var(--fg); line-height: 1.15; padding-top: 1px; }
+    .settings-map-row-title span { display: block; margin-top: 1px; font-size: 9.5px; font-weight: 500; color: var(--fg-muted); line-height: 1.15; }
+    .settings-map-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+    .settings-map-fields.one-field { grid-template-columns: minmax(0, 260px); }
+    .settings-map-fields.font-fields { grid-template-columns: 1fr; }
+    .font-setting-field { display: grid; grid-template-columns: minmax(0, 1fr) minmax(180px, 240px); gap: 6px; align-items: stretch; }
+    .font-preview { border: 1px dashed var(--border); border-radius: var(--radius-md); background: var(--input-bg); padding: 5px 7px; min-height: 44px; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+    .font-preview-label { color: var(--fg-muted); font-size: 8.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 1px; }
+    .font-preview-text { color: var(--fg); line-height: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .font-preview-subtext { color: var(--fg-muted); font-size: 9px; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    #layoutsPanels { width: var(--editor-layout-grid-width); max-width: var(--editor-layout-grid-width); margin: 0 auto; display: flex; align-items: flex-start; justify-content: center; gap: 14px; }
+    #layoutsPanels > .layout-column { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+    #layoutsPanels .section-card { width: 100%; max-width: 100%; margin: 0; }
+    #layoutsPanels .settings-map-row { grid-template-columns: 112px minmax(0,1fr); }
     #layoutsPanels .settings-map-fields,
     #layoutsPanels .settings-map-fields.one-field,
-    #layoutsPanels .settings-map-fields.font-fields {
-      grid-template-columns: minmax(0, 1fr) !important;
-      width: 100% !important;
-      gap: 6px !important;
-    }
-
-    #layoutsPanels input,
-    #layoutsPanels textarea,
-    #layoutsPanels select {
-      width: 100% !important;
-      min-width: 0 !important;
-    }
-
-    /* Log is removed from the UI */
-    #log,
-    .system-section {
-      display: none !important;
-    }
-
-    @media (max-width: 950px) {
-      #layoutsPanels {
-        flex-direction: column !important;
-        width: 100% !important;
-        max-width: 100% !important;
-      }
-
-      #layoutsPanels > .layout-column {
-        width: 100% !important;
-      }
-    }
-
+    #layoutsPanels .settings-map-fields.font-fields { grid-template-columns: minmax(0, 1fr); }
+    .log-card { display: none; }
+    .log-card pre { white-space: pre-wrap; word-break: break-word; background: #0d1117; color: #e6edf3; border-radius: var(--radius-md); padding: 14px; max-height: 260px; overflow: auto; font-family: var(--font-mono); font-size: 12px; }
+    .note { width: var(--editor-card-width); max-width: var(--editor-card-width); margin: 0 auto 12px; border: 1px solid var(--accent-soft-border); background: var(--accent-soft); color: var(--fg); border-radius: var(--radius-md); padding: 8px 10px; font-size: 12px; }
+    .gifts-static-note { padding: 8px 10px 0; color: var(--fg-muted); font-size: 11px; }
+    .gifts-static-layout { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
+    .gift-party-column { padding: 10px; min-width: 0; }
+    .gift-party-column + .gift-party-column { border-left: 1px solid var(--border-light); }
+    .gift-party-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--fg-muted); margin-bottom: 2px; }
+    .gift-party-subtitle { font-size: 10px; color: var(--fg-muted); margin-bottom: 8px; line-height: 1.35; }
+    .gift-party-grid { display: grid; gap: 8px; }
+    .gifts-static-footer { padding: 10px; }
+    .gifts-static-footer label { margin-bottom: 4px; }
+    @media (max-width: 950px) { #layoutsPanels { flex-direction: column; width: 100%; max-width: 100%; } #layoutsPanels > .layout-column { width: 100%; } #layoutsPage .page-header { width: 100%; max-width: 100%; } }
     @media (max-width: 850px) {
       :root { --editor-card-width: 100%; }
-
-      #contentPanels,
-      #settingsPanels,
-      #contentPage > .type-selector-wrap {
-        width: 100% !important;
-        max-width: 100% !important;
-      }
-
-      #contentPanels .field-grid,
-      #contentPanels .grid-2,
-      #contentPanels .compare-head,
-      #contentPanels .compare-row,
-      #settingsPanels .settings-map-row,
-      #settingsPanels .settings-map-fields,
-      #settingsPanels .settings-map-fields.one-field,
-      #settingsPanels .settings-map-fields.font-fields,
-      #settingsPanels .font-setting-field,
-      #layoutsPanels .settings-map-row,
-      #layoutsPanels .settings-map-fields,
-      #layoutsPanels .settings-map-fields.one-field,
-      #layoutsPanels .settings-map-fields.font-fields {
-        grid-template-columns: 1fr !important;
-      }
+      .app-layout { grid-template-columns: 150px 1fr; }
+      .app-layout.sidebar-collapsed { grid-template-columns: 44px 1fr; }
+      .main { padding: 10px 10px 40px; }
+      .topbar { overflow-x: auto; }
+      .brand { min-width: 125px; }
+      .topbar-center { display: none; }
+      .field-grid, .grid-2, .compare-head, .compare-row,
+      .settings-map-row, .settings-map-fields, .settings-map-fields.one-field,
+      .settings-map-fields.font-fields, .font-setting-field { grid-template-columns: 1fr !important; }
+      .gifts-static-layout { grid-template-columns: 1fr !important; }
+      .gift-party-column + .gift-party-column { border-left: 0; border-top: 1px solid var(--border-light); }
+      .compare-title:first-child, .compare-cell:first-child { border-right: 0; border-bottom: 1px solid var(--border); }
     }
-
   </style>
-<base target="_blank">
 </head>
 <body>
   <div class="app-layout" id="appLayout">
-  <header class="topbar" id="top">
-    <div class="topbar-left">
-      <button class="collapse-button topbar-collapse-button" type="button" id="sidebarToggle" aria-label="Collapse sidebar" title="Collapse sidebar">
-        <span class="collapse-icon" id="sidebarToggleIcon" aria-hidden="true"></span>
-      </button>
-      <div class="brand">
-        <h1>Wedding Invitation Editor</h1>
+    <header class="topbar" id="top">
+      <div class="topbar-left">
+        <button class="collapse-button" type="button" id="sidebarToggle" aria-label="Collapse sidebar" title="Collapse sidebar"><span class="collapse-icon" id="sidebarToggleIcon"></span></button>
+        <div class="brand"><h1>Wedding Editor</h1></div>
       </div>
-    </div>
-    <div class="topbar-center" id="topbarStatus">
-      <span class="status-dot" id="statusDot"></span>
-      <span id="statusText">No file opened yet.</span>
-    </div>
-    <div class="file-actions">
-      <button class="btn btn-primary" id="openButton">Open index.html</button>
-      <button class="btn" id="downloadButton" disabled>Download</button>
-      <button class="btn btn-danger" id="resetButton" disabled>Reload</button>
-    </div>
-  </header>
-    <aside class="sidebar" id="sidebar">
+      <div class="topbar-center"><span class="status-dot" id="statusDot"></span><span id="statusText">No file opened yet.</span></div>
+      <div class="file-actions">
+        <button class="btn btn-primary" id="openButton">Open index.html</button>
+        <button class="btn" id="downloadButton" disabled>Download</button>
+        <button class="btn btn-danger" id="resetButton" disabled>Reload</button>
+      </div>
+    </header>
+
+    <aside class="sidebar">
       <div id="sidebarNav" class="sidebar-nav"></div>
       <div class="sidebar-bottom-actions">
         <button class="nav-link nav-button theme-bottom-button" type="button" id="themeToggle" aria-label="Switch color mode" title="Switch color mode">
-          <span class="theme-icon" id="themeIcon" aria-hidden="true"></span>
-          <span id="themeToggleText">Toggle theme</span>
+          <span class="theme-icon" id="themeIcon"></span><span id="themeToggleText">Toggle theme</span>
         </button>
       </div>
     </aside>
+
     <div class="main-shell">
-  <main class="main">
-    
+      <main class="main">
+        <section id="contentPage" class="page active">
+          <div class="page-header"><div><h2>Content</h2><p>Edit names, parents, intro, couple, bride/groom, wedding date, schedule, venue, gifts, dress code, RSVP, and modal text.</p></div></div>
+          <div class="note">Updated for the latest invite version: includes Gifts, date schedule, Google Map links, current map spot structure, and the centered single-line bride/groom full-name auto-fit fix.</div>
+          <div class="type-selector-wrap">
+            <div class="type-label">Name set selector</div>
+            <div class="type-selector">
+              <button class="type-button active" data-type="general"><span class="type-title">General</span><span class="type-subtitle">default names</span></button>
+              <button class="type-button" data-type="friends"><span class="type-title">Friends</span><span class="type-subtitle">friends names</span></button>
+              <button class="type-button" data-type="work"><span class="type-title">Work</span><span class="type-subtitle">default names</span></button>
+              <button class="type-button" data-type="family"><span class="type-title">Family</span><span class="type-subtitle">Indonesian text</span></button>
+            </div>
+          </div>
+          <div id="contentPanels"></div>
+        </section>
 
-    <section id="contentPage" class="page active">
-      <div class="page-header">
-        <div>
-          <h2>Content</h2>
-          <p>Edit invitation text, names, parents, date, venue, rundown, dress code, RSVP, and modal copy.</p>
-        </div>
-      </div>
+        <section id="settingsPage" class="page">
+          <div class="page-header"><div><h2>Settings</h2><p>Control music constants, colors, and font types/sizes.</p></div><div class="file-actions"><button class="btn btn-primary" id="saveAllSettingsButton" disabled>Save All Settings</button></div></div>
+          <div id="settingsPanels"></div>
+        </section>
 
-      <div class="subnav" id="contentNav"></div>
+        <section id="layoutsPage" class="page">
+          <div class="page-header"><div><h2>Layouts</h2><p>Control page layout, photo positions, bride/groom centered name fitting, map spots, overlays, gifts page, schedule, and opening screen values.</p></div><div class="file-actions"><button class="btn btn-primary" id="saveAllLayoutsButton" disabled>Save All Layouts</button></div></div>
+          <div id="layoutsPanels"></div>
+        </section>
 
-      <div class="type-selector-wrap">
-        <div class="type-label">Name set selector</div>
-        <div class="type-selector">
-          <button class="type-button active" data-type="general"><span class="type-title">General</span><span class="type-subtitle">default names</span></button>
-          <button class="type-button" data-type="friends"><span class="type-title">Friends</span><span class="type-subtitle">friends names</span></button>
-          <button class="type-button" data-type="work"><span class="type-title">Work</span><span class="type-subtitle">default names</span></button>
-        </div>
-      </div>
-
-      <div id="contentPanels"></div>
-    </section>
-
-    <section id="settingsPage" class="page">
-      <div class="page-header">
-        <div>
-          <h2>Settings</h2>
-          <p>Control music volume and font types/sizes.</p>
-        </div>
-        <div class="file-actions">
-          <button class="btn btn-primary" id="saveAllSettingsButton" disabled>Save All Settings</button>
-        </div>
-      </div>
-      <div class="subnav" id="settingsNav"></div>
-      <div id="settingsPanels"></div>
-    </section>
-
-    <section id="layoutsPage" class="page">
-      <div class="page-header">
-        <div>
-          <h2>Layouts</h2>
-          <p>Control page layout, positioning, buttons, hero sections, countdown boxes, map spots, overlays, and animation values.</p>
-        </div>
-        <div class="file-actions">
-          <button class="btn btn-primary" id="saveAllLayoutsButton" disabled>Save All Layouts</button>
-        </div>
-      </div>
-      <div class="subnav" id="layoutsNav"></div>
-      <div id="layoutsPanels"></div>
-    </section>
-</main>
+        <section class="log-card" id="log"><pre id="logOutput"></pre></section>
+      </main>
     </div>
   </div>
 
@@ -1014,6 +250,7 @@
     let activeNameType = 'general';
     let values = {};
     let settingsValues = {};
+    let activePage = 'content';
 
     const openButton = document.getElementById('openButton');
     const downloadButton = document.getElementById('downloadButton');
@@ -1025,11 +262,7 @@
     const contentPanels = document.getElementById('contentPanels');
     const settingsPanels = document.getElementById('settingsPanels');
     const layoutsPanels = document.getElementById('layoutsPanels');
-    const contentNav = document.getElementById('contentNav');
-    const settingsNav = document.getElementById('settingsNav');
-    const layoutsNav = document.getElementById('layoutsNav');
     const logOutput = document.getElementById('logOutput');
-
     const appLayout = document.getElementById('appLayout');
     const sidebarNav = document.getElementById('sidebarNav');
     const sidebarToggle = document.getElementById('sidebarToggle');
@@ -1037,10 +270,8 @@
     const themeToggle = document.getElementById('themeToggle');
     const themeToggleText = document.getElementById('themeToggleText');
     const themeIcon = document.getElementById('themeIcon');
-    let activePage = 'content';
 
     const ICONS = {
-      overview: '<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M14 3v5h5"/><path d="M8 13h8"/><path d="M8 17h5"/></svg>',
       content: '<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h10"/></svg>',
       settings: '<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6V20a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-.6 1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1H4a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 .6-1 1.7 1.7 0 0 0-.34-1.88l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6V4a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 .6 1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.2.36.4.7.6 1h.1a2 2 0 1 1 0 4H20a1.7 1.7 0 0 0-.6 1Z"/></svg>',
       layouts: '<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>',
@@ -1049,9 +280,9 @@
       music: '<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>',
       colors: '<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2a10 10 0 0 0 0 20 2.5 2.5 0 0 0 2.5-2.5c0-.65-.25-1.25-.65-1.7-.35-.4-.2-1.05.35-1.05H16a6 6 0 0 0 0-12Z"/></svg>',
       fonts: '<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>',
-      buttons: '<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="8" rx="4"/><path d="M8 12h8"/></svg>',
+      gifts: '<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7Z"/><path d="M12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7Z"/></svg>',
       map: '<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-5.1 7-11a7 7 0 1 0-14 0c0 5.9 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>',
-      log: '<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8"/><path d="M8 12h8"/><path d="M8 16h5"/></svg>'
+      default: '<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>'
     };
     const ICON_SIDEBAR_COLLAPSE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 4v16"/><path d="m15 9-3 3 3 3"/></svg>';
     const ICON_SIDEBAR_EXPAND = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 4v16"/><path d="m12 9 3 3-3 3"/></svg>';
@@ -1059,24 +290,24 @@
     const ICON_SUN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>';
 
     const TYPE_CONFIG = {
-      general: { title: 'General', description: 'General uses the default names.' },
-      friends: { title: 'Friends', description: 'Friends uses separate friends names.' },
-      work: { title: 'Work', description: 'Work uses default names.' },
-      family: { title: 'Family', description: 'Family uses Indonesian language text.' }
+      general: { title: 'General', description: 'Default English names.' },
+      friends: { title: 'Friends', description: 'Friends-specific names.' },
+      work: { title: 'Work', description: 'Uses default English names.' },
+      family: { title: 'Family', description: 'Uses Indonesian text and default names.' }
     };
 
     const CONTENT_SECTIONS = [
-      { key: 'names', title: 'Names', badge: 'couple names + legal names', mode: 'names' },
-      { key: 'parents', title: 'Parent Names', badge: 'shared', mode: 'parents' },
-      { key: 'intro', title: 'Intro Page', badge: 'EN + ID', mode: 'language' },
-      { key: 'couple', title: 'Couple Page', badge: 'EN + ID', mode: 'language' },
-      { key: 'bride', title: 'Bride Page', badge: 'EN + ID', mode: 'language' },
-      { key: 'groom', title: 'Groom Page', badge: 'EN + ID', mode: 'language' },
-      { key: 'date', title: 'Date Page', badge: 'date + EN + ID', mode: 'date' },
-      { key: 'venue', title: 'Venue Page', badge: 'EN + ID', mode: 'language' },
-      { key: 'rundown', title: 'Rundown Page', badge: 'EN + ID', mode: 'language' },
-      { key: 'dress', title: 'Dress Code Page', badge: 'EN + ID', mode: 'language' },
-      { key: 'rsvp', title: 'RSVP Page', badge: 'EN + ID', mode: 'language' }
+      { key: 'names', title: 'Names', badge: 'default + friends', icon: 'names', mode: 'names' },
+      { key: 'parents', title: 'Parent Names', badge: 'shared', icon: 'parents', mode: 'parents' },
+      { key: 'intro', title: 'Intro Page', badge: 'EN + ID', icon: 'content', mode: 'language' },
+      { key: 'couple', title: 'Couple Page', badge: 'EN + ID + script', icon: 'content', mode: 'couple' },
+      { key: 'bride', title: 'Bride Page', badge: 'EN + ID', icon: 'content', mode: 'language' },
+      { key: 'groom', title: 'Groom Page', badge: 'EN + ID', icon: 'content', mode: 'language' },
+      { key: 'date', title: 'Date & Schedule', badge: 'date + schedule', icon: 'content', mode: 'date' },
+      { key: 'venue', title: 'Venue Page', badge: 'EN + ID + map links', icon: 'map', mode: 'venue' },
+      { key: 'gifts', title: 'Gifts Page', badge: 'bank + wishlist + EN/ID', icon: 'gifts', mode: 'gifts' },
+      { key: 'dress', title: 'Dress Code Page', badge: 'EN + ID', icon: 'content', mode: 'language' },
+      { key: 'rsvp', title: 'RSVP Page', badge: 'EN + ID + modal', icon: 'content', mode: 'language' }
     ];
 
     const DEFAULT_NAME_FIELDS = [
@@ -1087,7 +318,6 @@
       { key: 'defaultGroomFullGovernmentName', label: 'Groom full government name', regex: /(const\s+couple\s*=\s*isFriends[\s\S]*?:\s*\{[\s\S]*?groomFullGovernmentName:\s*')([^']*)(')/ },
       { key: 'defaultBrideFullGovernmentName', label: 'Bride full government name', regex: /(const\s+couple\s*=\s*isFriends[\s\S]*?:\s*\{[\s\S]*?brideFullGovernmentName:\s*')([^']*)(')/ }
     ];
-
     const FRIEND_NAME_FIELDS = [
       { key: 'friendCoupleDisplay', label: 'Couple display name', regex: /(const\s+couple\s*=\s*isFriends\s*\?\s*\{[\s\S]*?display:\s*')([^']*)(')/ },
       { key: 'friendCoupleText', label: 'Couple sentence name', regex: /(const\s+couple\s*=\s*isFriends\s*\?\s*\{[\s\S]*?text:\s*')([^']*)(')/ },
@@ -1096,25 +326,19 @@
       { key: 'friendGroomFullGovernmentName', label: 'Groom full government name', regex: /(const\s+couple\s*=\s*isFriends\s*\?\s*\{[\s\S]*?groomFullGovernmentName:\s*')([^']*)(')/ },
       { key: 'friendBrideFullGovernmentName', label: 'Bride full government name', regex: /(const\s+couple\s*=\s*isFriends\s*\?\s*\{[\s\S]*?brideFullGovernmentName:\s*')([^']*)(')/ }
     ];
-
     const PARENT_FIELDS = [
       { key: 'groomFather', label: 'Groom father', regex: /(groomFather:\s*')([^']*)(')/ },
       { key: 'groomMother', label: 'Groom mother', regex: /(groomMother:\s*')([^']*)(')/ },
       { key: 'brideFather', label: 'Bride father', regex: /(brideFather:\s*')([^']*)(')/ },
       { key: 'brideMother', label: 'Bride mother', regex: /(brideMother:\s*')([^']*)(')/ }
     ];
-
-    const DATE_FIELDS = [
-      { key: 'weddingDate', label: 'Wedding date', regex: /(<h2>)([^<]*)(<\/h2>\s*[\s\S]*?<p id="date-subtitle")/ },
-      { key: 'weddingDateJs', label: 'Countdown date', regex: /(const\s+weddingDate\s*=\s*new Date\(')([^']*)('\)\.getTime\(\);)/ }
-    ];
-
     const LANGUAGE_FIELDS = {
       intro: [
         ['introDearLabel', 'Greeting label', 'intro-dear-label', 'text'],
         ['guestName', 'Default guest name', 'guest-name', 'text'],
         ['introSubtitle', 'Intro subtitle', 'intro-subtitle', 'text'],
-        ['introButton', 'Button text', 'intro-button', 'text']
+        ['introButton', 'Button text', 'intro-button', 'text'],
+        ['musicOpenButton', 'Opening button text', 'music-open-button', 'text']
       ],
       couple: [
         ['coupleDescription', 'Couple description', 'couple-description', 'textarea'],
@@ -1134,6 +358,9 @@
       ],
       date: [
         ['dateSubtitle', 'Date subtitle', 'date-subtitle', 'text'],
+        ['dateScheduleTitle', 'Schedule title', 'date-schedule-title', 'text'],
+        ['dateScheduleWedding', 'First event label', 'date-schedule-wedding', 'text'],
+        ['dateScheduleReception', 'Second event label', 'date-schedule-reception', 'text'],
         ['dateButton', 'Date button text', 'date-button', 'text']
       ],
       venue: [
@@ -1142,10 +369,17 @@
         ['mapCta', 'Map button text', 'map-cta', 'text'],
         ['venueBackButton', 'Back button text', 'venue-back-button', 'text']
       ],
-      rundown: [
-        ['rundownTitle', 'Rundown title', 'rundown-title', 'text'],
-        ['rundownDescription', 'Rundown description', 'rundown-description', 'textarea'],
-        ['rundownBackButton', 'Back button text', 'rundown-back-button', 'text']
+      gifts: [
+        ['giftsTitle', 'Gifts title', 'gifts-title', 'text'],
+        ['giftsDescription', 'Gifts description', 'gifts-description', 'textarea'],
+        ['giftGroomHolderLabel', 'Groom holder label', 'gift-groom-holder-label', 'text'],
+        ['giftBrideHolderLabel', 'Bride holder label', 'gift-bride-holder-label', 'text'],
+        ['giftWishlistLabel', 'Wishlist label', 'gift-wishlist-label', 'text'],
+        ['giftWishlistNote', 'Wishlist note', 'gift-wishlist-note', 'textarea'],
+        ['giftWishlistButton', 'Wishlist button text', 'gift-wishlist-button', 'text'],
+        ['giftGroomCopyButton', 'Groom copy button', 'gift-groom-copy-button', 'text'],
+        ['giftBrideCopyButton', 'Bride copy button', 'gift-bride-copy-button', 'text'],
+        ['giftsBackButton', 'Back button text', 'gifts-back-button', 'text']
       ],
       dress: [
         ['dressTitle', 'Dress title', 'dress-title', 'text'],
@@ -1155,6 +389,7 @@
       ],
       rsvp: [
         ['rsvpTitle', 'RSVP title', 'rsvp-title', 'text'],
+        ['rsvpGreeting', 'RSVP greeting', 'rsvp-greeting', 'textarea', 'rawhtml'],
         ['guestNameLabel', 'Guest name label', 'guest-name-label', 'text'],
         ['attendanceLabel', 'Attendance question', 'attendance-label', 'text'],
         ['attendanceEmpty', 'Attendance empty option', 'attendance-empty', 'text'],
@@ -1170,17 +405,38 @@
         ['modalButton', 'Success modal button', 'modal-button', 'text']
       ]
     };
+    const STATIC_FIELDS = {
+      date: [
+        { key: 'weddingDate', label: 'Wedding date', type: 'date', hint: 'Updates visible date and countdown JavaScript date.' },
+        { key: 'scheduleTime1', label: 'First schedule time', type: 'time' },
+        { key: 'scheduleTime2', label: 'Second schedule time', type: 'time' }
+      ],
+      venue: [
+        { key: 'mapHref', label: 'Google Maps button URL', type: 'text' },
+        { key: 'mapIframeSrc', label: 'Embedded map iframe URL', type: 'textarea' }
+      ],
+      gifts: [
+        { key: 'giftGroomBankName', label: 'Groom bank name', type: 'text', id: 'gift-groom-bank-name' },
+        { key: 'giftGroomAccountNumber', label: 'Groom account number', type: 'text', id: 'gift-groom-account-number' },
+        { key: 'giftGroomAccountHolder', label: 'Groom account holder', type: 'text', id: 'gift-groom-account-holder' },
+        { key: 'giftBrideBankName', label: 'Bride bank name', type: 'text', id: 'gift-bride-bank-name' },
+        { key: 'giftBrideAccountNumber', label: 'Bride account number', type: 'text', id: 'gift-bride-account-number' },
+        { key: 'giftBrideAccountHolder', label: 'Bride account holder', type: 'text', id: 'gift-bride-account-holder' },
+        { key: 'giftWishlistHref', label: 'Wishlist URL', type: 'text' }
+      ]
+    };
 
     const SETTINGS_SECTIONS = [
-      { key: 'music', title: 'Music', badge: 'volume + fade + loop', fields: [
+      { key: 'music', title: 'Music', badge: 'volume + fade + loop', icon: 'music', fields: [
         { key: 'trackVolumes', label: 'Track max volumes array', type: 'text', default: '0.10, 0.10, 0.10, 0.13, 0.10, 0.04, 0.10', target: 'jsArray', constName: 'TRACK_MAX_VOLUMES' },
         { key: 'fadeDuration', label: 'Fade duration ms', type: 'number', default: '6000', target: 'jsConst', constName: 'FADE_DURATION' },
         { key: 'manualLoopSeconds', label: 'Manual loop seconds', type: 'number', step: '0.001', default: '41.858', target: 'jsConst', constName: 'MANUAL_LOOP_SECONDS' },
+        { key: 'loopSafetyTrim', label: 'Loop safety trim seconds', type: 'number', step: '0.001', default: '0.02', target: 'jsConst', constName: 'LOOP_SAFETY_TRIM_SECONDS' },
         { key: 'loopStartFade', label: 'Loop start fade seconds', type: 'number', step: '0.01', default: '0.10', target: 'jsConst', constName: 'LOOP_START_FADE_SECONDS' },
         { key: 'loopEndFade', label: 'Loop end fade seconds', type: 'number', step: '0.01', default: '0.10', target: 'jsConst', constName: 'LOOP_END_FADE_SECONDS' },
         { key: 'loopCrossfade', label: 'Loop crossfade seconds', type: 'number', step: '0.01', default: '0.10', target: 'jsConst', constName: 'LOOP_CROSSFADE_SECONDS' }
       ]},
-      { key: 'colors', title: 'Colors', badge: 'palette + earth tone', fields: [
+      { key: 'colors', title: 'Colors', badge: 'palette + overlay', icon: 'colors', fields: [
         { key: 'sageGreen', label: 'Sage green', type: 'color', default: '#8fa68e', css: ':root', prop: '--sage-green' },
         { key: 'deepGreen', label: 'Deep green', type: 'color', default: '#5a7a5a', css: ':root', prop: '--deep-green' },
         { key: 'warmBrown', label: 'Warm brown', type: 'color', default: '#8b6914', css: ':root', prop: '--warm-brown' },
@@ -1190,11 +446,12 @@
         { key: 'woodDark', label: 'Wood dark', type: 'color', default: '#6b4423', css: ':root', prop: '--wood-dark' },
         { key: 'textPrimary', label: 'Text primary', type: 'color', default: '#3d3d3d', css: ':root', prop: '--text-primary' },
         { key: 'textSecondary', label: 'Text secondary', type: 'color', default: '#6b6b6b', css: ':root', prop: '--text-secondary' },
+        { key: 'textLight', label: 'Text light', type: 'color', default: '#8a8a8a', css: ':root', prop: '--text-light' },
         { key: 'leafLight', label: 'Leaf light', type: 'color', default: '#b8d4a8', css: ':root', prop: '--leaf-light' },
         { key: 'leafDark', label: 'Leaf dark', type: 'color', default: '#6b8f5e', css: ':root', prop: '--leaf-dark' },
-        { key: 'openingOverlay', label: 'Opening overlay darkness', type: 'text', default: 'rgba(0,0,0,0.28)', css: '.music-loading-screen::after', prop: 'background-color' }
+        { key: 'openingOverlay', label: 'Opening overlay darkness', type: 'text', default: 'rgba(0, 0, 0, 0.28)', css: '.music-loading-screen::after', prop: 'background-color' }
       ]},
-      { key: 'fonts', title: 'Font Types & Sizes', badge: 'family + size', fields: [
+      { key: 'fonts', title: 'Font Types & Sizes', badge: 'family + size', icon: 'fonts', fields: [
         { key: 'bodyFont', label: 'Body font family', type: 'text', default: "'Cormorant Garamond', Georgia, serif", css: 'html, body', prop: 'font-family' },
         { key: 'headingFont', label: 'Heading font family', type: 'text', default: "'Cinzel', serif", css: 'h1, h2', prop: 'font-family' },
         { key: 'scriptFont', label: 'Script font family', type: 'text', default: "'Great Vibes', cursive", css: '.script-text, .music-loading-title', prop: 'font-family' },
@@ -1203,25 +460,33 @@
         { key: 'pSize', label: 'Paragraph size', type: 'text', default: '1.15rem', css: 'p', prop: 'font-size' },
         { key: 'introGuestSize', label: 'Intro guest name size', type: 'text', default: 'clamp(1.85rem, 6.9vw, 2.3rem)', css: '#guest-name', prop: 'font-size' },
         { key: 'coupleTitleSize', label: 'Couple title size', type: 'text', default: 'clamp(1.62rem, 6.4vw, 2.18rem)', css: '#couple-title', prop: 'font-size' },
-        { key: 'brideGroomNameSize', label: 'Bride/Groom name size', type: 'text', default: 'clamp(1.55rem, 6.2vw, 2.1rem)', css: '#bride-name, #groom-name', prop: 'font-size' }
-      ]},
-      { key: 'layout', title: 'Global Layout', badge: 'page + container', fields: [
+        { key: 'brideGroomNameSize', label: 'Bride/Groom name size', type: 'text', default: 'clamp(1.25rem, 5.6vw, 2.05rem)', css: '#bride-name, #groom-name', prop: 'font-size' }
+      ]}
+    ];
+    const LAYOUT_SECTIONS = [
+      { key: 'global', title: 'Global Layout', badge: 'page + container', icon: 'layouts', fields: [
         { key: 'appWidth', label: 'Invitation app width', type: 'text', default: 'min(100vw, calc(100svh * 9 / 16))', css: '.app', prop: 'width' },
         { key: 'pagePadding', label: 'Default page padding', type: 'text', default: '1.5rem', css: '.page', prop: 'padding' },
         { key: 'pageTransition', label: 'Page transition', type: 'text', default: 'transform 1.2s cubic-bezier(0.4, 0, 0.2, 1)', css: '.page-wrapper', prop: 'transition' },
         { key: 'overlayBlur', label: 'Map blur when overlay open', type: 'text', default: 'blur(10px)', css: '.app.overlay-open .page-wrapper, .app.overlay-open .ambient-clouds', prop: 'filter' },
-        { key: 'fadeInDuration', label: 'Element fade-in animation', type: 'text', default: 'fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards', css: '.page > *', prop: 'animation' },
-        { key: 'openingCardWidth', label: 'Opening card width', type: 'text', default: 'min(88vw, 360px)', css: '.music-loading-card', prop: 'width' }
+        { key: 'fadeInDuration', label: 'Element fade-in animation', type: 'text', default: 'fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards', css: '.page > *', prop: 'animation' }
       ]},
-      { key: 'buttons', title: 'Buttons', badge: 'font + size + position', fields: [
+      { key: 'opening', title: 'Opening Screen', badge: 'cover + button + loader', icon: 'layouts', fields: [
+        { key: 'openingCardWidth', label: 'Opening card width', type: 'text', default: 'min(88vw, 360px)', css: '.music-loading-card', prop: 'width' },
+        { key: 'openingCardMinHeight', label: 'Opening card min height', type: 'text', default: '360px', css: '.music-loading-card', prop: 'min-height' },
+        { key: 'openingTitleSize', label: 'Opening title size', type: 'text', default: 'clamp(3.1rem, 15vw, 4.8rem)', css: '.music-loading-title', prop: 'font-size' },
+        { key: 'openingButtonPadding', label: 'Open button padding', type: 'text', default: '0.9rem 2.1rem', css: '.music-open-button', prop: 'padding' },
+        { key: 'openingImageBlur', label: 'Opening background blur', type: 'text', default: 'blur(20px) brightness(0.58)', css: '.music-loading-screen::before', prop: 'filter' }
+      ]},
+      { key: 'buttons', title: 'Buttons', badge: 'font + size + position', icon: 'layouts', fields: [
         { key: 'buttonPadding', label: 'Main button padding', type: 'text', default: '1rem 2.2rem', css: 'button', prop: 'padding' },
         { key: 'buttonRadius', label: 'Main button radius', type: 'text', default: '50px', css: 'button', prop: 'border-radius' },
         { key: 'buttonFontSize', label: 'Main button font size', type: 'text', default: '0.9rem', css: 'button', prop: 'font-size' },
         { key: 'buttonMarginTop', label: 'Main button top margin', type: 'text', default: '1rem', css: 'button', prop: 'margin-top' },
-        { key: 'backButtonPadding', label: 'Back button padding', type: 'text', default: '0.9rem 2rem', css: '#page-venue > button.secondary, #page-rundown > button.secondary, #page-dress > button.secondary, #page-rsvp > button.secondary', prop: 'padding' },
+        { key: 'backButtonPadding', label: 'Back button padding', type: 'text', default: '0.9rem 2rem', css: '#page-venue > button.secondary, #page-gifts > button.secondary, #page-dress > button.secondary, #page-rsvp > button.secondary', prop: 'padding' },
         { key: 'rsvpSubmitPadding', label: 'RSVP submit padding', type: 'text', default: '0.8rem 1.15rem', css: '#rsvp-submit-button', prop: 'padding' }
       ]},
-      { key: 'couple', title: 'Couple Page Layout', badge: 'photo + overlap', fields: [
+      { key: 'couple', title: 'Couple Page Layout', badge: 'photo + overlap', icon: 'layouts', fields: [
         { key: 'coupleHeroPaddingTop', label: 'Couple page top padding', type: 'text', default: '4svh', css: '#page-couple .couple-hero', prop: 'padding-top' },
         { key: 'coupleImageHeight', label: 'Couple image row height', type: 'text', default: '45svh', css: '#page-couple .couple-hero-images', prop: 'height' },
         { key: 'coupleImageFlex', label: 'Couple image row flex', type: 'text', default: '0 0 45svh', css: '#page-couple .couple-hero-images', prop: 'flex' },
@@ -1230,54 +495,65 @@
         { key: 'coupleTextMarginTop', label: 'Couple text margin top', type: 'text', default: '-0.8rem', css: '#page-couple .couple-hero-text', prop: 'margin-top' },
         { key: 'coupleTextPadding', label: 'Couple text padding', type: 'text', default: '0 1.2rem 0', css: '#page-couple .couple-hero-text', prop: 'padding' }
       ]},
-      { key: 'single', title: 'Bride/Groom Layout', badge: 'single hero', fields: [
+      { key: 'single', title: 'Bride/Groom Layout', badge: 'single hero + centered name', icon: 'layouts', fields: [
         { key: 'singleHeroLift', label: 'Whole bride/groom layout lift', type: 'text', default: 'translateY(-50px)', css: '#page-bride .single-hero, #page-groom .single-hero', prop: 'transform' },
         { key: 'singlePhotoWidth', label: 'Single photo width', type: 'text', default: 'min(58vw, 260px)', css: '.single-hero-image img', prop: 'width' },
         { key: 'singlePhotoRadius', label: 'Single photo radius', type: 'text', default: '18px', css: '.single-hero-image img', prop: 'border-radius' },
         { key: 'singleTextMarginTop', label: 'Text overlap margin top', type: 'text', default: '-6.75rem', css: '.single-hero-text.overlap-text', prop: 'margin-top' },
         { key: 'singleTextTransform', label: 'Text transform', type: 'text', default: 'translateY(calc(-0.45rem - 10px))', css: '#page-bride .single-hero-text.overlap-text, #page-groom .single-hero-text.overlap-text', prop: 'transform' },
+        { key: 'brideGroomNameMaxWidth', label: 'Bride/Groom name max width', type: 'text', default: 'min(94vw, 380px)', css: '#bride-name, #groom-name', prop: 'max-width' },
+        { key: 'brideGroomNameTextAlign', label: 'Bride/Groom name alignment', type: 'text', default: 'center', css: '#bride-name, #groom-name', prop: 'text-align' },
+        { key: 'brideGroomNameWhiteSpace', label: 'Bride/Groom name white-space', type: 'text', default: 'nowrap', css: '#bride-name, #groom-name', prop: 'white-space' },
+        { key: 'brideGroomNameLetterSpacing', label: 'Bride/Groom name letter spacing', type: 'text', default: '0.02em', css: '#bride-name, #groom-name', prop: 'letter-spacing' },
+        { key: 'brideGroomNameAutoFitMinPx', label: 'Bride/Groom auto-fit minimum px', type: 'number', default: '13', target: 'jsConst', constName: 'minSize' },
         { key: 'parentLineSize', label: 'Parent line font size', type: 'text', default: 'clamp(0.68rem, 2.35vw, 0.82rem)', css: '.parent-line', prop: 'font-size' }
       ]},
-      { key: 'date', title: 'Date / Countdown', badge: 'countdown boxes', fields: [
-        { key: 'countdownMaxWidth', label: 'Countdown max width', type: 'text', default: '300px', css: '.countdown', prop: 'max-width' },
-        { key: 'countdownGap', label: 'Countdown gap', type: 'text', default: '1.2rem', css: '.countdown', prop: 'gap' },
-        { key: 'timeBoxPadding', label: 'Time box padding', type: 'text', default: '1.3rem 1rem', css: '.time-box', prop: 'padding' },
-        { key: 'timeBoxRadius', label: 'Time box radius', type: 'text', default: '20px', css: '.time-box', prop: 'border-radius' },
-        { key: 'timeNumberSize', label: 'Time number size', type: 'text', default: '2rem', css: '.time-box span', prop: 'font-size' }
+      { key: 'date', title: 'Date / Countdown / Schedule', badge: 'countdown + schedule', icon: 'layouts', fields: [
+        { key: 'datePageGap', label: 'Date page gap', type: 'text', default: '0.7rem', css: '#page-date', prop: 'gap' },
+        { key: 'countdownMaxWidth', label: 'Countdown max width', type: 'text', default: '360px', css: '#page-date .countdown', prop: 'max-width' },
+        { key: 'countdownGap', label: 'Countdown gap', type: 'text', default: '0.45rem', css: '#page-date .countdown', prop: 'gap' },
+        { key: 'timeBoxPadding', label: 'Time box padding', type: 'text', default: '0.82rem 0.28rem 0.68rem', css: '#page-date .time-box', prop: 'padding' },
+        { key: 'timeBoxRadius', label: 'Time box radius', type: 'text', default: '16px', css: '#page-date .time-box', prop: 'border-radius' },
+        { key: 'timeNumberSize', label: 'Time number size', type: 'text', default: 'clamp(1.15rem, 5.5vw, 1.62rem)', css: '#page-date .time-box span', prop: 'font-size' },
+        { key: 'dateScheduleMaxWidth', label: 'Schedule max width', type: 'text', default: '360px', css: '.date-schedule', prop: 'max-width' },
+        { key: 'dateSchedulePadding', label: 'Schedule padding', type: 'text', default: '1rem 1.05rem', css: '.date-schedule', prop: 'padding' }
       ]},
-      { key: 'map', title: 'Map + Button Positions', badge: 'spots + leaves', fields: [
+      { key: 'map', title: 'Map + Spot Positions', badge: 'couple + venue + gifts + dress + rsvp', icon: 'map', fields: [
         { key: 'spotSize', label: 'Map spot size', type: 'text', default: '100px', css: '.spot', prop: 'width;height' },
         { key: 'spotCoupleTop', label: 'Couple spot top', type: 'text', default: '1%', css: '.spot-couple', prop: 'top' },
         { key: 'spotCoupleLeft', label: 'Couple spot left', type: 'text', default: '38%', css: '.spot-couple', prop: 'left' },
         { key: 'spotVenueTop', label: 'Venue spot top', type: 'text', default: '20%', css: '.spot-venue', prop: 'top' },
         { key: 'spotVenueLeft', label: 'Venue spot left', type: 'text', default: '38%', css: '.spot-venue', prop: 'left' },
-        { key: 'spotRundownTop', label: 'Rundown spot top', type: 'text', default: '35%', css: '.spot-rundown', prop: 'top' },
-        { key: 'spotRundownLeft', label: 'Rundown spot left', type: 'text', default: '15%', css: '.spot-rundown', prop: 'left' },
+        { key: 'spotGiftsTop', label: 'Gifts spot top', type: 'text', default: '35%', css: '.spot-gifts', prop: 'top' },
+        { key: 'spotGiftsLeft', label: 'Gifts spot left', type: 'text', default: '15%', css: '.spot-gifts', prop: 'left' },
         { key: 'spotDressTop', label: 'Dress spot top', type: 'text', default: '50%', css: '.spot-dress', prop: 'top' },
         { key: 'spotDressRight', label: 'Dress spot right', type: 'text', default: '10%', css: '.spot-dress', prop: 'right' },
         { key: 'spotRsvpBottom', label: 'RSVP spot bottom', type: 'text', default: '15%', css: '.spot-rsvp', prop: 'bottom' },
         { key: 'spotRsvpLeft', label: 'RSVP spot left', type: 'text', default: '8%', css: '.spot-rsvp', prop: 'left' },
         { key: 'leafSize', label: 'Floating leaf base size', type: 'text', default: '20px', css: '.venue-map .floating-leaf', prop: 'width;height' }
       ]},
-      { key: 'overlay', title: 'Overlay Pages', badge: 'cards + RSVP', fields: [
+      { key: 'overlay', title: 'Overlay Pages', badge: 'venue + gifts + dress + rsvp', icon: 'layouts', fields: [
         { key: 'venueCardMaxWidth', label: 'Overlay card max width', type: 'text', default: '360px', css: '.venue-card', prop: 'max-width' },
         { key: 'venueCardPadding', label: 'Overlay card padding', type: 'text', default: '1.8rem', css: '.venue-card', prop: 'padding' },
         { key: 'venueCardRadius', label: 'Overlay card radius', type: 'text', default: '28px', css: '.venue-card', prop: 'border-radius' },
         { key: 'venueMapHeight', label: 'Venue embedded map height', type: 'text', default: '240px', css: '.venue-map-embed', prop: 'height' },
         { key: 'rsvpCardPadding', label: 'RSVP card padding', type: 'text', default: '1.28rem 1.35rem 1.45rem', css: '#page-rsvp .venue-card, #page-rsvp .rsvp-card', prop: 'padding' },
-        { key: 'rsvpTextareaHeight', label: 'RSVP textarea height', type: 'text', default: '74px', css: '#page-rsvp textarea', prop: 'height' }
+        { key: 'rsvpTextareaHeight', label: 'RSVP textarea height', type: 'text', default: '74px', css: '#page-rsvp textarea', prop: 'height' },
+        { key: 'giftsCardPadding', label: 'Gifts card padding', type: 'text', default: '1.8rem', css: '#page-gifts .gift-card', prop: 'padding' },
+        { key: 'giftOptionsGap', label: 'Gifts options gap', type: 'text', default: '0.48rem', css: '#page-gifts .gift-options', prop: 'gap' },
+        { key: 'giftAccountPadding', label: 'Gift bank card padding', type: 'text', default: '0.55rem 0.68rem', css: '#page-gifts .gift-option.gift-account-option', prop: 'padding' }
       ]}
     ];
 
-    const LAYOUT_SECTION_KEYS = ['layout', 'buttons', 'couple', 'single', 'date', 'map', 'overlay'];
-    const BASE_SETTINGS_SECTIONS = SETTINGS_SECTIONS.filter(section => section.key !== 'colors' && !LAYOUT_SECTION_KEYS.includes(section.key));
-    const LAYOUT_SECTIONS = SETTINGS_SECTIONS.filter(section => LAYOUT_SECTION_KEYS.includes(section.key));
-
-    function log(message) { if (logOutput) logOutput.textContent = message; else console.log(message); }
-    function escapeJs(value) { return String(value).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\r?\n/g, '\\n'); }
+    function log(message) { if (logOutput) logOutput.textContent = message; console.log(message); }
+    function safeStorageGet(key, fallback = '') { try { return localStorage.getItem(key) || fallback; } catch { return fallback; } }
+    function safeStorageSet(key, value) { try { localStorage.setItem(key, value); } catch { } }
+    function escapeJs(value) { return String(value ?? '').replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\r?\n/g, '\\n'); }
     function unescapeJs(value) { return String(value || '').replace(/\\n/g, '\n').replace(/\\'/g, "'").replace(/\\\\/g, '\\'); }
-    function htmlToPlain(value) { return String(value || '').replace(/<br\s*\/?\>/gi, '\n').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').trim(); }
-    function plainToHtmlBreaks(value) { return String(value || '').split(/\r?\n/).map(s => s.trim()).filter(Boolean).join('<br/>'); }
+    function escapeHtml(value) { return String(value ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+    function unescapeHtml(value) { const t = document.createElement('textarea'); t.innerHTML = value || ''; return t.value; }
+    function htmlToPlain(value) { return unescapeHtml(String(value || '').replace(/<br\s*\/?\>/gi, '\n')).trim(); }
+    function plainToHtmlBreaks(value) { return String(value || '').split(/\r?\n/).map(s => escapeHtml(s.trim())).filter(Boolean).join('<br/>'); }
     function escapeRegExp(value) { return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
 
     function getLanguageBlockBounds(html, lang) {
@@ -1290,35 +566,89 @@
       return lang === 'id' ? { start: idStart, end: elseStart } : { start: elseStart, end: endMarker };
     }
     function getLanguageBlock(html, lang) {
-      const b = getLanguageBlockBounds(html, lang);
-      return b ? html.slice(b.start, b.end) : '';
+      const bounds = getLanguageBlockBounds(html, lang);
+      return bounds ? html.slice(bounds.start, bounds.end) : '';
     }
-    function findCallValue(html, lang, call, id) {
+    function replacePlaceholders(value) {
+      return String(value || '')
+        .replace(/\$\{couple\.bride\}/g, '{bride}')
+        .replace(/\$\{couple\.groom\}/g, '{groom}')
+        .replace(/\$\{couple\.text\}/g, '{couple}')
+        .replace(/\$\{name \|\| 'Our Guest'\}/g, '{guest}')
+        .replace(/\$\{name \|\| 'Tamu Undangan'\}/g, '{guest}');
+    }
+    function restorePlaceholders(value) {
+      return String(value || '')
+        .replace(/\{bride\}/g, '${couple.bride}')
+        .replace(/\{groom\}/g, '${couple.groom}')
+        .replace(/\{couple\}/g, '${couple.text}')
+        .replace(/\{guest\}/g, '${name || \'Our Guest\'}');
+    }
+    function restorePlaceholdersId(value) {
+      return String(value || '')
+        .replace(/\{bride\}/g, '${couple.bride}')
+        .replace(/\{groom\}/g, '${couple.groom}')
+        .replace(/\{couple\}/g, '${couple.text}')
+        .replace(/\{guest\}/g, '${name || \'Tamu Undangan\'}');
+    }
+    function findCallValue(html, lang, call, id, kind = '') {
       const block = getLanguageBlock(html, lang);
+      if (kind === 'countdown') {
+        const m = block.match(new RegExp(call + "\\('" + escapeRegExp(id) + "',\\s*'\\s*<span[^>]*>0<\\/span>([\\s\\S]*?)'\\);"));
+        return m ? unescapeJs(m[1]) : '';
+      }
       const single = new RegExp(call + "\\('" + escapeRegExp(id) + "',\\s*'([\\s\\S]*?)'\\);");
       const template = new RegExp(call + "\\('" + escapeRegExp(id) + "',\\s*`([\\s\\S]*?)`\\);");
       let m = block.match(single); if (m) return unescapeJs(m[1]);
-      m = block.match(template); if (m) return m[1].replace(/\$\{couple\.bride\}/g, '{bride}').replace(/\$\{couple\.groom\}/g, '{groom}');
+      m = block.match(template); if (m) return replacePlaceholders(m[1]);
       return '';
     }
-    function replaceCallValue(html, lang, call, id, value) {
-      const b = getLanguageBlockBounds(html, lang); if (!b) return { html, changed: false };
-      let block = html.slice(b.start, b.end);
-      const single = new RegExp('(' + call + "\\('" + escapeRegExp(id) + "',\\s*)'([\\s\\S]*?)'(\\);)");
-      const template = new RegExp('(' + call + "\\('" + escapeRegExp(id) + "',\\s*)`([\\s\\S]*?)`(\\);)");
+    function replaceCallValue(html, lang, call, id, value, kind = '') {
+      const bounds = getLanguageBlockBounds(html, lang); if (!bounds) return { html, changed: false };
+      let block = html.slice(bounds.start, bounds.end);
       let changed = false;
-      if (single.test(block)) {
-        block = block.replace(single, (_, p1, old, p3) => p1 + "'" + escapeJs(value) + "'" + p3); changed = true;
-      } else if (template.test(block)) {
-        const prepared = String(value).replace(/\{bride\}/g, '${couple.bride}').replace(/\{groom\}/g, '${couple.groom}');
-        block = block.replace(template, (_, p1, old, p3) => p1 + '`' + prepared.replace(/`/g, '\\`') + '`' + p3); changed = true;
+      if (kind === 'countdown') {
+        const re = new RegExp('(' + call + "\\('" + escapeRegExp(id) + "',\\s*)'\\s*<span[^>]*>0<\\/span>[\\s\\S]*?'(\\);)");
+        if (re.test(block)) {
+          block = block.replace(re, (_, p1, p2) => p1 + "'<span id=\"" + id.replace('countdown-', '').replace('-label', '') + "\">0</span>" + escapeJs(value) + "'" + p2);
+          changed = true;
+        }
+      } else {
+        const single = new RegExp('(' + call + "\\('" + escapeRegExp(id) + "',\\s*)'([\\s\\S]*?)'(\\);)");
+        const template = new RegExp('(' + call + "\\('" + escapeRegExp(id) + "',\\s*)`([\\s\\S]*?)`(\\);)");
+        if (single.test(block)) {
+          block = block.replace(single, (_, p1, old, p3) => p1 + "'" + escapeJs(value) + "'" + p3); changed = true;
+        } else if (template.test(block)) {
+          const prepared = lang === 'id' ? restorePlaceholdersId(value) : restorePlaceholders(value);
+          block = block.replace(template, (_, p1, old, p3) => p1 + '`' + prepared.replace(/`/g, '\\`') + '`' + p3); changed = true;
+        }
       }
-      return changed ? { html: html.slice(0, b.start) + block + html.slice(b.end), changed: true } : { html, changed: false };
+      return changed ? { html: html.slice(0, bounds.start) + block + html.slice(bounds.end), changed: true } : { html, changed: false };
     }
     function extractRegexValue(html, regex) { const m = html.match(regex); return m ? unescapeJs(m[2] || '') : ''; }
     function replaceRegexValue(html, regex, value) {
       if (!regex.test(html)) return { html, changed: false };
       return { html: html.replace(regex, (_, p1, old, p3) => p1 + escapeJs(value) + p3), changed: true };
+    }
+    function getElementContent(html, id) {
+      const re = new RegExp('(<([a-zA-Z0-9]+)\\b[^>]*\\bid=["\\\']' + escapeRegExp(id) + '["\\\'][^>]*>)([\\s\\S]*?)(<\\/\\2>)');
+      const m = html.match(re);
+      return m ? m[3].trim() : '';
+    }
+    function replaceElementContent(html, id, value, asHtml = false) {
+      const re = new RegExp('(<([a-zA-Z0-9]+)\\b[^>]*\\bid=["\\\']' + escapeRegExp(id) + '["\\\'][^>]*>)([\\s\\S]*?)(<\\/\\2>)');
+      if (!re.test(html)) return { html, changed: false };
+      return { html: html.replace(re, (_, p1, tag, old, p4) => p1 + (asHtml ? value : escapeHtml(value)) + p4), changed: true };
+    }
+    function getAttributeById(html, id, attr) {
+      const re = new RegExp('<[a-zA-Z0-9]+\\b[^>]*\\bid=["\\\']' + escapeRegExp(id) + '["\\\'][^>]*\\b' + escapeRegExp(attr) + '=["\\\']([^"\\\']*)["\\\']', 'i');
+      const m = html.match(re);
+      return m ? unescapeHtml(m[1]) : '';
+    }
+    function replaceAttributeById(html, id, attr, value) {
+      const re = new RegExp('(<[a-zA-Z0-9]+\\b[^>]*\\bid=["\\\']' + escapeRegExp(id) + '["\\\'][^>]*\\b' + escapeRegExp(attr) + '=["\\\'])([^"\\\']*)(["\\\'])', 'i');
+      if (!re.test(html)) return { html, changed: false };
+      return { html: html.replace(re, (_, p1, old, p3) => p1 + String(value || '').replace(/"/g, '&quot;') + p3), changed: true };
     }
     function parseDisplayDateToIso(value) {
       const text = String(value || '').trim();
@@ -1327,7 +657,7 @@
       if (m && months[m[2].toLowerCase()]) return `${m[3]}-${months[m[2].toLowerCase()]}-${m[1].padStart(2,'0')}`;
       m = text.match(/^([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4})/);
       if (m && months[m[1].toLowerCase()]) return `${m[3]}-${months[m[1].toLowerCase()]}-${m[2].padStart(2,'0')}`;
-      return '';
+      return /^\d{4}-\d{2}-\d{2}$/.test(text) ? text : '';
     }
     function isoToDisplayDate(value) {
       const [y,m,d] = String(value).split('-').map(Number); if (!y || !m || !d) return '';
@@ -1337,6 +667,60 @@
       const [y,m,d] = String(value).split('-').map(Number); if (!y || !m || !d) return '';
       const month = new Date(Date.UTC(y,m-1,d)).toLocaleDateString('en-US', { month:'long', timeZone:'UTC' });
       return `${month} ${d}, ${y} 00:00:00`;
+    }
+    function getDateDisplay(html) {
+      const m = html.match(/(<section\s+id=["']page-date["'][\s\S]*?<h2>)([^<]*)(<\/h2>)/);
+      return m ? m[2].trim() : '';
+    }
+    function replaceDateDisplay(html, value) {
+      const re = /(<section\s+id=["']page-date["'][\s\S]*?<h2>)([^<]*)(<\/h2>)/;
+      if (!re.test(html)) return { html, changed: false };
+      return { html: html.replace(re, (_, p1, old, p3) => p1 + escapeHtml(value) + p3), changed: true };
+    }
+    function getCountdownDate(html) { const m = html.match(/(const\s+weddingDate\s*=\s*new Date\(')([^']*)('\)\.getTime\(\);)/); return m ? m[2] : ''; }
+    function replaceCountdownDate(html, value) {
+      const re = /(const\s+weddingDate\s*=\s*new Date\(')([^']*)('\)\.getTime\(\);)/;
+      if (!re.test(html)) return { html, changed: false };
+      return { html: html.replace(re, (_, p1, old, p3) => p1 + escapeJs(value) + p3), changed: true };
+    }
+    function getScheduleTime(html, index) {
+      const matches = [...html.matchAll(/<div\s+class=["']date-schedule-time["']>([\s\S]*?)<\/div>/g)];
+      return matches[index] ? matches[index][1].trim() : '';
+    }
+    function replaceScheduleTime(html, index, value) {
+      let i = -1, changed = false;
+      const out = html.replace(/(<div\s+class=["']date-schedule-time["']>)([\s\S]*?)(<\/div>)/g, (match, p1, old, p3) => {
+        i += 1;
+        if (i === index) { changed = true; return p1 + escapeHtml(value) + p3; }
+        return match;
+      });
+      return { html: out, changed };
+    }
+    function getCoupleScriptValue(html, lang) {
+      const blockStart = html.indexOf("setText('couple-script'");
+      if (blockStart === -1) return '';
+      const block = html.slice(blockStart, html.indexOf(');', blockStart) + 2);
+      if (lang === 'id') {
+        const m = block.match(/\?\s*'([\s\S]*?)'\s*:/);
+        return m ? unescapeJs(m[1]) : '';
+      }
+      const m = block.match(/:\s*`([\s\S]*?)`\s*\);/);
+      return m ? replacePlaceholders(m[1]) : '';
+    }
+    function replaceCoupleScriptValue(html, lang, value) {
+      const blockStart = html.indexOf("setText('couple-script'");
+      if (blockStart === -1) return { html, changed: false };
+      const blockEnd = html.indexOf(');', blockStart) + 2;
+      let block = html.slice(blockStart, blockEnd);
+      let changed = false;
+      if (lang === 'id') {
+        const re = /(\?\s*)'([\s\S]*?)'(\s*:)/;
+        if (re.test(block)) { block = block.replace(re, (_, p1, old, p3) => p1 + "'" + escapeJs(value) + "'" + p3); changed = true; }
+      } else {
+        const re = /(:\s*)`([\s\S]*?)`(\s*\);)/;
+        if (re.test(block)) { block = block.replace(re, (_, p1, old, p3) => p1 + '`' + restorePlaceholders(value).replace(/`/g, '\\`') + '`' + p3); changed = true; }
+      }
+      return changed ? { html: html.slice(0, blockStart) + block + html.slice(blockEnd), changed: true } : { html, changed: false };
     }
 
     function makeInput(label, value, type = 'text', hint = '', step = '') {
@@ -1350,150 +734,72 @@
       wrap.appendChild(input);
       return { wrap, input };
     }
-
     function getNameFieldsForType(type) { return type === 'friends' ? FRIEND_NAME_FIELDS : DEFAULT_NAME_FIELDS; }
     function nameKey(type, field) { return `names:${type}:${field.key}`; }
     function langKey(lang, section, def) { return `${lang}:${section}:${def[0]}`; }
+    function staticKey(section, key) { return `static:${section}:${key}`; }
 
     function extractContentValues() {
       values = {};
-      const nameTypes = [...new Set([activeNameType, activeNameType === 'friends' ? 'general' : activeNameType])];
-      nameTypes.forEach(type => getNameFieldsForType(type).forEach(f => values[nameKey(type, f)] = currentHtml ? extractRegexValue(currentHtml, f.regex) : ''));
+      ['general','friends','work','family'].forEach(type => getNameFieldsForType(type).forEach(f => values[nameKey(type, f)] = currentHtml ? extractRegexValue(currentHtml, f.regex) : ''));
       PARENT_FIELDS.forEach(f => values[`parents:${f.key}`] = currentHtml ? extractRegexValue(currentHtml, f.regex) : '');
-      const visibleDate = currentHtml ? extractRegexValue(currentHtml, DATE_FIELDS[0].regex) : '';
-      const jsDate = currentHtml ? extractRegexValue(currentHtml, DATE_FIELDS[1].regex) : '';
-      values['date:weddingDate'] = parseDisplayDateToIso(visibleDate) || parseDisplayDateToIso(jsDate);
+      const visibleDate = currentHtml ? getDateDisplay(currentHtml) : '';
+      const jsDate = currentHtml ? getCountdownDate(currentHtml) : '';
+      values[staticKey('date','weddingDate')] = parseDisplayDateToIso(visibleDate) || parseDisplayDateToIso(jsDate);
+      values[staticKey('date','scheduleTime1')] = currentHtml ? getScheduleTime(currentHtml, 0) : '08:00';
+      values[staticKey('date','scheduleTime2')] = currentHtml ? getScheduleTime(currentHtml, 1) : '11:00';
+      values[staticKey('venue','mapHref')] = currentHtml ? getAttributeById(currentHtml, 'map-cta', 'href') : '';
+      values[staticKey('venue','mapIframeSrc')] = currentHtml ? getAttributeById(currentHtml, 'venue-map-embed', 'src') : '';
+      // The iframe itself has no id, so extract it using a dedicated fallback.
+      if (currentHtml && !values[staticKey('venue','mapIframeSrc')]) {
+        const m = currentHtml.match(/<div\s+class=["']venue-map-embed["'][\s\S]*?<iframe\s+[^>]*src=["']([^"']*)["']/);
+        values[staticKey('venue','mapIframeSrc')] = m ? unescapeHtml(m[1]) : '';
+      }
+      (STATIC_FIELDS.gifts || []).forEach(f => {
+        if (f.id) values[staticKey('gifts', f.key)] = currentHtml ? htmlToPlain(getElementContent(currentHtml, f.id)) : '';
+        if (f.key === 'giftWishlistHref') values[staticKey('gifts', f.key)] = currentHtml ? getAttributeById(currentHtml, 'gift-wishlist-button', 'href') : '';
+      });
       Object.keys(LANGUAGE_FIELDS).forEach(section => {
         ['en', 'id'].forEach(lang => {
           LANGUAGE_FIELDS[section].forEach(def => {
-            const call = def[4] === 'html' ? 'setHTML' : 'setText';
-            let val = findCallValue(currentHtml || '', lang, call, def[2]);
+            const call = def[4] === 'html' || def[4] === 'rawhtml' ? 'setHTML' : def[4] === 'countdown' ? 'setHTML' : 'setText';
+            let val = findCallValue(currentHtml || '', lang, call, def[2], def[4] || '');
             if (def[4] === 'html') val = htmlToPlain(val);
             values[langKey(lang, section, def)] = val;
           });
+          values[`${lang}:couple:coupleScript`] = currentHtml ? getCoupleScriptValue(currentHtml, lang) : '';
         });
       });
-    }
-
-    function renderSubnav(el, sections, prefix) {
-      el.innerHTML = sections.map(s => `<a href="#${prefix}-${s.key}">${s.title.replace(' Page','')}</a>`).join('');
-    }
-
-
-    function safeStorageGet(key, fallback = '') {
-      try { return window.localStorage ? (localStorage.getItem(key) || fallback) : fallback; }
-      catch (error) { return fallback; }
-    }
-    function safeStorageSet(key, value) {
-      try { if (window.localStorage) localStorage.setItem(key, value); }
-      catch (error) { /* Storage may be unavailable in restricted previews. */ }
-    }
-    function getPageSections(page) {
-      if (page === 'content') return { title: 'Content', sections: CONTENT_SECTIONS, prefix: 'content-section' };
-      if (page === 'settings') return { title: 'Settings', sections: BASE_SETTINGS_SECTIONS, prefix: 'settings-section' };
-      return { title: 'Layouts', sections: LAYOUT_SECTIONS, prefix: 'layout-section' };
-    }
-    function navLinkHtml(target, label, iconKey, active = false, extra = '') {
-      return `<a class="nav-link${active ? ' active' : ''}" href="${target}" ${extra} title="${label}">${ICONS[iconKey] || ICONS.content}<span class="nav-text">${label}</span></a>`;
-    }
-    function renderSidebarNav() {
-      if (!sidebarNav) return;
-      const pageMeta = getPageSections(activePage);
-      const pageLinks = ['content', 'settings', 'layouts'].map(page => {
-        const label = page === 'content' ? 'Content' : page === 'settings' ? 'Settings' : 'Layouts';
-        return navLinkHtml('#top', label, page, page === activePage, `data-page-link="${page}"`);
-      }).join('');
-      const sectionLinks = pageMeta.sections.map(section => {
-        const target = `#${pageMeta.prefix}-${section.key}`;
-        return navLinkHtml(target, section.title.replace(' Page', ''), section.key, false);
-      }).join('');
-      sidebarNav.innerHTML = `
-        <div class="nav-section">
-          <div class="nav-section-title">Pages</div>
-          ${pageLinks}
-        </div>
-        <div class="nav-section">
-          <div class="nav-section-title">${pageMeta.title}</div>
-          ${sectionLinks}
-        </div>
-        `;
-      sidebarNav.querySelectorAll('[data-page-link]').forEach(link => {
-        link.addEventListener('click', event => {
-          event.preventDefault();
-          switchPage(link.dataset.pageLink);
-        });
-      });
-      sidebarNav.querySelectorAll('.nav-link[href^="#"]:not([data-page-link])').forEach(link => {
-        link.addEventListener('click', event => {
-          event.preventDefault();
-          const target = link.getAttribute('href');
-          if (target === '#log') switchPage(activePage);
-          const el = document.querySelector(target);
-          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-      });
-      updateActiveSidebarNav();
-    }
-    function updateActiveSidebarNav() {
-      if (!sidebarNav) return;
-      const pageMeta = getPageSections(activePage);
-      let current = '';
-      pageMeta.sections.forEach(section => {
-        const target = `#${pageMeta.prefix}-${section.key}`;
-        const el = document.querySelector(target);
-        if (el && el.offsetParent !== null && window.scrollY >= el.offsetTop - 120) current = target;
-      });
-      const logEl = document.querySelector('#log');
-      if (logEl && window.scrollY >= logEl.offsetTop - 120) current = '#log';
-      sidebarNav.querySelectorAll('.nav-link[href^="#"]:not([data-page-link])').forEach(link => {
-        link.classList.toggle('active', current && link.getAttribute('href') === current);
-      });
-      sidebarNav.querySelectorAll('[data-page-link]').forEach(link => {
-        link.classList.toggle('active', link.dataset.pageLink === activePage && !current);
-      });
-    }
-    function applySidebarState(collapsed) {
-      if (!appLayout) return;
-      appLayout.classList.toggle('sidebar-collapsed', Boolean(collapsed));
-      safeStorageSet('weddingEditorSidebarCollapsed', collapsed ? '1' : '0');
-      if (sidebarToggleIcon) sidebarToggleIcon.innerHTML = collapsed ? ICON_SIDEBAR_EXPAND : ICON_SIDEBAR_COLLAPSE;
-      if (sidebarToggle) {
-        sidebarToggle.setAttribute('aria-label', collapsed ? 'Expand sidebar' : 'Collapse sidebar');
-        sidebarToggle.title = collapsed ? 'Expand sidebar' : 'Collapse sidebar';
-      }
-    }
-    function toggleSidebar() {
-      applySidebarState(!appLayout.classList.contains('sidebar-collapsed'));
     }
 
     function renderContent() {
       extractContentValues();
-      renderSubnav(contentNav, CONTENT_SECTIONS, 'content-section');
       document.querySelectorAll('.type-button').forEach(b => b.classList.toggle('active', b.dataset.type === activeNameType));
       contentPanels.innerHTML = '';
       CONTENT_SECTIONS.forEach(section => contentPanels.appendChild(renderContentSection(section)));
       if (activePage === 'content') renderSidebarNav();
     }
-
     function renderContentSection(section) {
       const panel = document.createElement('section'); panel.className = 'section-card'; panel.id = `content-section-${section.key}`;
       panel.innerHTML = `<div class="section-header"><h3>${section.title}</h3><span class="badge">${section.badge}</span></div>`;
       if (section.mode === 'names') panel.appendChild(renderNames());
       if (section.mode === 'parents') panel.appendChild(renderParents());
-      if (section.mode === 'date') panel.appendChild(renderDate());
       if (section.mode === 'language') panel.appendChild(renderLanguage(section.key));
+      if (section.mode === 'couple') panel.appendChild(renderCouple());
+      if (section.mode === 'date') panel.appendChild(renderDate());
+      if (section.mode === 'venue') panel.appendChild(renderVenue());
+      if (section.mode === 'gifts') panel.appendChild(renderGifts());
       const save = document.createElement('div'); save.className = 'save-bar';
       const btn = document.createElement('button'); btn.className = 'btn btn-primary'; btn.textContent = 'Save This Section'; btn.disabled = !currentHtml;
       btn.addEventListener('click', () => saveContentSection(section)); save.appendChild(btn); panel.appendChild(save);
       return panel;
     }
-
     function renderNames() {
       const wrap = document.createElement('div'); wrap.className = 'grid-2';
       const left = document.createElement('div'); left.className = 'compare-cell';
       const right = document.createElement('div'); right.className = 'compare-cell';
-      const rightType = activeNameType === 'friends' ? 'general' : activeNameType;
-      [[left, activeNameType, `${TYPE_CONFIG[activeNameType].title} Names`], [right, rightType, 'Indonesian / Family Names']].forEach(([cell, type, title]) => {
+      const rightType = activeNameType === 'friends' ? 'general' : 'friends';
+      [[left, activeNameType, `${TYPE_CONFIG[activeNameType].title} / Active`], [right, rightType, rightType === 'friends' ? 'Friends names' : 'Default names']].forEach(([cell, type, title]) => {
         const h = document.createElement('div'); h.className = 'hint'; h.textContent = title; cell.appendChild(h);
         const grid = document.createElement('div'); grid.className = 'field-grid'; grid.style.padding = '0';
         getNameFieldsForType(type).forEach(f => { const item = makeInput(f.label, values[nameKey(type, f)]); item.input.addEventListener('input', () => values[nameKey(type, f)] = item.input.value); grid.appendChild(item.wrap); });
@@ -1506,22 +812,15 @@
       PARENT_FIELDS.forEach(f => { const item = makeInput(f.label, values[`parents:${f.key}`]); item.input.addEventListener('input', () => values[`parents:${f.key}`] = item.input.value); grid.appendChild(item.wrap); });
       return grid;
     }
-    function renderDate() {
-      const wrap = document.createElement('div');
-      const grid = document.createElement('div'); grid.className = 'field-grid';
-      const item = makeInput('Wedding date', values['date:weddingDate'], 'date', 'This updates both visible date and countdown date.');
-      item.input.addEventListener('input', () => values['date:weddingDate'] = item.input.value); grid.appendChild(item.wrap); wrap.appendChild(grid);
-      wrap.appendChild(renderLanguage('date'));
-      return wrap;
-    }
     function renderLanguage(sectionKey) {
       const wrap = document.createElement('div');
-      wrap.innerHTML = '<div class="compare-head"><div class="compare-title">English</div><div class="compare-title">Indonesian</div></div>';
+      wrap.innerHTML = '<div class="compare-head"><div class="compare-title">English</div><div class="compare-title">Indonesian / Family</div></div>';
       LANGUAGE_FIELDS[sectionKey].forEach(def => {
         const row = document.createElement('div'); row.className = 'compare-row';
         ['en', 'id'].forEach(lang => {
           const cell = document.createElement('div'); cell.className = 'compare-cell';
-          const item = makeInput(def[1], values[langKey(lang, sectionKey, def)], def[3], def[4] === 'html' ? 'Use new lines for line breaks.' : '');
+          const hint = def[4] === 'rawhtml' ? 'HTML is allowed. Use {guest}, {bride}, {groom}, or {couple} if needed.' : def[4] === 'html' ? 'Use new lines for <br/> line breaks. Use {guest}, {bride}, {groom}, or {couple} if needed.' : def[4] === 'countdown' ? 'Enter label only; the number span stays unchanged.' : 'Use {guest}, {bride}, {groom}, or {couple} if needed.';
+          const item = makeInput(def[1], values[langKey(lang, sectionKey, def)], def[3], hint);
           item.input.addEventListener('input', () => values[langKey(lang, sectionKey, def)] = item.input.value);
           cell.appendChild(item.wrap); row.appendChild(cell);
         });
@@ -1529,10 +828,90 @@
       });
       return wrap;
     }
+    function renderCouple() {
+      const wrap = document.createElement('div');
+      wrap.appendChild(renderLanguage('couple'));
+      const row = document.createElement('div'); row.className = 'compare-row';
+      ['en', 'id'].forEach(lang => {
+        const cell = document.createElement('div'); cell.className = 'compare-cell';
+        const item = makeInput('Couple script line', values[`${lang}:couple:coupleScript`], 'textarea', 'Use {couple}, {bride}, or {groom} if needed.');
+        item.input.addEventListener('input', () => values[`${lang}:couple:coupleScript`] = item.input.value);
+        cell.appendChild(item.wrap); row.appendChild(cell);
+      });
+      wrap.appendChild(row);
+      return wrap;
+    }
+    function renderStaticGrid(sectionKey) {
+      const fields = STATIC_FIELDS[sectionKey] || [];
+      const grid = document.createElement('div'); grid.className = 'field-grid';
+      fields.forEach(f => { const item = makeInput(f.label, values[staticKey(sectionKey, f.key)], f.type || 'text', f.hint || ''); item.input.addEventListener('input', () => values[staticKey(sectionKey, f.key)] = item.input.value); grid.appendChild(item.wrap); });
+      return grid;
+    }
+    function renderDate() { const wrap = document.createElement('div'); wrap.appendChild(renderStaticGrid('date')); wrap.appendChild(renderLanguage('date')); return wrap; }
+    function renderVenue() { const wrap = document.createElement('div'); wrap.appendChild(renderStaticGrid('venue')); wrap.appendChild(renderLanguage('venue')); return wrap; }
+    function renderGifts() {
+      const wrap = document.createElement('div');
+
+      const staticWrap = document.createElement('div');
+      const note = document.createElement('div');
+      note.className = 'gifts-static-note';
+      note.textContent = 'Bank fields are grouped by person for easier editing: left = groom, right = bride.';
+      staticWrap.appendChild(note);
+
+      const columns = document.createElement('div');
+      columns.className = 'gifts-static-layout';
+
+      const buildGiftColumn = (title, subtitle, fields) => {
+        const column = document.createElement('div');
+        column.className = 'gift-party-column';
+        const heading = document.createElement('div');
+        heading.className = 'gift-party-title';
+        heading.textContent = title;
+        const sub = document.createElement('div');
+        sub.className = 'gift-party-subtitle';
+        sub.textContent = subtitle;
+        const grid = document.createElement('div');
+        grid.className = 'gift-party-grid';
+        fields.forEach(field => {
+          const item = makeInput(field.label, values[staticKey('gifts', field.key)], field.type || 'text');
+          item.input.addEventListener('input', () => values[staticKey('gifts', field.key)] = item.input.value);
+          grid.appendChild(item.wrap);
+        });
+        column.appendChild(heading);
+        column.appendChild(sub);
+        column.appendChild(grid);
+        return column;
+      };
+
+      columns.appendChild(buildGiftColumn('Groom', 'Bank transfer details for the groom.', [
+        { key: 'giftGroomBankName', label: 'Bank name' },
+        { key: 'giftGroomAccountNumber', label: 'Account number' },
+        { key: 'giftGroomAccountHolder', label: 'Account holder' }
+      ]));
+
+      columns.appendChild(buildGiftColumn('Bride', 'Bank transfer details for the bride.', [
+        { key: 'giftBrideBankName', label: 'Bank name' },
+        { key: 'giftBrideAccountNumber', label: 'Account number' },
+        { key: 'giftBrideAccountHolder', label: 'Account holder' }
+      ]));
+
+      staticWrap.appendChild(columns);
+
+      const wishlistWrap = document.createElement('div');
+      wishlistWrap.className = 'gifts-static-footer';
+      const wishlist = makeInput('Wishlist URL', values[staticKey('gifts', 'giftWishlistHref')], 'text', 'Shared link for the wishlist button.');
+      wishlist.input.addEventListener('input', () => values[staticKey('gifts', 'giftWishlistHref')] = wishlist.input.value);
+      wishlistWrap.appendChild(wishlist.wrap);
+      staticWrap.appendChild(wishlistWrap);
+
+      wrap.appendChild(staticWrap);
+      wrap.appendChild(renderLanguage('gifts'));
+      return wrap;
+    }
 
     function applyNames(html) {
       let out = html, changed = 0, missing = [];
-      const types = [...new Set([activeNameType, activeNameType === 'friends' ? 'general' : activeNameType])];
+      const types = activeNameType === 'friends' ? ['friends', 'general'] : ['general', 'friends'];
       types.forEach(type => getNameFieldsForType(type).forEach(f => { const r = replaceRegexValue(out, f.regex, values[nameKey(type, f)] || ''); out = r.html; r.changed ? changed++ : missing.push(`${type}: ${f.label}`); }));
       return { html: out, changed, missing };
     }
@@ -1541,22 +920,53 @@
       PARENT_FIELDS.forEach(f => { const r = replaceRegexValue(out, f.regex, values[`parents:${f.key}`] || ''); out = r.html; r.changed ? changed++ : missing.push(f.label); });
       return { html: out, changed, missing };
     }
-    function applyDate(html) {
-      let out = html, changed = 0, missing = [];
-      const iso = values['date:weddingDate'];
-      if (iso) {
-        let r = replaceRegexValue(out, DATE_FIELDS[0].regex, isoToDisplayDate(iso)); out = r.html; r.changed ? changed++ : missing.push('Visible wedding date');
-        r = replaceRegexValue(out, DATE_FIELDS[1].regex, isoToCountdownDate(iso)); out = r.html; r.changed ? changed++ : missing.push('Countdown date');
-      }
-      return { html: out, changed, missing };
-    }
     function applyLanguage(sectionKey, html) {
       let out = html, changed = 0, missing = [];
       ['en', 'id'].forEach(lang => LANGUAGE_FIELDS[sectionKey].forEach(def => {
-        const call = def[4] === 'html' ? 'setHTML' : 'setText';
-        const value = def[4] === 'html' ? plainToHtmlBreaks(values[langKey(lang, sectionKey, def)] || '') : values[langKey(lang, sectionKey, def)] || '';
-        const r = replaceCallValue(out, lang, call, def[2], value); out = r.html; r.changed ? changed++ : missing.push(`${lang.toUpperCase()}: ${def[1]}`);
+        const call = def[4] === 'html' || def[4] === 'rawhtml' || def[4] === 'countdown' ? 'setHTML' : 'setText';
+        const rawValue = values[langKey(lang, sectionKey, def)] || '';
+        const value = def[4] === 'html' ? plainToHtmlBreaks(rawValue) : rawValue;
+        const r = replaceCallValue(out, lang, call, def[2], value, def[4] || ''); out = r.html; r.changed ? changed++ : missing.push(`${lang.toUpperCase()}: ${def[1]}`);
       }));
+      return { html: out, changed, missing };
+    }
+    function applyCouple(html) {
+      let out = html;
+      const base = applyLanguage('couple', out); out = base.html;
+      let changed = base.changed, missing = base.missing;
+      ['en', 'id'].forEach(lang => { const r = replaceCoupleScriptValue(out, lang, values[`${lang}:couple:coupleScript`] || ''); out = r.html; r.changed ? changed++ : missing.push(`${lang.toUpperCase()}: Couple script line`); });
+      return { html: out, changed, missing };
+    }
+    function applyDate(html) {
+      let out = html, changed = 0, missing = [];
+      const iso = values[staticKey('date','weddingDate')];
+      if (iso) {
+        let r = replaceDateDisplay(out, isoToDisplayDate(iso)); out = r.html; r.changed ? changed++ : missing.push('Visible wedding date');
+        r = replaceCountdownDate(out, isoToCountdownDate(iso)); out = r.html; r.changed ? changed++ : missing.push('Countdown date');
+      }
+      let r = replaceScheduleTime(out, 0, values[staticKey('date','scheduleTime1')] || ''); out = r.html; r.changed ? changed++ : missing.push('First schedule time');
+      r = replaceScheduleTime(out, 1, values[staticKey('date','scheduleTime2')] || ''); out = r.html; r.changed ? changed++ : missing.push('Second schedule time');
+      const lang = applyLanguage('date', out); out = lang.html; changed += lang.changed; missing = missing.concat(lang.missing);
+      return { html: out, changed, missing };
+    }
+    function applyVenue(html) {
+      let out = html, changed = 0, missing = [];
+      let r = replaceAttributeById(out, 'map-cta', 'href', values[staticKey('venue','mapHref')] || ''); out = r.html; r.changed ? changed++ : missing.push('Google Maps button URL');
+      const iframeRe = /(<div\s+class=["']venue-map-embed["'][\s\S]*?<iframe\s+[^>]*src=["'])([^"']*)(["'])/;
+      if (iframeRe.test(out)) { out = out.replace(iframeRe, (_, p1, old, p3) => p1 + (values[staticKey('venue','mapIframeSrc')] || '').replace(/"/g, '&quot;') + p3); changed++; } else missing.push('Embedded map iframe URL');
+      const lang = applyLanguage('venue', out); out = lang.html; changed += lang.changed; missing = missing.concat(lang.missing);
+      return { html: out, changed, missing };
+    }
+    function applyGifts(html) {
+      let out = html, changed = 0, missing = [];
+      (STATIC_FIELDS.gifts || []).forEach(f => {
+        let r;
+        if (f.id) r = replaceElementContent(out, f.id, values[staticKey('gifts', f.key)] || '', false);
+        else if (f.key === 'giftWishlistHref') r = replaceAttributeById(out, 'gift-wishlist-button', 'href', values[staticKey('gifts', f.key)] || '');
+        else r = { html: out, changed: false };
+        out = r.html; r.changed ? changed++ : missing.push(f.label);
+      });
+      const lang = applyLanguage('gifts', out); out = lang.html; changed += lang.changed; missing = missing.concat(lang.missing);
       return { html: out, changed, missing };
     }
     async function saveContentSection(section) {
@@ -1564,7 +974,10 @@
       let result = { html: currentHtml, changed: 0, missing: [] };
       if (section.mode === 'names') result = applyNames(currentHtml);
       else if (section.mode === 'parents') result = applyParents(currentHtml);
-      else if (section.mode === 'date') { const a = applyDate(currentHtml); const b = applyLanguage('date', a.html); result = { html: b.html, changed: a.changed + b.changed, missing: a.missing.concat(b.missing) }; }
+      else if (section.mode === 'couple') result = applyCouple(currentHtml);
+      else if (section.mode === 'date') result = applyDate(currentHtml);
+      else if (section.mode === 'venue') result = applyVenue(currentHtml);
+      else if (section.mode === 'gifts') result = applyGifts(currentHtml);
       else result = applyLanguage(section.key, currentHtml);
       currentHtml = result.html;
       await persistCurrentHtml(`Saved: ${section.title}`);
@@ -1572,244 +985,128 @@
       log(`Saved content section: ${section.title}\nUpdated fields: ${result.changed}\nMissing patterns: ${result.missing.length}${result.missing.length ? '\n- ' + result.missing.join('\n- ') : ''}`);
     }
 
-    function getOverrideBlock(html) {
-      const m = html.match(/\/\* === EDITOR SETTINGS OVERRIDES START === \*\/[\s\S]*?\/\* === EDITOR SETTINGS OVERRIDES END === \*\//);
-      return m ? m[0] : '';
-    }
+    function getOverrideBlock(html) { const m = html.match(/\/\* === EDITOR SETTINGS OVERRIDES START === \*\/[\s\S]*?\/\* === EDITOR SETTINGS OVERRIDES END === \*\//); return m ? m[0] : ''; }
     function valueFromOverride(block, selector, prop) {
       if (!block) return '';
       const sel = escapeRegExp(selector);
       const m = block.match(new RegExp(sel + '\\s*\\{([\\s\\S]*?)\\}', 'm'));
-      if (!m) return '';
-      if (prop.includes(';')) return '';
+      if (!m || prop.includes(';')) return '';
       const p = escapeRegExp(prop);
       const v = m[1].match(new RegExp(p + '\\s*:\\s*([^;]+);'));
-      return v ? v[1].trim() : '';
+      return v ? v[1].replace(/\s*!important\s*$/, '').trim() : '';
     }
     function getJsConstValue(html, constName, fallback) {
       const m = html.match(new RegExp('const\\s+' + escapeRegExp(constName) + '\\s*=\\s*([^;]+);'));
       if (!m) return fallback;
-      return m[1].replace(/[\[\]]/g, '').replace(/\/\/.*$/gm, '').split(',').map(s => s.trim()).filter(Boolean).join(', ');
+      if (m[1].trim().startsWith('[')) return m[1].replace(/[\[\]]/g, '').replace(/\/\/.*$/gm, '').split(',').map(s => s.trim()).filter(Boolean).join(', ');
+      return m[1].trim();
     }
+    function allSettingsSections() { return SETTINGS_SECTIONS.concat(LAYOUT_SECTIONS); }
     function extractSettingsValues() {
       settingsValues = {};
       const block = getOverrideBlock(currentHtml || '');
-      SETTINGS_SECTIONS.forEach(sec => sec.fields.forEach(f => {
+      allSettingsSections().forEach(sec => sec.fields.forEach(f => {
         if (f.target === 'jsConst' || f.target === 'jsArray') settingsValues[f.key] = currentHtml ? getJsConstValue(currentHtml, f.constName, f.default) : f.default;
         else if (f.prop === 'width;height') settingsValues[f.key] = valueFromOverride(block, f.css, 'width') || f.default;
         else settingsValues[f.key] = valueFromOverride(block, f.css, f.prop) || f.default;
       }));
-    }
-    function renderSettings() {
-      extractSettingsValues();
-      renderSubnav(settingsNav, BASE_SETTINGS_SECTIONS, 'settings-section');
-      settingsPanels.innerHTML = '';
-      BASE_SETTINGS_SECTIONS.forEach(sec => settingsPanels.appendChild(renderSettingsSection(sec, 'settings-section')));
-      saveAllSettingsButton.disabled = !currentHtml;
-      if (activePage === 'settings') renderSidebarNav();
-    }
-    function renderLayouts() {
-      extractSettingsValues();
-      renderSubnav(layoutsNav, LAYOUT_SECTIONS, 'layout-section');
-      layoutsPanels.innerHTML = '';
-
-      const leftColumn = document.createElement('div');
-      const rightColumn = document.createElement('div');
-      leftColumn.className = 'layout-column';
-      rightColumn.className = 'layout-column';
-
-      // Fixed two-column placement avoids CSS grid row gaps and keeps the page tidy.
-      const leftKeys = new Set(['layout', 'couple', 'date', 'overlay']);
-      LAYOUT_SECTIONS.forEach(sec => {
-        const panel = renderSettingsSection(sec, 'layout-section');
-        if (leftKeys.has(sec.key)) leftColumn.appendChild(panel);
-        else rightColumn.appendChild(panel);
-      });
-
-      layoutsPanels.appendChild(leftColumn);
-      layoutsPanels.appendChild(rightColumn);
-      saveAllLayoutsButton.disabled = !currentHtml;
-      if (activePage === 'layouts') renderSidebarNav();
     }
     function normalizeFontFamilyValue(value) {
       let raw = String(value || '').trim();
       if (!raw) return '';
       raw = raw.replace(/[“”]/g, '"').replace(/[‘’]/g, "'");
       const lower = raw.toLowerCase().replace(/['"]/g, '').replace(/,/g, ' ').replace(/\s+/g, ' ').trim();
-      // Accept forgiving input like: Great Vibes cursive, 'Great Vibes' cursive, or Great Vibes
       if (lower === 'great vibes' || lower === 'great vibes cursive') return "'Great Vibes', cursive";
-      if (lower === 'cormorant garamond' || lower === 'cormorant garamond serif') return "'Cormorant Garamond', serif";
+      if (lower === 'cormorant garamond' || lower === 'cormorant garamond serif') return "'Cormorant Garamond', Georgia, serif";
       if (lower === 'cinzel' || lower === 'cinzel serif') return "'Cinzel', serif";
       return raw;
     }
-
-    function getPrimaryFontFamily(value) {
-      const normalized = normalizeFontFamilyValue(value);
-      const primary = normalized.split(',')[0].trim().replace(/^['"]|['"]$/g, '');
-      return primary || normalized;
-    }
-
-    function ensurePreviewFontLoaded(value, callback) {
-      const primary = getPrimaryFontFamily(value);
-      if (!primary || !document.fonts || ['serif', 'sans-serif', 'cursive', 'monospace'].includes(primary.toLowerCase())) {
-        if (callback) callback();
-        return;
-      }
-      document.fonts.load(`1em "${primary}"`).then(() => {
-        if (callback) callback();
-      }).catch(() => {
-        if (callback) callback();
-      });
-    }
-
     function getPreviewNameValue() {
-      if (!currentHtml) return '';
-      const fields = activeNameType === 'friends' ? FRIEND_NAME_FIELDS : DEFAULT_NAME_FIELDS;
-      const displayField = fields.find(field => field.key.toLowerCase().includes('display'));
-      const textField = fields.find(field => field.key.toLowerCase().includes('text'));
-      const groomField = fields.find(field => field.key.toLowerCase().includes('groom') && !field.key.toLowerCase().includes('full'));
-      const brideField = fields.find(field => field.key.toLowerCase().includes('bride') && !field.key.toLowerCase().includes('full'));
-      const display = displayField ? extractRegexValue(currentHtml, displayField.regex) : '';
-      const text = textField ? extractRegexValue(currentHtml, textField.regex) : '';
-      const groom = groomField ? extractRegexValue(currentHtml, groomField.regex) : '';
-      const bride = brideField ? extractRegexValue(currentHtml, brideField.regex) : '';
-      return display || text || [groom, bride].filter(Boolean).join(' & ');
+      const field = DEFAULT_NAME_FIELDS[0];
+      return currentHtml ? extractRegexValue(currentHtml, field.regex) || 'Hanif & Winda' : 'Hanif & Winda';
     }
-
-    function getFontPreviewText(field) {
-      const couple = getPreviewNameValue();
-      const guest = currentHtml ? findCallValue(currentHtml, 'en', 'setText', 'guest-name') : '';
-      const paragraph = currentHtml ? findCallValue(currentHtml, 'en', 'setText', 'couple-description') : '';
-      const dateText = currentHtml ? extractRegexValue(currentHtml, DATE_FIELDS[0].regex) : '';
-
-      if (field.key === 'scriptFont') return couple || 'Alika & Mada';
-      if (field.key === 'bodyFont') return paragraph || 'Together with their families, they invite you.';
-      if (field.key === 'headingFont') return dateText || couple || 'The Wedding Invitation';
-      if (field.key === 'pSize') return paragraph || 'A warm invitation paragraph preview.';
-      if (field.key === 'introGuestSize') return guest || 'Our Guest';
-      if (field.key === 'brideGroomNameSize') return couple || 'Bride & Groom';
-      if (field.key === 'coupleTitleSize' || field.key === 'h1Size' || field.key === 'h2Size') return couple || 'The Wedding Invitation';
-      return couple || 'The Wedding Invitation';
-    }
-
     function updateFontPreview(preview, field, value) {
       if (!preview) return;
       const text = preview.querySelector('.font-preview-text');
       const sub = preview.querySelector('.font-preview-subtext');
       const val = field.prop === 'font-family' ? normalizeFontFamilyValue(value || field.default || '') : (value || field.default || '');
-      if (field.prop === 'font-family') {
-        text.style.fontFamily = val;
-        text.style.fontSize = field.key === 'scriptFont' ? '2rem' : '1.05rem';
-        text.textContent = getFontPreviewText(field);
-        sub.textContent = 'Family: ' + val;
-        ensurePreviewFontLoaded(val, () => { text.style.fontFamily = val; if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { text.style.fontFamily = val; }); });
-      } else if (field.prop === 'font-size') {
-        text.style.fontSize = val;
-        text.textContent = getFontPreviewText(field);
-        sub.textContent = 'Size: ' + val;
-      } else {
-        text.textContent = 'Preview';
-        sub.textContent = val;
-      }
+      text.textContent = field.key === 'bodyFont' || field.key === 'pSize' ? 'Together with their families, they invite you.' : getPreviewNameValue();
+      if (field.prop === 'font-family') { text.style.fontFamily = val; text.style.fontSize = field.key === 'scriptFont' ? '2rem' : '1.05rem'; sub.textContent = 'Family: ' + val; }
+      else { text.style.fontSize = val; sub.textContent = 'Size: ' + val; }
     }
-    function createFontPreview(field, value) {
-      const preview = document.createElement('div');
-      preview.className = 'font-preview';
-      preview.innerHTML = '<div class="font-preview-label">Live preview</div><div class="font-preview-text"></div><div class="font-preview-subtext"></div>';
-      updateFontPreview(preview, field, value);
-      return preview;
-    }
+    function createFontPreview(field, value) { const p = document.createElement('div'); p.className = 'font-preview'; p.innerHTML = '<div class="font-preview-label">Live preview</div><div class="font-preview-text"></div><div class="font-preview-subtext"></div>'; updateFontPreview(p, field, value); return p; }
     function renderSettingsField(f, sectionKey = '') {
-      const item = makeInput(
-        f.label,
-        settingsValues[f.key] || f.default,
-        f.type || 'text',
-        f.css ? `${f.css} → ${f.prop}` : f.constName,
-        f.step || ''
-      );
+      const item = makeInput(f.label, settingsValues[f.key] || f.default, f.type || 'text', f.css ? `${f.css} → ${f.prop}` : f.constName, f.step || '');
       if (sectionKey === 'fonts') {
-        const combo = document.createElement('div');
-        combo.className = 'font-setting-field';
+        const combo = document.createElement('div'); combo.className = 'font-setting-field';
         const preview = createFontPreview(f, settingsValues[f.key] || f.default);
-        item.input.addEventListener('input', () => {
-          settingsValues[f.key] = item.input.value;
-          updateFontPreview(preview, f, item.input.value);
-        });
-        combo.appendChild(item.wrap);
-        combo.appendChild(preview);
-        return combo;
+        item.input.addEventListener('input', () => { settingsValues[f.key] = item.input.value; updateFontPreview(preview, f, item.input.value); });
+        combo.appendChild(item.wrap); combo.appendChild(preview); return combo;
       }
       item.input.addEventListener('input', () => settingsValues[f.key] = item.input.value);
       return item.wrap;
     }
-
     function getSettingsRows(section) {
       if (section.key === 'map') {
         return [
           { title: 'General map button size', hint: 'Applies to every map button icon.', keys: ['spotSize'] },
-          { title: 'Couple button', hint: 'Position of .spot-couple on the map.', keys: ['spotCoupleTop', 'spotCoupleLeft'] },
-          { title: 'Venue button', hint: 'Position of .spot-venue on the map.', keys: ['spotVenueTop', 'spotVenueLeft'] },
-          { title: 'Rundown button', hint: 'Position of .spot-rundown on the map.', keys: ['spotRundownTop', 'spotRundownLeft'] },
-          { title: 'Dress code button', hint: 'Position of .spot-dress on the map.', keys: ['spotDressTop', 'spotDressRight'] },
-          { title: 'RSVP button', hint: 'Position of .spot-rsvp on the map.', keys: ['spotRsvpBottom', 'spotRsvpLeft'] },
+          { title: 'Couple button', hint: 'Position of .spot-couple.', keys: ['spotCoupleTop', 'spotCoupleLeft'] },
+          { title: 'Venue button', hint: 'Position of .spot-venue.', keys: ['spotVenueTop', 'spotVenueLeft'] },
+          { title: 'Gifts button', hint: 'Position of .spot-gifts.', keys: ['spotGiftsTop', 'spotGiftsLeft'] },
+          { title: 'Dress code button', hint: 'Position of .spot-dress.', keys: ['spotDressTop', 'spotDressRight'] },
+          { title: 'RSVP button', hint: 'Position of .spot-rsvp.', keys: ['spotRsvpBottom', 'spotRsvpLeft'] },
           { title: 'Floating leaves', hint: 'Base leaf size for the map animation.', keys: ['leafSize'] }
         ];
       }
-      return section.fields.map(field => ({
-        title: field.label,
-        hint: field.css ? `${field.css} → ${field.prop}` : field.constName,
-        keys: [field.key]
-      }));
+      return section.fields.map(field => ({ title: field.label, hint: field.css ? `${field.css} → ${field.prop}` : field.constName, keys: [field.key] }));
     }
-
     function renderSettingsRows(section) {
-      const wrapper = document.createElement('div');
-      wrapper.className = 'settings-map-rows';
+      const wrapper = document.createElement('div'); wrapper.className = 'settings-map-rows';
       const byKey = Object.fromEntries(section.fields.map(field => [field.key, field]));
       getSettingsRows(section).forEach(rowDef => {
-        const row = document.createElement('div');
-        row.className = 'settings-map-row';
-
-        const title = document.createElement('div');
-        title.className = 'settings-map-row-title';
-        title.innerHTML = `${rowDef.title}<span>${rowDef.hint || ''}</span>`;
-        row.appendChild(title);
-
-        const fields = document.createElement('div');
-        const isFont = section.key === 'fonts';
-        fields.className = `settings-map-fields${rowDef.keys.length === 1 ? ' one-field' : ''}${isFont ? ' font-fields' : ''}`;
-        rowDef.keys.forEach(key => {
-          if (byKey[key]) fields.appendChild(renderSettingsField(byKey[key], section.key));
-        });
-        row.appendChild(fields);
-        wrapper.appendChild(row);
+        const row = document.createElement('div'); row.className = 'settings-map-row';
+        const title = document.createElement('div'); title.className = 'settings-map-row-title'; title.innerHTML = `${rowDef.title}<span>${rowDef.hint || ''}</span>`; row.appendChild(title);
+        const fields = document.createElement('div'); fields.className = `settings-map-fields${rowDef.keys.length === 1 ? ' one-field' : ''}${section.key === 'fonts' ? ' font-fields' : ''}`;
+        rowDef.keys.forEach(key => { if (byKey[key]) fields.appendChild(renderSettingsField(byKey[key], section.key)); });
+        row.appendChild(fields); wrapper.appendChild(row);
       });
       return wrapper;
     }
-
     function renderSettingsSection(section, prefix = 'settings-section') {
       const panel = document.createElement('section'); panel.className = 'section-card'; panel.id = `${prefix}-${section.key}`;
       panel.innerHTML = `<div class="section-header"><h3>${section.title}</h3><span class="badge">${section.badge}</span></div>`;
-      const intro = document.createElement('div'); intro.className = 'settings-intro'; intro.textContent = 'Saved settings are written into the invitation file as a final override block so they win over earlier CSS.'; panel.appendChild(intro);
       panel.appendChild(renderSettingsRows(section));
-
       const save = document.createElement('div'); save.className = 'save-bar';
       const btn = document.createElement('button'); btn.className = 'btn btn-primary'; btn.textContent = prefix === 'layout-section' ? 'Save This Layout Section' : 'Save This Settings Section'; btn.disabled = !currentHtml;
       btn.addEventListener('click', () => saveSettingsSections([section])); save.appendChild(btn); panel.appendChild(save);
       return panel;
     }
+    function renderSettings() {
+      extractSettingsValues(); settingsPanels.innerHTML = '';
+      SETTINGS_SECTIONS.forEach(sec => settingsPanels.appendChild(renderSettingsSection(sec, 'settings-section')));
+      saveAllSettingsButton.disabled = !currentHtml;
+      if (activePage === 'settings') renderSidebarNav();
+    }
+    function renderLayouts() {
+      extractSettingsValues(); layoutsPanels.innerHTML = '';
+      const leftColumn = document.createElement('div'); const rightColumn = document.createElement('div');
+      leftColumn.className = 'layout-column'; rightColumn.className = 'layout-column';
+      const leftKeys = new Set(['global', 'couple', 'date', 'overlay']);
+      LAYOUT_SECTIONS.forEach(sec => { const panel = renderSettingsSection(sec, 'layout-section'); if (leftKeys.has(sec.key)) leftColumn.appendChild(panel); else rightColumn.appendChild(panel); });
+      layoutsPanels.appendChild(leftColumn); layoutsPanels.appendChild(rightColumn);
+      saveAllLayoutsButton.disabled = !currentHtml;
+      if (activePage === 'layouts') renderSidebarNav();
+    }
     function buildOverrideCss() {
       const groups = new Map();
-      SETTINGS_SECTIONS.forEach(sec => {
-        if (sec.key === 'colors') return;
-        sec.fields.forEach(f => {
+      allSettingsSections().forEach(sec => sec.fields.forEach(f => {
         if (!f.css) return;
-        const val = settingsValues[f.key] || f.default;
+        let val = settingsValues[f.key] || f.default;
+        if (f.prop === 'font-family') val = normalizeFontFamilyValue(val);
         if (!groups.has(f.css)) groups.set(f.css, []);
         if (f.prop === 'width;height') groups.get(f.css).push(`  width: ${val} !important;`, `  height: ${val} !important;`);
         else groups.get(f.css).push(`  ${f.prop}: ${val} !important;`);
-      });
-      });
+      }));
       let css = '\n    /* === EDITOR SETTINGS OVERRIDES START === */\n';
       groups.forEach((lines, selector) => { css += `    ${selector} {\n${[...new Set(lines)].join('\n')}\n    }\n`; });
       css += '    /* === EDITOR SETTINGS OVERRIDES END === */\n';
@@ -1824,7 +1121,7 @@
     }
     function replaceJsConstants(html) {
       let out = html;
-      SETTINGS_SECTIONS.forEach(sec => sec.fields.forEach(f => {
+      allSettingsSections().forEach(sec => sec.fields.forEach(f => {
         if (f.target === 'jsConst') {
           out = out.replace(new RegExp('(const\\s+' + escapeRegExp(f.constName) + '\\s*=\\s*)([^;]+)(;)'), `$1${settingsValues[f.key] || f.default}$3`);
         }
@@ -1838,9 +1135,9 @@
     async function saveSettingsSections(sections) {
       if (!currentHtml) return log('Open index.html first.');
       currentHtml = replaceJsConstants(replaceOrInsertOverrideBlock(currentHtml));
-      await persistCurrentHtml(sections.length === SETTINGS_SECTIONS.length ? 'Saved: All Settings' : sections.length === BASE_SETTINGS_SECTIONS.length ? 'Saved: All Settings' : sections.length === LAYOUT_SECTIONS.length ? 'Saved: All Layouts' : `Saved: ${sections[0].title} Settings`);
+      await persistCurrentHtml(sections.length > 1 ? 'Saved: Multiple Settings' : `Saved: ${sections[0].title}`);
       renderSettings(); renderLayouts();
-      log(`Saved settings: ${sections.map(s => s.title).join(', ')}\nThe invitation file now contains an EDITOR SETTINGS OVERRIDES block and updated music constants.`);
+      log(`Saved settings/layouts: ${sections.map(s => s.title).join(', ')}\nThe invitation file now contains an EDITOR SETTINGS OVERRIDES block and updated music constants.`);
     }
 
     async function persistCurrentHtml(message) {
@@ -1853,9 +1150,7 @@
       } else {
         statusText.innerHTML = `${message}. Use Download to save the edited file.`;
       }
-      statusDot.classList.add('active');
-      downloadButton.disabled = false;
-      resetButton.disabled = false;
+      statusDot.classList.add('active'); downloadButton.disabled = false; resetButton.disabled = false;
     }
     async function openFile() {
       if (supportsDirectSave) {
@@ -1868,7 +1163,7 @@
         fileHandle = null; originalHtml = await file.text(); currentHtml = originalHtml; statusText.innerHTML = `Opened: <strong>${file.name}</strong>. Use Download to save.`;
       }
       statusDot.classList.add('active'); downloadButton.disabled = false; resetButton.disabled = false; saveAllSettingsButton.disabled = false; saveAllLayoutsButton.disabled = false;
-      renderContent(); renderSettings(); renderLayouts(); log('File loaded. Use Content for text, Settings for music/fonts, and Layouts for page positioning and spacing.');
+      renderContent(); renderSettings(); renderLayouts(); log('File loaded. Use Content for text, Settings for music/fonts/colors, and Layouts for positioning, centered bride/groom names, and spacing.');
     }
     function downloadEditedHtml() {
       if (!currentHtml) return log('Open index.html first.');
@@ -1877,36 +1172,60 @@
       log('Downloaded edited index.html. Replace the old invitation file with this one.');
     }
     function resetFromFile() { if (!originalHtml) return; currentHtml = originalHtml; renderContent(); renderSettings(); renderLayouts(); log('Reloaded from the currently opened/saved file.'); }
+
+    function getPageSections(page) {
+      if (page === 'content') return { title: 'Content', sections: CONTENT_SECTIONS, prefix: 'content-section' };
+      if (page === 'settings') return { title: 'Settings', sections: SETTINGS_SECTIONS, prefix: 'settings-section' };
+      return { title: 'Layouts', sections: LAYOUT_SECTIONS, prefix: 'layout-section' };
+    }
+    function navLinkHtml(target, label, iconKey, active = false, extra = '') { return `<a class="nav-link${active ? ' active' : ''}" href="${target}" ${extra} title="${label}">${ICONS[iconKey] || ICONS.default}<span class="nav-text">${label}</span></a>`; }
+    function renderSidebarNav() {
+      if (!sidebarNav) return;
+      const pageMeta = getPageSections(activePage);
+      const pageLinks = ['content', 'settings', 'layouts'].map(page => navLinkHtml('#top', page === 'content' ? 'Content' : page === 'settings' ? 'Settings' : 'Layouts', page, page === activePage, `data-page-link="${page}"`)).join('');
+      const sectionLinks = pageMeta.sections.map(section => navLinkHtml(`#${pageMeta.prefix}-${section.key}`, section.title.replace(' Page',''), section.icon || section.key || 'default', false)).join('');
+      sidebarNav.innerHTML = `<div class="nav-section"><div class="nav-section-title">Pages</div>${pageLinks}</div><div class="nav-section"><div class="nav-section-title">${pageMeta.title}</div>${sectionLinks}</div>`;
+      sidebarNav.querySelectorAll('[data-page-link]').forEach(link => link.addEventListener('click', event => { event.preventDefault(); switchPage(link.dataset.pageLink); }));
+      sidebarNav.querySelectorAll('.nav-link[href^="#"]:not([data-page-link])').forEach(link => link.addEventListener('click', event => { event.preventDefault(); const el = document.querySelector(link.getAttribute('href')); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }));
+      updateActiveSidebarNav();
+    }
+    function updateActiveSidebarNav() {
+      if (!sidebarNav) return;
+      const pageMeta = getPageSections(activePage); let current = '';
+      pageMeta.sections.forEach(section => { const target = `#${pageMeta.prefix}-${section.key}`; const el = document.querySelector(target); if (el && el.offsetParent !== null && window.scrollY >= el.offsetTop - 120) current = target; });
+      sidebarNav.querySelectorAll('.nav-link[href^="#"]:not([data-page-link])').forEach(link => link.classList.toggle('active', current && link.getAttribute('href') === current));
+      sidebarNav.querySelectorAll('[data-page-link]').forEach(link => link.classList.toggle('active', link.dataset.pageLink === activePage && !current));
+    }
+    function applySidebarState(collapsed) {
+      appLayout.classList.toggle('sidebar-collapsed', Boolean(collapsed));
+      safeStorageSet('weddingEditorSidebarCollapsed', collapsed ? '1' : '0');
+      sidebarToggleIcon.innerHTML = collapsed ? ICON_SIDEBAR_EXPAND : ICON_SIDEBAR_COLLAPSE;
+      sidebarToggle.setAttribute('aria-label', collapsed ? 'Expand sidebar' : 'Collapse sidebar');
+      sidebarToggle.title = collapsed ? 'Expand sidebar' : 'Collapse sidebar';
+    }
+    function toggleSidebar() { applySidebarState(!appLayout.classList.contains('sidebar-collapsed')); }
     function switchPage(page) {
       activePage = page;
-      document.querySelectorAll('.top-tab').forEach(t => t.classList.toggle('active', t.dataset.page === page));
       document.getElementById('contentPage').classList.toggle('active', page === 'content');
       document.getElementById('settingsPage').classList.toggle('active', page === 'settings');
       document.getElementById('layoutsPage').classList.toggle('active', page === 'layouts');
-      renderSidebarNav();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      renderSidebarNav(); window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     function applyTheme(theme) {
       const safeTheme = theme === 'dark' ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', safeTheme);
-      safeStorageSet('weddingEditorTheme', safeTheme);
-      if (themeToggleText) themeToggleText.textContent = safeTheme === 'dark' ? 'Light mode' : 'Dark mode';
-      if (themeIcon) themeIcon.innerHTML = safeTheme === 'dark' ? ICON_SUN : ICON_MOON;
+      document.documentElement.setAttribute('data-theme', safeTheme); safeStorageSet('weddingEditorTheme', safeTheme);
+      themeToggleText.textContent = safeTheme === 'dark' ? 'Light mode' : 'Dark mode'; themeIcon.innerHTML = safeTheme === 'dark' ? ICON_SUN : ICON_MOON;
     }
-    function toggleTheme() {
-      const current = document.documentElement.getAttribute('data-theme') || 'light';
-      applyTheme(current === 'dark' ? 'light' : 'dark');
-    }
+    function toggleTheme() { applyTheme((document.documentElement.getAttribute('data-theme') || 'light') === 'dark' ? 'light' : 'dark'); }
 
-    document.querySelectorAll('.top-tab').forEach(btn => btn.addEventListener('click', () => switchPage(btn.dataset.page)));
     document.querySelectorAll('.type-button').forEach(btn => btn.addEventListener('click', () => { activeNameType = btn.dataset.type; renderContent(); }));
     openButton.addEventListener('click', () => openFile().catch(e => { console.error(e); log(`Open failed: ${e.message}`); }));
     downloadButton.addEventListener('click', downloadEditedHtml);
     resetButton.addEventListener('click', resetFromFile);
-    saveAllSettingsButton.addEventListener('click', () => saveSettingsSections(BASE_SETTINGS_SECTIONS));
+    saveAllSettingsButton.addEventListener('click', () => saveSettingsSections(SETTINGS_SECTIONS));
     saveAllLayoutsButton.addEventListener('click', () => saveSettingsSections(LAYOUT_SECTIONS));
-    if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
-    if (sidebarToggle) sidebarToggle.addEventListener('click', toggleSidebar);
+    themeToggle.addEventListener('click', toggleTheme);
+    sidebarToggle.addEventListener('click', toggleSidebar);
     window.addEventListener('scroll', updateActiveSidebarNav);
     applyTheme(safeStorageGet('weddingEditorTheme', 'light'));
     applySidebarState(safeStorageGet('weddingEditorSidebarCollapsed') === '1');

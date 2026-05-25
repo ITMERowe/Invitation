@@ -3615,6 +3615,172 @@
       }
     }
 
+    /* ================= PARENT NAMES STACKED FIX ================= */
+    #bride-parent-line,
+    #groom-parent-line {
+      line-height: 1.24 !important;
+    }
+
+    #bride-parent-line span,
+    #groom-parent-line span,
+    .parent-line span {
+      display: block !important;
+      max-width: 100% !important;
+      white-space: normal !important;
+      overflow: visible !important;
+      text-overflow: clip !important;
+      line-height: 1.18 !important;
+    }
+
+
+    /* ================= PARENT NAMES STACKED COMPACT FIX ================= */
+    #bride-parent-line,
+    #groom-parent-line,
+    .parent-line {
+      font-size: clamp(0.95rem, 3.4vw, 1.18rem) !important;
+      line-height: 1.12 !important;
+      margin: 0 0 0.5rem !important;
+      font-weight: 500 !important;
+      letter-spacing: 0.035em !important;
+    }
+
+    #bride-parent-line span,
+    #groom-parent-line span,
+    .parent-line span {
+      display: block !important;
+      font-size: clamp(1rem, 3.6vw, 1.22rem) !important;
+      line-height: 1.08 !important;
+      font-weight: 600 !important;
+      white-space: normal !important;
+      overflow: visible !important;
+      text-overflow: clip !important;
+    }
+
+    #bride-parent-line .parent-separator,
+    #groom-parent-line .parent-separator,
+    .parent-line .parent-separator {
+      display: block !important;
+      font-size: clamp(0.95rem, 3.2vw, 1.12rem) !important;
+      line-height: 0.95 !important;
+      margin: 0.08rem 0 !important;
+      font-weight: 600 !important;
+    }
+
+    /* ================= BRIDE / GROOM NAME SINGLE-LINE AUTO-FIT ================= */
+    #bride-name,
+    #groom-name {
+      width: 100% !important;
+      max-width: 350px !important;
+      white-space: nowrap !important;
+      overflow: visible !important;
+      text-overflow: clip !important;
+      overflow-wrap: normal !important;
+      word-break: normal !important;
+      font-size: clamp(1.25rem, 5.6vw, 2.05rem) !important;
+      line-height: 1.04 !important;
+      letter-spacing: 0.025em !important;
+    }
+
+    @media (max-width: 380px) {
+      #bride-name,
+      #groom-name {
+        max-width: 330px !important;
+        font-size: clamp(1.15rem, 5.2vw, 1.86rem) !important;
+        letter-spacing: 0.018em !important;
+      }
+    }
+
+    @media (max-height: 700px) {
+      #bride-name,
+      #groom-name {
+        font-size: clamp(1.1rem, 5vw, 1.72rem) !important;
+      }
+    }
+
+
+
+    /* ================= BRIDE / GROOM NAME CENTERED SINGLE-LINE FIX ================= */
+    #bride-name,
+    #groom-name {
+      display: block !important;
+      width: 100% !important;
+      max-width: min(94vw, 380px) !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      text-align: center !important;
+      white-space: nowrap !important;
+      overflow: visible !important;
+      text-overflow: clip !important;
+      overflow-wrap: normal !important;
+      word-break: normal !important;
+      line-height: 1.04 !important;
+      letter-spacing: 0.02em !important;
+      transform: none !important;
+    }
+
+    #page-bride .single-hero-text,
+    #page-groom .single-hero-text {
+      align-items: center !important;
+      text-align: center !important;
+    }
+
+
+    /* ================= FINAL FIX v20: CENTER BRIDE / GROOM FULL NAME ================= */
+    #page-bride .single-hero-text,
+    #page-groom .single-hero-text {
+      width: 100% !important;
+      max-width: 390px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      padding-left: 0.7rem !important;
+      padding-right: 0.7rem !important;
+      align-items: center !important;
+      text-align: center !important;
+    }
+
+    #bride-name,
+    #groom-name {
+      display: block !important;
+      box-sizing: border-box !important;
+      width: min(100%, 360px) !important;
+      max-width: min(100%, 360px) !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      text-align: center !important;
+      white-space: nowrap !important;
+      overflow: visible !important;
+      text-overflow: clip !important;
+      overflow-wrap: normal !important;
+      word-break: normal !important;
+      transform: translateX(0) !important;
+      position: relative !important;
+      left: auto !important;
+      right: auto !important;
+      font-size: clamp(1.05rem, 4.9vw, 1.82rem) !important;
+      line-height: 1.05 !important;
+      letter-spacing: 0.012em !important;
+    }
+
+    @media (max-width: 380px) {
+      #bride-name,
+      #groom-name {
+        width: min(100%, 340px) !important;
+        max-width: min(100%, 340px) !important;
+        font-size: clamp(0.98rem, 4.55vw, 1.62rem) !important;
+        letter-spacing: 0.006em !important;
+      }
+    }
+
+    @media (max-height: 700px) {
+      #bride-name,
+      #groom-name {
+        font-size: clamp(0.95rem, 4.35vw, 1.48rem) !important;
+      }
+    }
+
+
   </style>
 <base target="_blank">
 </head>
@@ -3691,7 +3857,7 @@
           <div class="single-hero-text overlap-text">
             <p id="bride-role" class="script-text">The Bride</p>
             <h1 id="bride-name">Winda [Full Government Name]</h1>
-            <p id="bride-parent-line" class="parent-line">Daughter of<br><span>[insert father name] &amp; [insert mother name]</span></p>
+            <p id="bride-parent-line" class="parent-line">Daughter of<br><span>[dad name]</span><span class="parent-separator">&amp;</span><span>[mom name]</span></p>
             <p id="bride-desc-1">The beautiful bride, radiant and full of grace.</p>
             <p id="bride-desc-2">Winda brings joy and warmth to every moment.</p>
             <button id="bride-button" onclick="nextFromBride()">Continue</button>
@@ -3708,7 +3874,7 @@
           <div class="single-hero-text overlap-text">
             <p id="groom-role" class="script-text">The Groom</p>
             <h1 id="groom-name">Hanif [Full Government Name]</h1>
-            <p id="groom-parent-line" class="parent-line">Son of<br><span>[insert father name] &amp; [insert mother name]</span></p>
+            <p id="groom-parent-line" class="parent-line">Son of<br><span>[dad name]</span><span class="parent-separator">&amp;</span><span>[mom name]</span></p>
             <p id="groom-desc-1">The charming groom, strong and kind-hearted.</p>
             <p id="groom-desc-2">Hanif is devoted and ready to start this new chapter.</p>
             <button id="groom-button" onclick="nextFromGroom()">Continue</button>
@@ -3796,19 +3962,19 @@
 
         <div class="gift-options" aria-label="Gift and money transfer details">
           <div class="gift-option gift-account-option">
-            <div class="gift-bank-name" id="gift-groom-bank-name">[Groom Bank Name]</div>
-            <div class="gift-account-number" id="gift-groom-account-number">[Groom Account Number]</div>
+            <div class="gift-bank-name" id="gift-groom-bank-name">Permata</div>
+            <div class="gift-account-number" id="gift-groom-account-number">9938990090</div>
             <button id="gift-groom-copy-button" class="gift-copy-button" type="button" onclick="copyGiftAccount('gift-groom-account-number', 'gift-groom-copy-button')">Copy Number</button>
             <div class="gift-account-holder-label" id="gift-groom-holder-label">Account Name</div>
-            <div class="gift-account-holder" id="gift-groom-account-holder">[Groom Account Holder Name]</div>
+            <div class="gift-account-holder" id="gift-groom-account-holder">Muhammad Hanif Atthariq</div>
           </div>
 
           <div class="gift-option gift-account-option">
-            <div class="gift-bank-name" id="gift-bride-bank-name">[Bride Bank Name]</div>
-            <div class="gift-account-number" id="gift-bride-account-number">[Bride Account Number]</div>
+            <div class="gift-bank-name" id="gift-bride-bank-name">BCA</div>
+            <div class="gift-account-number" id="gift-bride-account-number">4210260850</div>
             <button id="gift-bride-copy-button" class="gift-copy-button" type="button" onclick="copyGiftAccount('gift-bride-account-number', 'gift-bride-copy-button')">Copy Number</button>
             <div class="gift-account-holder-label" id="gift-bride-holder-label">Account Name</div>
-            <div class="gift-account-holder" id="gift-bride-account-holder">[Bride Account Holder Name]</div>
+            <div class="gift-account-holder" id="gift-bride-account-holder">Winda Natakusumah</div>
           </div>
 
           <div class="gift-option gift-wishlist-option">
@@ -4501,10 +4667,10 @@
 
     // Replace these placeholder names when the final parent names are available.
     const parents = {
-      groomFather: 'Pudjo Prasetyo',
-      groomMother: 'Efda R. Bandini',
-      brideFather: 'Ir. Hidayat Natakusumah',
-      brideMother: 'Wini Dewi Kania'
+      groomFather: 'Bapak Pudjo Prasetyo',
+      groomMother: 'Ibu Efda R. Bandini',
+      brideFather: 'Bapak Ir. Hidayat Natakusumah',
+      brideMother: 'Ibu Wini Dewi Kania'
     };
 
     const guestNameTitle = document.getElementById('guest-name');
@@ -4520,6 +4686,58 @@
     function setHTML(id, html) {
       const element = document.getElementById(id);
       if (element) element.innerHTML = html;
+    }
+
+    function fitSingleLineName(id) {
+      const element = document.getElementById(id);
+      if (!element) return;
+
+      const app = document.querySelector('.app');
+      const parent = element.parentElement;
+      const appWidth = app ? app.getBoundingClientRect().width : window.innerWidth;
+      const parentWidth = parent ? parent.getBoundingClientRect().width : appWidth;
+      const availableWidth = Math.max(220, Math.min(appWidth - 40, parentWidth - 16, 360));
+
+      element.style.display = 'block';
+      element.style.boxSizing = 'border-box';
+      element.style.width = `${availableWidth}px`;
+      element.style.maxWidth = `${availableWidth}px`;
+      element.style.marginLeft = 'auto';
+      element.style.marginRight = 'auto';
+      element.style.paddingLeft = '0';
+      element.style.paddingRight = '0';
+      element.style.textAlign = 'center';
+      element.style.whiteSpace = 'nowrap';
+      element.style.overflow = 'visible';
+      element.style.textOverflow = 'clip';
+      element.style.transform = 'translateX(0)';
+
+      // Reset to CSS-defined max size before measuring.
+      element.style.fontSize = '';
+
+      let computed = window.getComputedStyle(element);
+      let size = parseFloat(computed.fontSize);
+      const maxSize = size;
+      const minSize = 11; // px, keeps long full names on one centered line.
+
+      const textWidth = () => element.scrollWidth;
+
+      let guard = 0;
+      while (textWidth() > availableWidth && size > minSize && guard < 160) {
+        size -= 0.5;
+        element.style.fontSize = `${size}px`;
+        guard += 1;
+      }
+
+      // If the name is short, keep the original CSS size.
+      if (textWidth() <= availableWidth && size > maxSize) {
+        element.style.fontSize = `${maxSize}px`;
+      }
+    }
+
+    function fitBrideGroomNames() {
+      fitSingleLineName('bride-name');
+      fitSingleLineName('groom-name');
     }
 
     function applyInvitationContext() {
@@ -4553,14 +4771,14 @@
         setText('couple-button', 'Continue');
 
         setText('bride-role', 'Mempelai Wanita');
-        setHTML('bride-parent-line', `Putri dari<br><span>${parents.brideFather} & ${parents.brideMother}</span>`);
+        setHTML('bride-parent-line', `Putri dari<br><span>${parents.brideFather}</span><span class="parent-separator">&</span><span>${parents.brideMother}</span>`);
         setText('bride-desc-1', `${couple.bride}, mempelai wanita yang anggun.`);
         setText('bride-desc-2', `${couple.bride} membawa kehangatan di setiap momen.`);
-        setText('bride-button', 'Lanjutkan');
+        setText('bride-button', 'Continue');
 
         setText('groom-role', 'Mempelai Pria');
         setText('groom-name', couple.groomFullGovernmentName);
-        setHTML('groom-parent-line', `Putra dari<br><span>${parents.groomFather} & ${parents.groomMother}</span>`);
+        setHTML('groom-parent-line', `Putra dari<br><span>${parents.groomFather}</span><span class="parent-separator">&</span><span>${parents.groomMother}</span>`);
         setText('groom-desc-1', `${couple.groom}, mempelai pria yang penuh kasih.`);
         setText('groom-desc-2', `${couple.groom} siap memulai babak baru kehidupan.`);
         setText('groom-button', 'Continue');
@@ -4581,7 +4799,7 @@
         setText('venue-back-button', 'Back to Map');
 
         setText('gifts-title', 'Gifts');
-        setText('gifts-description', 'Doa dan kehadiran Bapak/Ibu merupakan hadiah terbaik bagi kami. Jika Bapak/Ibu ingin mengirimkan hadiah atau tanda kasih, Bapak/Ibu dapat memilih rekening pihak mempelai pria atau mempelai wanita sesuai kenyamanan keluarga.');
+        setText('gifts-description', 'Doa dan kehadiran Bapak/Ibu merupakan hadiah terbaik bagi kami. Jika berkenan memberikan tanda kasih, silakan gunakan detail di bawah.');
         setText('gift-groom-transfer-label', 'Rekening Mempelai Pria');
         setText('gift-groom-bank-account-label', 'Bank / No. Rekening');
         setText('gift-groom-holder-label', 'Nama Rekening');
@@ -4596,7 +4814,7 @@
         setText('gifts-back-button', 'Back to Map');
 
         setText('dress-title', 'Dress Code');
-        setText('dress-description', 'Mohon mengenakan pakaian formal dengan nuansa warna earth tone.');
+        setText('dress-description', 'Pakaian formal dengan nuansa warna earth tone.');
         setText('dress-no-heels', 'Tanpa heels.');
         setText('dress-back-button', 'Back to Map');
 
@@ -4631,16 +4849,16 @@
         setText('couple-button', 'Continue');
 
         setText('bride-role', 'The Bride');
-        setHTML('bride-parent-line', `Daughter of<br><span>${parents.brideFather} & ${parents.brideMother}</span>`);
+        setHTML('bride-parent-line', `Daughter of<br><span>${parents.brideFather}</span><span class="parent-separator">&</span><span>${parents.brideMother}</span>`);
         setText('bride-desc-1', `The beautiful bride, radiant and full of grace.`);
         setText('bride-desc-2', `${couple.bride} brings joy and warmth to every moment.`);
         setText('bride-button', 'Continue');
 
         setText('groom-role', 'The Groom');
         setText('groom-name', couple.groomFullGovernmentName);
-        setHTML('groom-parent-line', `Son of<br><span>${parents.groomFather} & ${parents.groomMother}</span>`);
+        setHTML('groom-parent-line', `Son of<br><span>${parents.groomFather}</span><span class="parent-separator">&</span><span>${parents.groomMother}</span>`);
         setText('groom-desc-1', 'The charming groom, strong and kind-hearted.');
-        setText('groom-desc-2', `${couple.groom} is devoted and ready to start this new chapter.`);
+        setText('groom-desc-2', `${couple.groom} is ready to start this new chapter.`);
         setText('groom-button', 'Continue');
 
         setText('date-subtitle', 'Save the date');
@@ -4674,7 +4892,7 @@
         setText('gifts-back-button', 'Back to Map');
 
         setText('dress-title', 'Dress Code');
-        setText('dress-description', 'Please wear formal attire in earth tone color schemes.');
+        setText('dress-description', 'Formal attire in earth tone color schemes.');
         setText('dress-no-heels', 'No heels.');
         setText('dress-back-button', 'Back to Map');
 
@@ -4720,6 +4938,9 @@
           updatedRsvpGuestName.innerText = language === 'id' ? 'Tamu Undangan' : 'Our Guest';
         }
       }
+
+      requestAnimationFrame(fitBrideGroomNames);
+
     }
 
 
@@ -4760,6 +4981,11 @@
     }
 
     applyInvitationContext();
+    window.addEventListener('resize', fitBrideGroomNames);
+    window.addEventListener('orientationchange', () => requestAnimationFrame(fitBrideGroomNames));
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => requestAnimationFrame(fitBrideGroomNames));
+    }
 
     const weddingDate = new Date('June 14, 2026 00:00:00').getTime();
 
