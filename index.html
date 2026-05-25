@@ -3781,6 +3781,160 @@
     }
 
 
+
+    /* ================= FINAL FIX v21: SINGLE COUPLE PHOTO, NO PHOTO CLICK ================= */
+    #page-couple .couple-hero-images {
+      flex: 0 0 48svh !important;
+      height: 48svh !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: flex-end !important;
+      padding: 0 0.7rem !important;
+      gap: 0 !important;
+      overflow: visible !important;
+      z-index: 1 !important;
+    }
+
+    #page-couple #couple-photo,
+    #page-couple .couple-hero-photo.couple-photo,
+    #page-couple .couple-hero-photo.couple-photo:hover {
+      display: block !important;
+      width: min(96%, 430px) !important;
+      max-width: min(96vw, 430px) !important;
+      height: 100% !important;
+      aspect-ratio: auto !important;
+      object-fit: contain !important;
+      object-position: center bottom !important;
+      cursor: default !important;
+      pointer-events: none !important;
+      transform: none !important;
+      rotate: 0deg !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      filter: none !important;
+      -webkit-mask-image: none !important;
+      mask-image: none !important;
+      -webkit-mask: none !important;
+      mask: none !important;
+    }
+
+    #page-couple .couple-hero-text {
+      margin-top: -1.15rem !important;
+    }
+
+    @media (max-height: 720px) {
+      #page-couple .couple-hero-images {
+        flex-basis: 46svh !important;
+        height: 46svh !important;
+      }
+
+      #page-couple .couple-hero-text {
+        margin-top: -1rem !important;
+      }
+    }
+
+    @media (max-height: 640px) {
+      #page-couple .couple-hero-images {
+        flex-basis: 43svh !important;
+        height: 43svh !important;
+      }
+
+      #page-couple .couple-hero-text {
+        margin-top: -0.85rem !important;
+      }
+    }
+
+
+    /* ================= FINAL FIX v22: CENTER COUPLE PAGE VERTICALLY ================= */
+    #page-couple {
+      justify-content: center !important;
+      align-items: center !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+      overflow: hidden !important;
+    }
+
+    #page-couple .couple-hero {
+      height: 100% !important;
+      min-height: 100svh !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: center !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+      gap: 0 !important;
+      transform: translateY(0) !important;
+    }
+
+    #page-couple .couple-hero-images {
+      flex: 0 0 45svh !important;
+      height: 45svh !important;
+      max-height: 45svh !important;
+      align-items: flex-end !important;
+      padding: 0 0.7rem !important;
+      margin: 0 !important;
+    }
+
+    #page-couple #couple-photo,
+    #page-couple .couple-hero-photo.couple-photo,
+    #page-couple .couple-hero-photo.couple-photo:hover {
+      height: 100% !important;
+      max-height: 45svh !important;
+      object-fit: contain !important;
+      object-position: center bottom !important;
+      cursor: default !important;
+      pointer-events: none !important;
+      transform: none !important;
+    }
+
+    #page-couple .couple-hero-text {
+      flex: 0 0 auto !important;
+      margin-top: -0.35rem !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+      transform: translateY(0) !important;
+    }
+
+    @media (max-height: 720px) {
+      #page-couple .couple-hero-images {
+        flex-basis: 42svh !important;
+        height: 42svh !important;
+        max-height: 42svh !important;
+      }
+
+      #page-couple #couple-photo,
+      #page-couple .couple-hero-photo.couple-photo,
+      #page-couple .couple-hero-photo.couple-photo:hover {
+        max-height: 42svh !important;
+      }
+
+      #page-couple .couple-hero-text {
+        margin-top: -0.2rem !important;
+      }
+    }
+
+    @media (max-height: 640px) {
+      #page-couple .couple-hero-images {
+        flex-basis: 39svh !important;
+        height: 39svh !important;
+        max-height: 39svh !important;
+      }
+
+      #page-couple #couple-photo,
+      #page-couple .couple-hero-photo.couple-photo,
+      #page-couple .couple-hero-photo.couple-photo:hover {
+        max-height: 39svh !important;
+      }
+
+      #page-couple .couple-hero-text {
+        margin-top: -0.1rem !important;
+      }
+    }
+
+
   </style>
 <base target="_blank">
 </head>
@@ -3836,8 +3990,7 @@
       <section id="page-couple" class="page">
         <div class="couple-hero">
           <div class="couple-hero-images">
-            <img class="couple-hero-photo groom-photo" src="assets/groom.png" onclick="choose('groom')" alt="Groom">
-            <img class="couple-hero-photo bride-photo" src="assets/bride.png" onclick="choose('bride')" alt="Bride">
+            <img id="couple-photo" class="couple-hero-photo couple-photo" src="assets/couple.png" alt="Hanif and Winda">
           </div>
           <div class="couple-hero-text">
             <h1 id="couple-title">Hanif & Winda</h1>
