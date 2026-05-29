@@ -4270,27 +4270,33 @@
       }
     }
 
-    /* ================= PHOTO INTRO: OPACITY/BLUR FIRST, UNMASK SLIGHTLY SLOWER v4 ================= */
+    /* ================= PHOTO INTRO: TRUE CIRCULAR UNMASK v6 ================= */
     /*
-      Working behavior:
-      - applies only on the Couple, Bride, and Groom pages
-      - opacity and blur fade in first
-      - the center unmask reveal is slightly slower than opacity and blur
-      - the visible area grows from the exact center to the sides/edges
-      - the mask edge is feathered/soft, not sharp
+      Behavior:
+      - Applies only on the Couple, Bride, and Groom pages
+      - Photo starts fully invisible (opacity 0 + blur + tiny mask)
+      - Opacity and blur clear first (fast)
+      - A TRUE CIRCULAR mask expands from center with ultra-soft feathered edges
+
+      CRITICAL FIX: Using fixed pixel values (not % or vmax) for mask-size
+      ensures the mask is always a perfect circle, never an ellipse or square.
     */
     :root {
-      --photo-fade-duration: 2.65s;
-      --photo-mask-duration: 5.65s;
-      --photo-reveal-easing: ease-in-out;
+      --photo-fade-duration: 5.8s;
+      --photo-mask-duration: 5.2s;
+      --photo-reveal-easing: cubic-bezier(0.25, 0.1, 0.25, 1);
+      --mask-max-size: 2000px;
     }
 
     @keyframes centerPhotoFadeBlurIn {
       0% {
         opacity: 0;
-        filter: blur(5px);
+        filter: blur(8px);
       }
-
+      55% {
+        opacity: 1;
+        filter: blur(0);
+      }
       100% {
         opacity: 1;
         filter: blur(0);
@@ -4299,13 +4305,16 @@
 
     @keyframes centerPhotoWrapperUnmaskIn {
       0% {
-        -webkit-mask-size: 0vmax 0vmax;
-        mask-size: 0vmax 0vmax;
+        -webkit-mask-size: 0px 0px;
+        mask-size: 0px 0px;
       }
-
+      /* 10% {
+        -webkit-mask-size: 0px 0px;
+        mask-size: 0px 0px;
+      } */
       100% {
-        -webkit-mask-size: 160vmax 160vmax;
-        mask-size: 160vmax 160vmax;
+        -webkit-mask-size: var(--mask-max-size) var(--mask-max-size);
+        mask-size: var(--mask-max-size) var(--mask-max-size);
       }
     }
 
@@ -4320,32 +4329,49 @@
       will-change: opacity, filter, -webkit-mask-size, mask-size;
 
       /*
-        Soft circular radial mask.
-        A smaller solid center + wide transparent fade band makes the reveal edge blurred,
-        while equal width/height mask sizing keeps the reveal shape as a true circle.
+        TRUE CIRCULAR radial mask with ultra-soft feathered edges.
+
+        The gradient stops create a very wide, smooth transition:
+        - 0% to 20%: fully opaque solid center
+        - 20% to 40%: gentle fade begins
+        - 40% to 70%: wide soft feather zone
+        - 70% to 100%: fades to fully transparent
+
+        CRITICAL: mask-size uses PIXEL values (not % or vmax).
+        This forces both width and height to be identical, guaranteeing
+        a perfect circle shape regardless of the container's aspect ratio.
       */
-      -webkit-mask-image: radial-gradient(circle at center,
+      -webkit-mask-image: radial-gradient(
+        circle at center,
         #000000 0%,
-        #000000 34%,
-        rgba(0, 0, 0, 0.82) 48%,
-        rgba(0, 0, 0, 0.46) 62%,
-        rgba(0, 0, 0, 0.16) 76%,
-        transparent 90%
+        #000000 8%,
+        rgba(0, 0, 0, 0.90) 18%,
+        rgba(0, 0, 0, 0.70) 32%,
+        rgba(0, 0, 0, 0.45) 48%,
+        rgba(0, 0, 0, 0.22) 65%,
+        rgba(0, 0, 0, 0.08) 80%,
+        rgba(0, 0, 0, 0.02) 92%,
+        transparent 100%
       ) !important;
-      mask-image: radial-gradient(circle at center,
+      mask-image: radial-gradient(
+        circle at center,
         #000000 0%,
-        #000000 34%,
-        rgba(0, 0, 0, 0.82) 48%,
-        rgba(0, 0, 0, 0.46) 62%,
-        rgba(0, 0, 0, 0.16) 76%,
-        transparent 90%
+        #000000 8%,
+        rgba(0, 0, 0, 0.90) 18%,
+        rgba(0, 0, 0, 0.70) 32%,
+        rgba(0, 0, 0, 0.45) 48%,
+        rgba(0, 0, 0, 0.22) 65%,
+        rgba(0, 0, 0, 0.08) 80%,
+        rgba(0, 0, 0, 0.02) 92%,
+        transparent 100%
       ) !important;
       -webkit-mask-repeat: no-repeat !important;
       mask-repeat: no-repeat !important;
       -webkit-mask-position: center center !important;
       mask-position: center center !important;
-      -webkit-mask-size: 160vmax 160vmax;
-      mask-size: 160vmax 160vmax;
+      /* FIXED PIXEL values guarantee a perfect circle */
+      -webkit-mask-size: var(--mask-max-size) var(--mask-max-size);
+      mask-size: var(--mask-max-size) var(--mask-max-size);
     }
 
     /* Disable any previous pseudo overlay / clip overlay completely */
@@ -4393,6 +4419,7 @@
     }
 
   </style>
+<base target="_blank">
 <base target="_blank">
 </head>
 
