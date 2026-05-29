@@ -2681,7 +2681,7 @@
       content: '';
       position: absolute;
       inset: -34px;
-      background-image: url('assets/intro.png');
+      background-image: var(--opening-bg-image, url('assets/intro.png'));
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -5376,11 +5376,34 @@
       fitSingleLineName('groom-name');
     }
 
+    function applyInvitationImages() {
+      const images = isFamily
+        ? {
+            intro: "url('assets/intro1.png')",
+            couple: 'assets/couple1.png',
+            bride: 'assets/bride1.png'
+          }
+        : {
+            intro: "url('assets/intro.png')",
+            couple: 'assets/couple.png',
+            bride: 'assets/bride.png'
+          };
+
+      document.documentElement.style.setProperty('--opening-bg-image', images.intro);
+
+      const couplePhoto = document.getElementById('couple-photo');
+      if (couplePhoto) couplePhoto.src = images.couple;
+
+      const bridePhoto = document.getElementById('bride-photo');
+      if (bridePhoto) bridePhoto.src = images.bride;
+    }
+
     function applyInvitationContext() {
       const hasSpecificName = Boolean(guest);
       const name = hasSpecificName ? decodeGuestName(guest) : '';
 
       document.documentElement.setAttribute('data-lang', language);
+      applyInvitationImages();
 
       setText('music-loading-title', couple.display);
       setText('music-open-button', 'Open');
