@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Invite Link Maker</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --sage-green: #8FA68E;
+      --deep-green: #5A7A5A;
+      --cream: #FAF6F0;
+      --soft-gold: #D4AF7A;
+      --terracotta: #C4785A;
+      --wood-dark: #6B4423;
+      --text-primary: #3D3D3D;
+      --text-secondary: #6B6B6B;
+      --text-light: #8A8A8A;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      background:
+        linear-gradient(170deg, #faf6f0 0%, #f0e8e0 60%, #e8ddd4 100%);
+      color: var(--text-primary);
+    }
+
+    body {
+      padding: 0.8rem;
+      overflow-x: hidden;
+    }
+
+    button,
+    input,
+    textarea {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .app {
+      width: min(100%, 430px);
+      min-height: 100svh;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      padding: 0.65rem 0 1.4rem;
+    }
+
+    .ambient-clouds {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .ambient-cloud {
+      position: absolute;
+      background: radial-gradient(
+        ellipse at center,
+        rgba(255,255,255,0.7) 0%,
+        rgba(255,255,255,0.3) 40%,
+        transparent 70%
+      );
+      border-radius: 50%;
+      filter: blur(30px);
+      opacity: 0.35;
+      animation: ambientFloat 20s ease-in-out infinite;
+    }
+
+    .ambient-cloud:nth-child(1) {
+      width: 200px;
+      height: 120px;
+      top: 5%;
+      left: -10%;
+      animation-duration: 25s;
+    }
+
+    .ambient-cloud:nth-child(2) {
+      width: 180px;
+      height: 100px;
+      top: 15%;
+      right: -15%;
+      animation-delay: -5s;
+      animation-duration: 22s;
+    }
+
+    .ambient-cloud:nth-child(3) {
+      width: 250px;
+      height: 140px;
+      bottom: 10%;
+      left: 5%;
+      animation-delay: -10s;
+      animation-duration: 28s;
+    }
+
+    @keyframes ambientFloat {
+      0%, 100% {
+        transform: translateX(0) translateY(0) scale(1);
+      }
+
+      50% {
+        transform: translateX(-10px) translateY(5px) scale(0.95);
+      }
+    }
+
+    .page-title {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 0.65rem;
+      padding: 0 0.5rem;
+    }
+
+    .page-title .script-text {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2.1rem, 11vw, 3.2rem);
+      color: var(--terracotta);
+      line-height: 0.95;
+      margin-bottom: 0.15rem;
+    }
+
+    .page-title h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.15rem, 5vw, 1.65rem);
+      color: var(--wood-dark);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.25rem;
+    }
+
+    .page-title p {
+      color: var(--text-secondary);
+      font-size: 0.94rem;
+      line-height: 1.25;
+    }
+
+    .venue-card {
+      width: 100%;
+      max-width: 360px;
+      margin: 0 auto 0.75rem;
+      background: linear-gradient(
+        145deg,
+        rgba(255,255,255,0.96) 0%,
+        rgba(250,246,240,0.96) 100%
+      );
+      border-radius: 24px;
+      padding: 1rem 1rem 1.1rem;
+      box-shadow:
+        0 16px 42px rgba(107, 68, 35, 0.10),
+        0 6px 16px rgba(107, 68, 35, 0.06);
+      border: 1px solid rgba(139, 105, 20, 0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .venue-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(
+        90deg,
+        var(--sage-green),
+        var(--soft-gold),
+        var(--terracotta),
+        var(--soft-gold),
+        var(--sage-green)
+      );
+    }
+
+    .venue-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .ornament {
+      width: 34px;
+      height: 30px;
+      margin: 0 auto 0.08rem;
+      text-align: center;
+      line-height: 1;
+    }
+
+    .ornament::before {
+      content: '❦';
+      font-size: 1.55rem;
+      color: var(--soft-gold);
+      opacity: 0.8;
+    }
+
+    .card-title {
+      font-family: 'Cinzel', serif;
+      color: var(--wood-dark);
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-align: center;
+      margin-bottom: 0.45rem;
+    }
+
+    .mode-switch {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .mode-button {
+      width: 100%;
+      padding: 0.72rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.9) 0%,
+        rgba(250,246,240,0.9) 100%
+      );
+      color: var(--wood-dark);
+      border: 1.5px solid rgba(139, 105, 20, 0.20);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .mode-button.active {
+      background: linear-gradient(135deg, var(--deep-green) 0%, var(--sage-green) 100%);
+      color: var(--cream);
+      border-color: transparent;
+      box-shadow:
+        0 4px 15px rgba(90, 122, 90, 0.26),
+        0 2px 4px rgba(90, 122, 90, 0.18);
+    }
+
+    .mode-panel {
+      display: none;
+    }
+
+    .mode-panel.active {
+      display: block;
+    }
+
+    label {
+      display: block;
+      color: var(--wood-dark);
+      font-size: 0.96rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      margin-bottom: 0.3rem;
+    }
+
+    textarea,
+    input[type="file"] {
+      width: 100%;
+      border-radius: 14px;
+      border: 1.5px solid rgba(139, 105, 20, 0.15);
+      background: linear-gradient(
+        145deg,
+        rgba(255,255,255,0.9) 0%,
+        rgba(250,246,240,0.9) 100%
+      );
+      color: var(--text-primary);
+      font-size: 0.96rem;
+      padding: 0.72rem 0.85rem;
+      transition: all 0.3s ease;
+    }
+
+    textarea {
+      min-height: 96px;
+      height: auto;
+      resize: none;
+      overflow: hidden;
+      line-height: 1.28;
+      margin-bottom: 0.65rem;
+    }
+
+    input[type="file"] {
+      cursor: pointer;
+      margin-bottom: 0.55rem;
+    }
+
+    textarea:focus,
+    input[type="file"]:focus {
+      outline: none;
+      border-color: var(--sage-green);
+      box-shadow: 0 0 0 3px rgba(139, 166, 142, 0.15);
+      background: #FFFFFF;
+    }
+
+    .info {
+      color: var(--text-secondary);
+      font-size: 0.84rem;
+      line-height: 1.22;
+      text-align: center;
+      margin-bottom: 0.65rem;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 0.5rem;
+      width: 100%;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 0.76rem 1rem;
+      cursor: pointer;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      line-height: 1;
+      transition: all 0.24s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    .btn-primary {
+      flex: 1;
+      background: linear-gradient(135deg, var(--deep-green) 0%, var(--sage-green) 100%);
+      color: var(--cream);
+      box-shadow:
+        0 4px 15px rgba(90, 122, 90, 0.30),
+        0 2px 4px rgba(90, 122, 90, 0.20);
+    }
+
+    .btn-secondary {
+      flex: 1;
+      background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.9) 0%,
+        rgba(250,246,240,0.9) 100%
+      );
+      color: var(--wood-dark);
+      border: 1.5px solid rgba(139, 105, 20, 0.20);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+
+    .btn-danger {
+      flex: 1;
+      background: linear-gradient(135deg, var(--terracotta) 0%, #B86448 100%);
+      color: #FFFFFF;
+      box-shadow:
+        0 4px 15px rgba(196, 120, 90, 0.28),
+        0 2px 4px rgba(196, 120, 90, 0.18);
+    }
+
+    .result-summary {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.94rem;
+      margin-bottom: 0.65rem;
+    }
+
+    .count {
+      color: var(--terracotta);
+      font-weight: 700;
+    }
+
+    .result-actions {
+      margin-bottom: 0.7rem;
+    }
+
+    .result {
+      display: flex;
+      flex-direction: column;
+      gap: 0.48rem;
+      max-height: 300px;
+      overflow-y: auto;
+      padding-right: 0.1rem;
+    }
+
+    .link-item {
+      width: 100%;
+      border-radius: 16px;
+      padding: 0.6rem 0.68rem;
+      background: linear-gradient(
+        145deg,
+        rgba(255,255,255,0.82) 0%,
+        rgba(250,246,240,0.82) 100%
+      );
+      border: 1px solid rgba(139, 105, 20, 0.10);
+      box-shadow: 0 4px 14px rgba(107, 68, 35, 0.06);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 0.5rem;
+      align-items: center;
+      text-align: left;
+    }
+
+    .link-name {
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: var(--wood-dark);
+      line-height: 1.1;
+      overflow-wrap: anywhere;
+      margin-bottom: 0.18rem;
+    }
+
+    .link-url {
+      font-size: 0.74rem;
+      color: var(--text-secondary);
+      line-height: 1.15;
+      overflow-wrap: anywhere;
+      word-break: break-all;
+    }
+
+    .copy-btn {
+      min-width: 68px;
+      padding: 0.38rem 0.6rem;
+      font-size: 0.54rem;
+      background: linear-gradient(135deg, var(--deep-green) 0%, var(--sage-green) 100%);
+      color: var(--cream);
+      box-shadow: 0 3px 10px rgba(90, 122, 90, 0.22);
+    }
+
+    .empty-state {
+      text-align: center;
+      color: var(--text-light);
+      font-size: 0.9rem;
+      line-height: 1.25;
+      padding: 0.55rem 0.25rem 0.1rem;
+    }
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
+
+    @media (max-width: 380px) {
+      body {
+        padding: 0.6rem;
+      }
+
+      .venue-card {
+        border-radius: 22px;
+        padding: 0.95rem 0.85rem 1rem;
+      }
+
+      .button-row {
+        flex-direction: column;
+      }
+
+      .result-actions {
+        flex-direction: row;
+      }
+
+      .result-actions button {
+        padding-left: 0.45rem;
+        padding-right: 0.45rem;
+        font-size: 0.62rem;
+      }
+
+      .link-item {
+        grid-template-columns: 1fr;
+      }
+
+      .copy-btn {
+        width: 100%;
+      }
+    }
+
+    @media (max-height: 700px) {
+      .page-title .script-text {
+        font-size: 2.2rem;
+      }
+
+      .page-title h1 {
+        font-size: 1.22rem;
+      }
+
+      .page-title p {
+        font-size: 0.86rem;
+      }
+
+      .venue-card {
+        padding-top: 0.9rem;
+        padding-bottom: 0.95rem;
+        margin-bottom: 0.55rem;
+      }
+
+      .result {
+        max-height: 240px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="ambient-clouds">
+    <div class="ambient-cloud"></div>
+    <div class="ambient-cloud"></div>
+    <div class="ambient-cloud"></div>
+  </div>
+
+  <main class="app">
+    <div class="page-title">
+      <div class="script-text">Invite</div>
+      <h1>Invite Link Maker</h1>
+      <p>Generate invitation links from input or imported file.</p>
+    </div>
+
+    <section class="venue-card">
+      <div class="ornament"></div>
+      <h2 class="card-title">Choose Mode</h2>
+
+      <div class="mode-switch">
+        <button id="inputModeButton" class="mode-button active" onclick="setMode('input')">
+          Input
+        </button>
+        <button id="importModeButton" class="mode-button" onclick="setMode('import')">
+          Import
+        </button>
+      </div>
+
+      <div id="inputPanel" class="mode-panel active">
+        <label for="manualNames">Guest Names</label>
+        <textarea
+          id="manualNames"
+          oninput="autoResizeTextarea(this)"
+          placeholder="Dika Pratama&#10;Ceci Amalia&#10;Budi Santoso"
+        ></textarea>
+
+        <div class="button-row">
+          <button class="btn-primary" onclick="generateFromManual()">Generate</button>
+          <button class="btn-secondary" onclick="clearManual()">Clear</button>
+        </div>
+      </div>
+
+      <div id="importPanel" class="mode-panel">
+        <label for="dataFile">CSV / XLS / XLSX File</label>
+        <input type="file" id="dataFile" accept=".csv,.xls,.xlsx" />
+
+        <p class="info">
+          Reads <strong>Daftar undangan</strong> sheet if available, otherwise uses first sheet.
+        </p>
+
+        <div class="button-row">
+          <button class="btn-primary" onclick="importFile()">Import & Generate</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="venue-card">
+      <div class="ornament"></div>
+      <h2 class="card-title">Generated Links</h2>
+
+      <p class="result-summary">
+        Total links: <span class="count" id="linkCount">0</span>
+      </p>
+
+      <div class="button-row result-actions">
+        <button class="btn-secondary" onclick="copyAllLinks()">Copy All</button>
+        <button class="btn-secondary" onclick="downloadXLSX()">XLSX</button>
+        <button class="btn-danger" onclick="clearResults()">Clear</button>
+      </div>
+
+      <div id="result" class="result">
+        <div class="empty-state">
+          No links yet.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+  <script>
+    const resultDiv = document.getElementById("result");
+    const linkCount = document.getElementById("linkCount");
+
+    const inputModeButton = document.getElementById("inputModeButton");
+    const importModeButton = document.getElementById("importModeButton");
+    const inputPanel = document.getElementById("inputPanel");
+    const importPanel = document.getElementById("importPanel");
+
+    const allowedTypes = ["family", "friends", "general", "work"];
+    const baseInvitationUrl = "https://itmerowe.github.io/Invitation/index.html";
+
+    let generatedLinks = [];
+    let currentInviteType = "general";
+
+    function setMode(mode) {
+      if (mode === "input") {
+        inputModeButton.classList.add("active");
+        importModeButton.classList.remove("active");
+        inputPanel.classList.add("active");
+        importPanel.classList.remove("active");
+
+        const textarea = document.getElementById("manualNames");
+        autoResizeTextarea(textarea);
+      } else {
+        inputModeButton.classList.remove("active");
+        importModeButton.classList.add("active");
+        inputPanel.classList.remove("active");
+        importPanel.classList.add("active");
+      }
+    }
+
+    function autoResizeTextarea(textarea) {
+      if (!textarea) return;
+
+      textarea.style.height = "auto";
+      textarea.style.height = textarea.scrollHeight + "px";
+    }
+
+    function getUrlType() {
+      const params = new URLSearchParams(window.location.search);
+      const type = (params.get("type") || "").trim().toLowerCase();
+
+      if (allowedTypes.includes(type)) {
+        return type;
+      }
+
+      return "general";
+    }
+
+    function setInitialType() {
+      currentInviteType = getUrlType();
+    }
+
+    function makeInviteLink(type, name) {
+      return (
+        baseInvitationUrl +
+        "?type=" +
+        encodeURIComponent(type) +
+        "&to=" +
+        encodeURIComponent(name)
+      );
+    }
+
+    function cleanName(name) {
+      return String(name)
+        .replace(/^"|"$/g, "")
+        .replace(/^'|'$/g, "")
+        .trim();
+    }
+
+    function generateLinks(names) {
+      const cleanNames = names
+        .map(cleanName)
+        .filter(name => name.length > 0);
+
+      cleanNames.forEach(name => {
+        const link = makeInviteLink(currentInviteType, name);
+
+        generatedLinks.push({
+          type: currentInviteType,
+          name: name,
+          link: link
+        });
+      });
+
+      renderLinks();
+    }
+
+    function generateFromManual() {
+      const manualText = document.getElementById("manualNames").value;
+      const names = manualText.split(/\r?\n/);
+
+      generateLinks(names);
+    }
+
+    function renderLinks() {
+      resultDiv.innerHTML = "";
+
+      if (generatedLinks.length === 0) {
+        resultDiv.innerHTML = '<div class="empty-state">No links yet.</div>';
+        linkCount.textContent = "0";
+        return;
+      }
+
+      generatedLinks.forEach(item => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "link-item";
+
+        const textWrapper = document.createElement("div");
+
+        const nameText = document.createElement("div");
+        nameText.className = "link-name";
+        nameText.textContent = item.name;
+
+        const urlText = document.createElement("div");
+        urlText.className = "link-url";
+        urlText.textContent = item.link;
+
+        const copyButton = document.createElement("button");
+        copyButton.className = "copy-btn";
+        copyButton.textContent = "Copy";
+        copyButton.onclick = function () {
+          copyText(item.link, copyButton);
+        };
+
+        textWrapper.appendChild(nameText);
+        textWrapper.appendChild(urlText);
+
+        wrapper.appendChild(textWrapper);
+        wrapper.appendChild(copyButton);
+        resultDiv.appendChild(wrapper);
+      });
+
+      linkCount.textContent = generatedLinks.length;
+    }
+
+    function importFile() {
+      const fileInput = document.getElementById("dataFile");
+      const file = fileInput.files[0];
+
+      if (!file) {
+        alert("Please select a CSV, XLS, or XLSX file first.");
+        return;
+      }
+
+      const fileName = file.name.toLowerCase();
+
+      if (fileName.endsWith(".csv")) {
+        importCSV(file);
+      } else if (fileName.endsWith(".xls") || fileName.endsWith(".xlsx")) {
+        importExcel(file);
+      } else {
+        alert("Unsupported file type. Please use CSV, XLS, or XLSX.");
+      }
+    }
+
+    function importCSV(file) {
+      const reader = new FileReader();
+
+      reader.onload = function (event) {
+        const csvText = event.target.result;
+        const names = parseCSVNames(csvText);
+
+        if (names.length === 0) {
+          alert("No names found in CSV.");
+          return;
+        }
+
+        generateLinks(names);
+      };
+
+      reader.readAsText(file);
+    }
+
+    function importExcel(file) {
+      const reader = new FileReader();
+
+      reader.onload = function (event) {
+        const data = new Uint8Array(event.target.result);
+        const workbook = XLSX.read(data, { type: "array" });
+
+        let sheetName = workbook.SheetNames[0];
+
+        const preferredSheet = workbook.SheetNames.find(name =>
+          name.toLowerCase().trim() === "daftar undangan"
+        );
+
+        if (preferredSheet) {
+          sheetName = preferredSheet;
+        }
+
+        const worksheet = workbook.Sheets[sheetName];
+
+        const rows = XLSX.utils.sheet_to_json(worksheet, {
+          header: 1,
+          defval: ""
+        });
+
+        const names = parseExcelNames(rows);
+
+        if (names.length === 0) {
+          alert("No names found in Excel file.");
+          return;
+        }
+
+        generateLinks(names);
+      };
+
+      reader.readAsArrayBuffer(file);
+    }
+
+    function parseCSVNames(csvText) {
+      const lines = csvText
+        .split(/\r?\n/)
+        .map(line => line.trim())
+        .filter(line => line.length > 0);
+
+      if (lines.length === 0) {
+        return [];
+      }
+
+      const firstRow = splitCSVLine(lines[0]);
+      const lowerHeader = firstRow.map(col => col.toLowerCase().trim());
+
+      let nameColumnIndex = 0;
+      let startRow = 0;
+
+      if (lowerHeader.includes("name")) {
+        nameColumnIndex = lowerHeader.indexOf("name");
+        startRow = 1;
+      }
+
+      const names = [];
+
+      for (let i = startRow; i < lines.length; i++) {
+        const columns = splitCSVLine(lines[i]);
+
+        if (columns[nameColumnIndex]) {
+          names.push(columns[nameColumnIndex]);
+        }
+      }
+
+      return names;
+    }
+
+    function parseExcelNames(rows) {
+      if (!rows || rows.length === 0) {
+        return [];
+      }
+
+      const firstRow = rows[0].map(cell =>
+        String(cell).toLowerCase().trim()
+      );
+
+      let nameColumnIndex = 0;
+      let startRow = 0;
+
+      if (firstRow.includes("name")) {
+        nameColumnIndex = firstRow.indexOf("name");
+        startRow = 1;
+      } else {
+        nameColumnIndex = findBestNameColumn(rows);
+        startRow = 0;
+      }
+
+      const names = [];
+
+      for (let i = startRow; i < rows.length; i++) {
+        const row = rows[i];
+        const value = row[nameColumnIndex];
+
+        if (value !== undefined && value !== null && String(value).trim() !== "") {
+          names.push(String(value).trim());
+        }
+      }
+
+      return names;
+    }
+
+    function findBestNameColumn(rows) {
+      let bestColumnIndex = 0;
+      let bestColumnCount = 0;
+
+      const maxColumns = Math.max(...rows.map(row => row.length), 1);
+
+      for (let col = 0; col < maxColumns; col++) {
+        let count = 0;
+
+        for (let row = 0; row < rows.length; row++) {
+          const value = rows[row][col];
+
+          if (
+            value !== undefined &&
+            value !== null &&
+            String(value).trim() !== ""
+          ) {
+            count++;
+          }
+        }
+
+        if (count > bestColumnCount) {
+          bestColumnCount = count;
+          bestColumnIndex = col;
+        }
+      }
+
+      return bestColumnIndex;
+    }
+
+    function splitCSVLine(line) {
+      const result = [];
+      let current = "";
+      let insideQuotes = false;
+
+      for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+
+        if (char === '"') {
+          insideQuotes = !insideQuotes;
+        } else if (char === "," && !insideQuotes) {
+          result.push(current.trim());
+          current = "";
+        } else {
+          current += char;
+        }
+      }
+
+      result.push(current.trim());
+      return result;
+    }
+
+    async function copyText(text, button) {
+      const originalText = button ? button.textContent : "";
+
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          const tempInput = document.createElement("textarea");
+          tempInput.value = text;
+          tempInput.setAttribute("readonly", "");
+          tempInput.style.position = "fixed";
+          tempInput.style.opacity = "0";
+          document.body.appendChild(tempInput);
+          tempInput.select();
+          document.execCommand("copy");
+          document.body.removeChild(tempInput);
+        }
+
+        if (button) {
+          button.textContent = "Copied";
+          setTimeout(() => {
+            button.textContent = originalText;
+          }, 1200);
+        }
+      } catch (error) {
+        console.warn("Copy failed:", error);
+
+        if (button) {
+          button.textContent = "Failed";
+          setTimeout(() => {
+            button.textContent = originalText;
+          }, 1200);
+        }
+      }
+    }
+
+    function copyAllLinks() {
+      if (generatedLinks.length === 0) {
+        alert("No links to copy.");
+        return;
+      }
+
+      const allLinks = generatedLinks.map(item => item.link).join("\n");
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(allLinks).then(function () {
+          alert("All links copied!");
+        });
+      } else {
+        const tempInput = document.createElement("textarea");
+        tempInput.value = allLinks;
+        tempInput.setAttribute("readonly", "");
+        tempInput.style.position = "fixed";
+        tempInput.style.opacity = "0";
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+        alert("All links copied!");
+      }
+    }
+
+    function downloadXLSX() {
+      if (generatedLinks.length === 0) {
+        alert("No links to download.");
+        return;
+      }
+
+      const worksheetData = [
+        ["type", "name", "link"]
+      ];
+
+      generatedLinks.forEach(item => {
+        worksheetData.push([
+          item.type,
+          item.name,
+          item.link
+        ]);
+      });
+
+      const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+
+      worksheet["!cols"] = [
+        { wch: 15 },
+        { wch: 32 },
+        { wch: 90 }
+      ];
+
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Invite Links");
+
+      XLSX.writeFile(workbook, "invite-links.xlsx");
+    }
+
+    function clearManual() {
+      const textarea = document.getElementById("manualNames");
+      textarea.value = "";
+      autoResizeTextarea(textarea);
+    }
+
+    function clearResults() {
+      generatedLinks = [];
+      renderLinks();
+    }
+
+    window.addEventListener("load", function () {
+      const textarea = document.getElementById("manualNames");
+      autoResizeTextarea(textarea);
+    });
+
+    setInitialType();
+    renderLinks();
+  </script>
+</body>
+</html>

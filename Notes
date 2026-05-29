@@ -5,9 +5,16 @@ https://itmerowe.github.io/Invitation/index.html?type=family
 https://itmerowe.github.io/Invitation/index.html?type=friends&to=Ceci
 https://itmerowe.github.io/Invitation/
 
+https://itmerowe.github.io/Invitation/invitelinkmaker.html?type=family
+
 
 LOCAL TESTING
 http://127.0.0.1:3000/index.html?vscode-livepreview=true&type=family&to=Dika
 http://127.0.0.1:3000/index.html?vscode-livepreview=true&type=friends&to=Ceci
 
 http://127.0.0.1:3000/invitation/index.html?vscode-livepreview=true&type=family
+
+invitelinkmaker.html?type=family
+invitelinkmaker.html?type=friends
+invitelinkmaker.html?type=general
+invitelinkmaker.html?type=work
