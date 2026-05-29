@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wedding Invitation Editor - Centered Name Version</title>
+  <title>Wedding Invitation Editor - Newest Invitation Version</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&display=swap');
     :root {
@@ -214,7 +214,7 @@
       <main class="main">
         <section id="contentPage" class="page active">
           <div class="page-header"><div><h2>Content</h2><p>Edit names, parents, intro, couple, bride/groom, wedding date, schedule, venue, gifts, dress code, RSVP, and modal text.</p></div></div>
-          <div class="note">Updated for the latest invite version: includes Gifts, date schedule, Google Map links, current map spot structure, and the centered single-line bride/groom full-name auto-fit fix.</div>
+          <div class="note">Updated for the newest invite version: supports the single couple photo layout, centered bride/groom full-name auto-fit, final gift bank card layout, RSVP themed dropdowns, Gifts page, schedule, Google Map links, and the current map spot structure.</div>
           <div class="type-selector-wrap">
             <div class="type-label">Name set selector</div>
             <div class="type-selector">
@@ -372,7 +372,11 @@
       gifts: [
         ['giftsTitle', 'Gifts title', 'gifts-title', 'text'],
         ['giftsDescription', 'Gifts description', 'gifts-description', 'textarea'],
+        ['giftGroomTransferLabel', 'Groom transfer title', 'gift-groom-transfer-label', 'text'],
+        ['giftGroomBankAccountLabel', 'Groom bank/account label', 'gift-groom-bank-account-label', 'text'],
         ['giftGroomHolderLabel', 'Groom holder label', 'gift-groom-holder-label', 'text'],
+        ['giftBrideTransferLabel', 'Bride transfer title', 'gift-bride-transfer-label', 'text'],
+        ['giftBrideBankAccountLabel', 'Bride bank/account label', 'gift-bride-bank-account-label', 'text'],
         ['giftBrideHolderLabel', 'Bride holder label', 'gift-bride-holder-label', 'text'],
         ['giftWishlistLabel', 'Wishlist label', 'gift-wishlist-label', 'text'],
         ['giftWishlistNote', 'Wishlist note', 'gift-wishlist-note', 'textarea'],
@@ -486,27 +490,35 @@
         { key: 'backButtonPadding', label: 'Back button padding', type: 'text', default: '0.9rem 2rem', css: '#page-venue > button.secondary, #page-gifts > button.secondary, #page-dress > button.secondary, #page-rsvp > button.secondary', prop: 'padding' },
         { key: 'rsvpSubmitPadding', label: 'RSVP submit padding', type: 'text', default: '0.8rem 1.15rem', css: '#rsvp-submit-button', prop: 'padding' }
       ]},
-      { key: 'couple', title: 'Couple Page Layout', badge: 'photo + overlap', icon: 'layouts', fields: [
-        { key: 'coupleHeroPaddingTop', label: 'Couple page top padding', type: 'text', default: '4svh', css: '#page-couple .couple-hero', prop: 'padding-top' },
-        { key: 'coupleImageHeight', label: 'Couple image row height', type: 'text', default: '45svh', css: '#page-couple .couple-hero-images', prop: 'height' },
-        { key: 'coupleImageFlex', label: 'Couple image row flex', type: 'text', default: '0 0 45svh', css: '#page-couple .couple-hero-images', prop: 'flex' },
-        { key: 'couplePhotoWidth', label: 'Couple photo width', type: 'text', default: 'clamp(136px, 38vw, 178px)', css: '#page-couple .couple-hero-photo', prop: 'width' },
-        { key: 'couplePhotoGap', label: 'Couple photo gap', type: 'text', default: 'clamp(0.45rem, 2vw, 0.75rem)', css: '#page-couple .couple-hero-images', prop: 'gap' },
-        { key: 'coupleTextMarginTop', label: 'Couple text margin top', type: 'text', default: '-0.8rem', css: '#page-couple .couple-hero-text', prop: 'margin-top' },
+      { key: 'couple', title: 'Couple Page Layout', badge: 'single photo + centered text', icon: 'layouts', fields: [
+        { key: 'couplePageJustify', label: 'Couple page vertical alignment', type: 'text', default: 'center', css: '#page-couple', prop: 'justify-content' },
+        { key: 'coupleHeroPaddingTop', label: 'Couple hero top padding', type: 'text', default: '0', css: '#page-couple .couple-hero', prop: 'padding-top' },
+        { key: 'coupleHeroTransform', label: 'Couple hero transform', type: 'text', default: 'translateY(0)', css: '#page-couple .couple-hero', prop: 'transform' },
+        { key: 'coupleImageHeight', label: 'Single couple image row height', type: 'text', default: '45svh', css: '#page-couple .couple-hero-images', prop: 'height' },
+        { key: 'coupleImageFlex', label: 'Single couple image row flex', type: 'text', default: '0 0 45svh', css: '#page-couple .couple-hero-images', prop: 'flex' },
+        { key: 'coupleImageMaxHeight', label: 'Single couple image max height', type: 'text', default: '45svh', css: '#page-couple .couple-hero-images', prop: 'max-height' },
+        { key: 'coupleImagePadding', label: 'Single couple image row padding', type: 'text', default: '0 0.7rem', css: '#page-couple .couple-hero-images', prop: 'padding' },
+        { key: 'couplePhotoWidth', label: 'Single couple photo width', type: 'text', default: 'min(96%, 430px)', css: '#page-couple #couple-photo, #page-couple .couple-hero-photo.couple-photo, #page-couple .couple-hero-photo.couple-photo:hover', prop: 'width' },
+        { key: 'couplePhotoMaxWidth', label: 'Single couple photo max width', type: 'text', default: 'min(96vw, 430px)', css: '#page-couple #couple-photo, #page-couple .couple-hero-photo.couple-photo, #page-couple .couple-hero-photo.couple-photo:hover', prop: 'max-width' },
+        { key: 'couplePhotoObjectFit', label: 'Single couple photo object fit', type: 'text', default: 'contain', css: '#page-couple #couple-photo, #page-couple .couple-hero-photo.couple-photo, #page-couple .couple-hero-photo.couple-photo:hover', prop: 'object-fit' },
+        { key: 'coupleTextMarginTop', label: 'Couple text margin top', type: 'text', default: '-0.35rem', css: '#page-couple .couple-hero-text', prop: 'margin-top' },
         { key: 'coupleTextPadding', label: 'Couple text padding', type: 'text', default: '0 1.2rem 0', css: '#page-couple .couple-hero-text', prop: 'padding' }
       ]},
-      { key: 'single', title: 'Bride/Groom Layout', badge: 'single hero + centered name', icon: 'layouts', fields: [
+      { key: 'single', title: 'Bride/Groom Layout', badge: 'single hero + auto-fit name', icon: 'layouts', fields: [
         { key: 'singleHeroLift', label: 'Whole bride/groom layout lift', type: 'text', default: 'translateY(-50px)', css: '#page-bride .single-hero, #page-groom .single-hero', prop: 'transform' },
         { key: 'singlePhotoWidth', label: 'Single photo width', type: 'text', default: 'min(58vw, 260px)', css: '.single-hero-image img', prop: 'width' },
         { key: 'singlePhotoRadius', label: 'Single photo radius', type: 'text', default: '18px', css: '.single-hero-image img', prop: 'border-radius' },
+        { key: 'singleTextWidth', label: 'Single text block width', type: 'text', default: '100%', css: '#page-bride .single-hero-text, #page-groom .single-hero-text', prop: 'width' },
+        { key: 'singleTextMaxWidth', label: 'Single text block max width', type: 'text', default: '390px', css: '#page-bride .single-hero-text, #page-groom .single-hero-text', prop: 'max-width' },
         { key: 'singleTextMarginTop', label: 'Text overlap margin top', type: 'text', default: '-6.75rem', css: '.single-hero-text.overlap-text', prop: 'margin-top' },
         { key: 'singleTextTransform', label: 'Text transform', type: 'text', default: 'translateY(calc(-0.45rem - 10px))', css: '#page-bride .single-hero-text.overlap-text, #page-groom .single-hero-text.overlap-text', prop: 'transform' },
-        { key: 'brideGroomNameMaxWidth', label: 'Bride/Groom name max width', type: 'text', default: 'min(94vw, 380px)', css: '#bride-name, #groom-name', prop: 'max-width' },
+        { key: 'brideGroomNameWidth', label: 'Bride/Groom name width', type: 'text', default: 'min(100%, 360px)', css: '#bride-name, #groom-name', prop: 'width' },
+        { key: 'brideGroomNameMaxWidth', label: 'Bride/Groom name max width', type: 'text', default: 'min(100%, 360px)', css: '#bride-name, #groom-name', prop: 'max-width' },
         { key: 'brideGroomNameTextAlign', label: 'Bride/Groom name alignment', type: 'text', default: 'center', css: '#bride-name, #groom-name', prop: 'text-align' },
         { key: 'brideGroomNameWhiteSpace', label: 'Bride/Groom name white-space', type: 'text', default: 'nowrap', css: '#bride-name, #groom-name', prop: 'white-space' },
-        { key: 'brideGroomNameLetterSpacing', label: 'Bride/Groom name letter spacing', type: 'text', default: '0.02em', css: '#bride-name, #groom-name', prop: 'letter-spacing' },
-        { key: 'brideGroomNameAutoFitMinPx', label: 'Bride/Groom auto-fit minimum px', type: 'number', default: '13', target: 'jsConst', constName: 'minSize' },
-        { key: 'parentLineSize', label: 'Parent line font size', type: 'text', default: 'clamp(0.68rem, 2.35vw, 0.82rem)', css: '.parent-line', prop: 'font-size' }
+        { key: 'brideGroomNameLetterSpacing', label: 'Bride/Groom name letter spacing', type: 'text', default: '0.012em', css: '#bride-name, #groom-name', prop: 'letter-spacing' },
+        { key: 'brideGroomNameAutoFitMinPx', label: 'Bride/Groom auto-fit minimum px', type: 'number', default: '11', target: 'jsConst', constName: 'minSize' },
+        { key: 'parentLineSize', label: 'Parent line font size', type: 'text', default: 'clamp(0.95rem, 3.4vw, 1.18rem)', css: '.parent-line', prop: 'font-size' }
       ]},
       { key: 'date', title: 'Date / Countdown / Schedule', badge: 'countdown + schedule', icon: 'layouts', fields: [
         { key: 'datePageGap', label: 'Date page gap', type: 'text', default: '0.7rem', css: '#page-date', prop: 'gap' },
@@ -540,8 +552,31 @@
         { key: 'rsvpCardPadding', label: 'RSVP card padding', type: 'text', default: '1.28rem 1.35rem 1.45rem', css: '#page-rsvp .venue-card, #page-rsvp .rsvp-card', prop: 'padding' },
         { key: 'rsvpTextareaHeight', label: 'RSVP textarea height', type: 'text', default: '74px', css: '#page-rsvp textarea', prop: 'height' },
         { key: 'giftsCardPadding', label: 'Gifts card padding', type: 'text', default: '1.8rem', css: '#page-gifts .gift-card', prop: 'padding' },
-        { key: 'giftOptionsGap', label: 'Gifts options gap', type: 'text', default: '0.48rem', css: '#page-gifts .gift-options', prop: 'gap' },
-        { key: 'giftAccountPadding', label: 'Gift bank card padding', type: 'text', default: '0.55rem 0.68rem', css: '#page-gifts .gift-option.gift-account-option', prop: 'padding' }
+        { key: 'giftOptionsGap', label: 'Gifts options gap', type: 'text', default: '0.48rem', css: '#page-gifts .gift-options', prop: 'gap' }
+      ]},
+      { key: 'giftBank', title: 'Gift Bank Card Layout', badge: 'final v24 grid', icon: 'gifts', fields: [
+        { key: 'giftAccountGridColumns', label: 'Bank card grid columns', type: 'text', default: 'minmax(0, 1fr) auto', css: '#page-gifts .gift-option.gift-account-option, #page-gifts .gift-account-option', prop: 'grid-template-columns' },
+        { key: 'giftAccountPadding', label: 'Gift bank card padding', type: 'text', default: '0.70rem 0.95rem', css: '#page-gifts .gift-option.gift-account-option, #page-gifts .gift-account-option', prop: 'padding' },
+        { key: 'giftAccountRadius', label: 'Gift bank card radius', type: 'text', default: '16px', css: '#page-gifts .gift-option.gift-account-option, #page-gifts .gift-account-option', prop: 'border-radius' },
+        { key: 'giftAccountColumnGap', label: 'Gift bank card column gap', type: 'text', default: '0.75rem', css: '#page-gifts .gift-option.gift-account-option, #page-gifts .gift-account-option', prop: 'column-gap' },
+        { key: 'giftBankNameSize', label: 'Bank name font size', type: 'text', default: '0.95rem', css: '#page-gifts .gift-bank-name', prop: 'font-size' },
+        { key: 'giftAccountNumberSize', label: 'Account number font size', type: 'text', default: '0.78rem', css: '#page-gifts .gift-account-number', prop: 'font-size' },
+        { key: 'giftAccountHolderSize', label: 'Account holder font size', type: 'text', default: '0.88rem', css: '#page-gifts .gift-account-holder', prop: 'font-size' },
+        { key: 'giftCopyButtonMinWidth', label: 'Copy button min width', type: 'text', default: '98px', css: '#page-gifts .gift-copy-button', prop: 'min-width' },
+        { key: 'giftCopyButtonPadding', label: 'Copy button padding', type: 'text', default: '0.42rem 0.78rem', css: '#page-gifts .gift-copy-button', prop: 'padding' },
+        { key: 'giftCopyButtonFontSize', label: 'Copy button font size', type: 'text', default: '0.62rem', css: '#page-gifts .gift-copy-button', prop: 'font-size' }
+      ]},
+      { key: 'themeSelect', title: 'RSVP Themed Dropdowns', badge: 'custom select UI', icon: 'layouts', fields: [
+        { key: 'themeSelectMarginBottom', label: 'Dropdown bottom margin', type: 'text', default: '0.78rem', css: '.theme-select', prop: 'margin-bottom' },
+        { key: 'themeSelectButtonHeight', label: 'Dropdown button height', type: 'text', default: '54px', css: '.theme-select-button', prop: 'height' },
+        { key: 'themeSelectButtonMinHeight', label: 'Dropdown button min height', type: 'text', default: '54px', css: '.theme-select-button', prop: 'min-height' },
+        { key: 'themeSelectButtonRadius', label: 'Dropdown button radius', type: 'text', default: '14px', css: '.theme-select-button', prop: 'border-radius' },
+        { key: 'themeSelectButtonPadding', label: 'Dropdown button padding', type: 'text', default: '0 1rem', css: '.theme-select-button', prop: 'padding' },
+        { key: 'themeSelectButtonFontSize', label: 'Dropdown button font size', type: 'text', default: '0.96rem', css: '.theme-select-button', prop: 'font-size' },
+        { key: 'themeSelectArrowSize', label: 'Dropdown arrow size', type: 'text', default: '32px', css: '.theme-select-arrow', prop: 'width;height' },
+        { key: 'themeSelectMenuRadius', label: 'Dropdown menu radius', type: 'text', default: '18px', css: '.theme-select-menu', prop: 'border-radius' },
+        { key: 'themeSelectOptionPadding', label: 'Dropdown option padding', type: 'text', default: '0.82rem 1.1rem', css: '.theme-select-option', prop: 'padding' },
+        { key: 'themeSelectOptionFontSize', label: 'Dropdown option font size', type: 'text', default: '0.96rem', css: '.theme-select-option', prop: 'font-size' }
       ]}
     ];
 
@@ -1058,6 +1093,21 @@
           { title: 'Floating leaves', hint: 'Base leaf size for the map animation.', keys: ['leafSize'] }
         ];
       }
+      if (section.key === 'giftBank') {
+        return [
+          { title: 'Gift account card', hint: 'Final v24 two-column grid card.', keys: ['giftAccountGridColumns', 'giftAccountPadding', 'giftAccountRadius', 'giftAccountColumnGap'] },
+          { title: 'Gift text sizes', hint: 'Bank name, account number, and holder.', keys: ['giftBankNameSize', 'giftAccountNumberSize', 'giftAccountHolderSize'] },
+          { title: 'Copy number button', hint: 'Button size inside bank card.', keys: ['giftCopyButtonMinWidth', 'giftCopyButtonPadding', 'giftCopyButtonFontSize'] }
+        ];
+      }
+      if (section.key === 'themeSelect') {
+        return [
+          { title: 'Dropdown wrapper', hint: 'Spacing around each custom select.', keys: ['themeSelectMarginBottom'] },
+          { title: 'Dropdown button', hint: 'Main visible RSVP dropdown button.', keys: ['themeSelectButtonHeight', 'themeSelectButtonMinHeight', 'themeSelectButtonRadius', 'themeSelectButtonPadding', 'themeSelectButtonFontSize'] },
+          { title: 'Dropdown arrow', hint: 'Circular arrow button on the right side.', keys: ['themeSelectArrowSize'] },
+          { title: 'Dropdown menu', hint: 'Expanded option menu.', keys: ['themeSelectMenuRadius', 'themeSelectOptionPadding', 'themeSelectOptionFontSize'] }
+        ];
+      }
       return section.fields.map(field => ({ title: field.label, hint: field.css ? `${field.css} → ${field.prop}` : field.constName, keys: [field.key] }));
     }
     function renderSettingsRows(section) {
@@ -1091,7 +1141,7 @@
       extractSettingsValues(); layoutsPanels.innerHTML = '';
       const leftColumn = document.createElement('div'); const rightColumn = document.createElement('div');
       leftColumn.className = 'layout-column'; rightColumn.className = 'layout-column';
-      const leftKeys = new Set(['global', 'couple', 'date', 'overlay']);
+      const leftKeys = new Set(['global', 'couple', 'date', 'overlay', 'giftBank']);
       LAYOUT_SECTIONS.forEach(sec => { const panel = renderSettingsSection(sec, 'layout-section'); if (leftKeys.has(sec.key)) leftColumn.appendChild(panel); else rightColumn.appendChild(panel); });
       layoutsPanels.appendChild(leftColumn); layoutsPanels.appendChild(rightColumn);
       saveAllLayoutsButton.disabled = !currentHtml;

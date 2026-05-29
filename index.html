@@ -1017,8 +1017,9 @@
 
     html[data-lang="en"] #guest-name,
     html[data-lang="id"] #guest-name {
-      font-size: clamp(1.85rem, 6.9vw, 2.3rem);
-      line-height: 1.05;
+      /* Keep guest name 1-2 visual steps smaller than the couple name */
+      font-size: clamp(1.55rem, 5.8vw, 1.9rem) !important;
+      line-height: 1.08;
       margin-bottom: 0.95rem;
       max-width: 330px;
       overflow-wrap: anywhere;
@@ -3935,6 +3936,462 @@
     }
 
 
+    /* ================= RSVP THEMED CUSTOM DROPDOWNS ================= */
+    #page-rsvp select.theme-select-original {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: 0 !important;
+    }
+
+    .theme-select {
+      position: relative;
+      width: 100%;
+      margin-bottom: 0.78rem;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      z-index: 1;
+    }
+
+    .theme-select.is-open {
+      z-index: 30;
+    }
+
+    .theme-select-button {
+      width: 100%;
+      height: 54px;
+      min-height: 54px;
+      border-radius: 14px;
+      border: 1.5px solid rgba(139, 105, 20, 0.16);
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(250, 246, 240, 0.88) 100%);
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      padding: 0 1rem;
+      text-align: left;
+      cursor: pointer;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.75),
+        0 4px 12px rgba(107, 68, 35, 0.04);
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, opacity 0.25s ease;
+      font-family: 'Cormorant Garamond', Georgia, serif !important;
+      font-size: 0.96rem !important;
+      font-weight: 400 !important;
+      line-height: 1 !important;
+      letter-spacing: 0.02em !important;
+      text-transform: none !important;
+    }
+
+    .theme-select-button:hover,
+    .theme-select-button:focus {
+      outline: none;
+      border-color: rgba(143, 166, 142, 0.72);
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow:
+        0 0 0 3px rgba(143, 166, 142, 0.14),
+        0 6px 16px rgba(107, 68, 35, 0.07);
+    }
+
+    .theme-select.is-open .theme-select-button {
+      border-color: rgba(143, 166, 142, 0.82);
+      box-shadow:
+        0 0 0 3px rgba(143, 166, 142, 0.16),
+        0 8px 20px rgba(107, 68, 35, 0.08);
+    }
+
+    .theme-select-placeholder {
+      color: var(--text-light);
+    }
+
+    .theme-select-arrow {
+      width: 32px;
+      height: 32px;
+      flex: 0 0 32px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(143, 166, 142, 0.16);
+      color: var(--wood-dark);
+      font-size: 0.78rem;
+      transition: transform 0.25s ease, background 0.25s ease;
+    }
+
+    .theme-select.is-open .theme-select-arrow {
+      transform: rotate(180deg);
+      background: rgba(143, 166, 142, 0.24);
+    }
+
+    .theme-select-menu {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(100% + 0.35rem);
+      display: none;
+      overflow: hidden;
+      border-radius: 18px;
+      border: 1px solid rgba(139, 105, 20, 0.14);
+      background: linear-gradient(145deg, rgba(255,255,255,0.98) 0%, rgba(250,246,240,0.98) 100%);
+      box-shadow:
+        0 16px 38px rgba(107, 68, 35, 0.16),
+        0 4px 12px rgba(107, 68, 35, 0.08);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 40;
+    }
+
+    .theme-select.is-open .theme-select-menu {
+      display: block;
+      animation: themeSelectFade 0.18s ease-out forwards;
+    }
+
+    .theme-select-option {
+      width: 100%;
+      border: 0;
+      border-radius: 0;
+      margin: 0;
+      padding: 0.82rem 1.1rem;
+      background: transparent;
+      color: var(--wood-dark);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-align: left;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 0.96rem;
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: 0.02em;
+      box-shadow: none;
+      text-transform: none !important;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .theme-select-option + .theme-select-option {
+      border-top: 1px solid rgba(139, 105, 20, 0.08);
+    }
+
+    .theme-select-option:hover,
+    .theme-select-option:focus {
+      outline: none;
+      background: rgba(143, 166, 142, 0.14);
+      color: var(--deep-green);
+      transform: none;
+    }
+
+    .theme-select-option.is-selected {
+      background: rgba(212, 175, 122, 0.18);
+      color: var(--terracotta);
+      font-weight: 700;
+    }
+
+    .theme-select-option.is-selected::after {
+      content: '✓';
+      color: var(--deep-green);
+      font-size: 0.95rem;
+      margin-left: 0.8rem;
+    }
+
+    .theme-select.has-error .theme-select-button {
+      border-color: rgba(196, 120, 90, 0.85);
+      box-shadow: 0 0 0 3px rgba(196, 120, 90, 0.14);
+    }
+
+
+
+    .theme-select.is-disabled {
+      opacity: 0.62;
+    }
+
+    .theme-select.is-disabled .theme-select-button {
+      cursor: not-allowed;
+      color: var(--text-light);
+      border-color: rgba(139, 105, 20, 0.10);
+      background: linear-gradient(145deg, rgba(235, 232, 225, 0.82) 0%, rgba(224, 229, 220, 0.82) 100%);
+      box-shadow: none;
+    }
+
+    .theme-select.is-disabled .theme-select-arrow {
+      background: rgba(138, 138, 138, 0.14);
+      color: rgba(107, 107, 107, 0.65);
+    }
+
+    @keyframes themeSelectFade {
+      from {
+        opacity: 0;
+        transform: translateY(-4px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @media (max-height: 720px) {
+      .theme-select {
+        margin-bottom: 0.62rem;
+      }
+
+      .theme-select-button {
+        height: 48px;
+        min-height: 48px;
+        border-radius: 14px;
+        padding: 0 0.9rem;
+      }
+
+      .theme-select-arrow {
+        width: 28px;
+        height: 28px;
+        flex-basis: 28px;
+      }
+
+      .theme-select-option {
+        padding: 0.66rem 1rem;
+        font-size: 0.96rem;
+      }
+    }
+
+
+  
+
+    /* ================= FINAL FIX v24: GIFT BANK LAYOUT ================= */
+    /* Layout requested:
+       [bank name]        [account number]
+       [account holder]   [copy number]
+    */
+    #page-gifts .gift-option.gift-account-option,
+    #page-gifts .gift-account-option {
+      display: grid !important;
+      grid-template-columns: minmax(0, 1fr) auto !important;
+      grid-template-rows: auto auto !important;
+      column-gap: 0.75rem !important;
+      row-gap: 0.22rem !important;
+      align-items: center !important;
+      text-align: left !important;
+      padding: 0.70rem 0.95rem !important;
+      border-radius: 16px !important;
+    }
+
+    #page-gifts .gift-bank-name {
+      grid-column: 1 !important;
+      grid-row: 1 !important;
+      justify-self: start !important;
+      align-self: center !important;
+      text-align: left !important;
+      margin: 0 !important;
+      max-width: 100% !important;
+      font-size: 0.95rem !important;
+      line-height: 1.18 !important;
+      color: var(--wood-dark) !important;
+      font-weight: 600 !important;
+      overflow-wrap: anywhere !important;
+    }
+
+    #page-gifts .gift-account-number {
+      grid-column: 2 !important;
+      grid-row: 1 !important;
+      justify-self: end !important;
+      align-self: center !important;
+      text-align: right !important;
+      margin: 0 !important;
+      max-width: 150px !important;
+      font-family: 'Cinzel', serif !important;
+      font-size: 0.78rem !important;
+      line-height: 1.18 !important;
+      color: var(--terracotta) !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.035em !important;
+      overflow-wrap: anywhere !important;
+    }
+
+    #page-gifts .gift-account-holder-label {
+      display: none !important;
+    }
+
+    #page-gifts .gift-account-holder {
+      grid-column: 1 !important;
+      grid-row: 2 !important;
+      justify-self: start !important;
+      align-self: center !important;
+      text-align: left !important;
+      margin: 0 !important;
+      max-width: 100% !important;
+      font-size: 0.88rem !important;
+      line-height: 1.18 !important;
+      color: var(--wood-dark) !important;
+      font-weight: 500 !important;
+      overflow-wrap: anywhere !important;
+    }
+
+    #page-gifts .gift-copy-button {
+      grid-column: 2 !important;
+      grid-row: 2 !important;
+      justify-self: end !important;
+      align-self: center !important;
+      width: auto !important;
+      min-width: 98px !important;
+      margin: 0 !important;
+      padding: 0.42rem 0.78rem !important;
+      border-radius: 999px !important;
+      font-size: 0.62rem !important;
+      line-height: 1 !important;
+      letter-spacing: 0.08em !important;
+      white-space: nowrap !important;
+    }
+
+    @media (max-height: 700px) {
+      #page-gifts .gift-option.gift-account-option,
+      #page-gifts .gift-account-option {
+        padding: 0.58rem 0.78rem !important;
+        column-gap: 0.58rem !important;
+        row-gap: 0.18rem !important;
+      }
+
+      #page-gifts .gift-bank-name,
+      #page-gifts .gift-account-number {
+        font-size: 0.82rem !important;
+      }
+
+      #page-gifts .gift-account-holder {
+        font-size: 0.76rem !important;
+      }
+
+      #page-gifts .gift-copy-button {
+        min-width: 88px !important;
+        padding: 0.34rem 0.62rem !important;
+        font-size: 0.54rem !important;
+      }
+    }
+
+    /* ================= PHOTO INTRO: OPACITY/BLUR FIRST, UNMASK SLIGHTLY SLOWER v4 ================= */
+    /*
+      Working behavior:
+      - applies only on the Couple, Bride, and Groom pages
+      - opacity and blur fade in first
+      - the center unmask reveal is slightly slower than opacity and blur
+      - the visible area grows from the exact center to the sides/edges
+      - the mask edge is feathered/soft, not sharp
+    */
+    :root {
+      --photo-fade-duration: 2.65s;
+      --photo-mask-duration: 5.65s;
+      --photo-reveal-easing: ease-in-out;
+    }
+
+    @keyframes centerPhotoFadeBlurIn {
+      0% {
+        opacity: 0;
+        filter: blur(5px);
+      }
+
+      100% {
+        opacity: 1;
+        filter: blur(0);
+      }
+    }
+
+    @keyframes centerPhotoWrapperUnmaskIn {
+      0% {
+        -webkit-mask-size: 0vmax 0vmax;
+        mask-size: 0vmax 0vmax;
+      }
+
+      100% {
+        -webkit-mask-size: 160vmax 160vmax;
+        mask-size: 160vmax 160vmax;
+      }
+    }
+
+    #page-couple .couple-hero-images,
+    #page-bride .single-hero-image,
+    #page-groom .single-hero-image {
+      opacity: 1;
+      filter: blur(0);
+      transform-origin: center center;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      will-change: opacity, filter, -webkit-mask-size, mask-size;
+
+      /*
+        Soft circular radial mask.
+        A smaller solid center + wide transparent fade band makes the reveal edge blurred,
+        while equal width/height mask sizing keeps the reveal shape as a true circle.
+      */
+      -webkit-mask-image: radial-gradient(circle at center,
+        #000000 0%,
+        #000000 34%,
+        rgba(0, 0, 0, 0.82) 48%,
+        rgba(0, 0, 0, 0.46) 62%,
+        rgba(0, 0, 0, 0.16) 76%,
+        transparent 90%
+      ) !important;
+      mask-image: radial-gradient(circle at center,
+        #000000 0%,
+        #000000 34%,
+        rgba(0, 0, 0, 0.82) 48%,
+        rgba(0, 0, 0, 0.46) 62%,
+        rgba(0, 0, 0, 0.16) 76%,
+        transparent 90%
+      ) !important;
+      -webkit-mask-repeat: no-repeat !important;
+      mask-repeat: no-repeat !important;
+      -webkit-mask-position: center center !important;
+      mask-position: center center !important;
+      -webkit-mask-size: 160vmax 160vmax;
+      mask-size: 160vmax 160vmax;
+    }
+
+    /* Disable any previous pseudo overlay / clip overlay completely */
+    #page-couple .couple-hero-images::before,
+    #page-bride .single-hero-image::before,
+    #page-groom .single-hero-image::before {
+      content: none !important;
+      display: none !important;
+      animation: none !important;
+    }
+
+    /* Start the wrapper reveal only when its page is active */
+    html[data-page="couple"] #page-couple .couple-hero-images,
+    html[data-page="bride"] #page-bride .single-hero-image,
+    html[data-page="groom"] #page-groom .single-hero-image {
+      animation-name: centerPhotoFadeBlurIn, centerPhotoWrapperUnmaskIn !important;
+      animation-duration: var(--photo-fade-duration), var(--photo-mask-duration) !important;
+      animation-timing-function: var(--photo-reveal-easing), var(--photo-reveal-easing) !important;
+      animation-fill-mode: both, both !important;
+      animation-delay: 0s, 0s !important;
+    }
+
+    /* Keep the actual photos clean. The wrapper handles the reveal. */
+    #couple-photo,
+    #bride-photo,
+    #groom-photo {
+      clip-path: none !important;
+      -webkit-clip-path: none !important;
+      -webkit-mask-image: none !important;
+      mask-image: none !important;
+      -webkit-mask: none !important;
+      mask: none !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html[data-page="couple"] #page-couple .couple-hero-images,
+      html[data-page="bride"] #page-bride .single-hero-image,
+      html[data-page="groom"] #page-groom .single-hero-image {
+        animation: none !important;
+        opacity: 1 !important;
+        filter: none !important;
+        -webkit-mask-image: none !important;
+        mask-image: none !important;
+      }
+    }
+
   </style>
 <base target="_blank">
 </head>
@@ -4119,7 +4576,7 @@
             <div class="gift-account-number" id="gift-groom-account-number">9938990090</div>
             <button id="gift-groom-copy-button" class="gift-copy-button" type="button" onclick="copyGiftAccount('gift-groom-account-number', 'gift-groom-copy-button')">Copy Number</button>
             <div class="gift-account-holder-label" id="gift-groom-holder-label">Account Name</div>
-            <div class="gift-account-holder" id="gift-groom-account-holder">Muhammad Hanif Atthariq</div>
+            <div class="gift-account-holder" id="gift-groom-account-holder">Muhammad Hanif A.</div>
           </div>
 
           <div class="gift-option gift-account-option">
@@ -4198,12 +4655,11 @@
           <input type="hidden" name="entry.698873189_sentinel">
 
           <label id="guest-count-label">Number of guests</label>
-          <select name="entry.1305280995" required>
+          <select id="guest-count-select" name="entry.1305280995" required>
             <option id="guest-count-empty" value="">Select</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
-            <option value="4">4</option>
           </select>
           <input type="hidden" name="entry.1305280995_sentinel">
 
@@ -4809,7 +5265,7 @@
         }
       : {
           display: 'Hanif & Winda',
-          text: 'Hanif and Winda',
+          text: 'Hanif dan Winda',
           groom: 'Hanif',
           bride: 'Winda',
           // Bride/Groom detail pages use full government names.
@@ -4905,7 +5361,7 @@
       setText('intro-couple-name', couple.display);
       setText('couple-title', couple.display);
       setText('couple-script', language === 'id'
-        ? 'Kami mengundang Bapak/Ibu hadir di hari bahagia kami.'
+        ? `${couple.text} mengundang Bapak/Ibu untuk menghadiri acara pernikahan kami`
         : `${couple.text} are excited to share this special day with you.`
       );
 
@@ -4920,19 +5376,19 @@
         setText('intro-subtitle', 'Are getting married');
         setText('intro-button', 'Meet the Couple');
 
-        setText('couple-description', 'Dengan bahagia, kami mengundang Bapak/Ibu untuk hadir.');
+        setText('couple-description', 'Assalamu àlaikum warohmatullahi wabarokatuh');
         setText('couple-button', 'Continue');
 
         setText('bride-role', 'Mempelai Wanita');
         setHTML('bride-parent-line', `Putri dari<br><span>${parents.brideFather}</span><span class="parent-separator">&</span><span>${parents.brideMother}</span>`);
-        setText('bride-desc-1', `${couple.bride}, mempelai wanita yang anggun.`);
+        setText('bride-desc-1', `Mempelai wanita yang anggun.`);
         setText('bride-desc-2', `${couple.bride} membawa kehangatan di setiap momen.`);
         setText('bride-button', 'Continue');
 
         setText('groom-role', 'Mempelai Pria');
         setText('groom-name', couple.groomFullGovernmentName);
         setHTML('groom-parent-line', `Putra dari<br><span>${parents.groomFather}</span><span class="parent-separator">&</span><span>${parents.groomMother}</span>`);
-        setText('groom-desc-1', `${couple.groom}, mempelai pria yang penuh kasih.`);
+        setText('groom-desc-1', `Mempelai pria yang penuh kasih.`);
         setText('groom-desc-2', `${couple.groom} siap memulai babak baru kehidupan.`);
         setText('groom-button', 'Continue');
 
@@ -4968,7 +5424,7 @@
 
         setText('dress-title', 'Dress Code');
         setText('dress-description', 'Pakaian formal dengan nuansa warna earth tone.');
-        setText('dress-no-heels', 'Tanpa heels.');
+        setText('dress-no-heels', 'No high heels.');
         setText('dress-back-button', 'Back to Map');
 
         setText('rsvp-title', 'RSVP');
@@ -5046,7 +5502,7 @@
 
         setText('dress-title', 'Dress Code');
         setText('dress-description', 'Formal attire in earth tone color schemes.');
-        setText('dress-no-heels', 'No heels.');
+        setText('dress-no-heels', 'No high heels.');
         setText('dress-back-button', 'Back to Map');
 
         setText('rsvp-title', 'RSVP');
@@ -5093,6 +5549,7 @@
       }
 
       requestAnimationFrame(fitBrideGroomNames);
+      requestAnimationFrame(updateGuestCountAvailability);
 
     }
 
@@ -5133,7 +5590,156 @@
       }, 1400);
     }
 
+
+
+    // Replace native RSVP select dropdowns with themed dropdowns.
+    // The original select elements are kept for form submission compatibility.
+    function closeAllThemeSelects(except = null) {
+      document.querySelectorAll('.theme-select.is-open').forEach(wrapper => {
+        if (wrapper !== except) wrapper.classList.remove('is-open');
+      });
+    }
+
+    function syncThemeSelect(select) {
+      const wrapper = select.nextElementSibling;
+      if (!wrapper || !wrapper.classList.contains('theme-select')) return;
+
+      const selectedOption = select.options[select.selectedIndex];
+      const valueText = selectedOption ? selectedOption.text : '';
+      const valueSpan = wrapper.querySelector('.theme-select-value');
+      const hasValue = Boolean(select.value);
+      const isDisabled = Boolean(select.disabled);
+      const triggerButton = wrapper.querySelector('.theme-select-button');
+
+      valueSpan.textContent = valueText || (language === 'id' ? 'Pilih' : 'Select');
+      valueSpan.classList.toggle('theme-select-placeholder', !hasValue);
+      wrapper.classList.toggle('has-error', false);
+      wrapper.classList.toggle('is-disabled', isDisabled);
+      wrapper.classList.remove('is-open');
+
+      if (triggerButton) {
+        triggerButton.disabled = isDisabled;
+        triggerButton.setAttribute('aria-disabled', isDisabled ? 'true' : 'false');
+        triggerButton.setAttribute('aria-expanded', 'false');
+      }
+
+      wrapper.querySelectorAll('.theme-select-option').forEach(button => {
+        button.disabled = isDisabled;
+        button.classList.toggle('is-selected', button.dataset.value === select.value && hasValue);
+      });
+    }
+
+    function buildThemeSelect(select) {
+      if (!select || select.dataset.themeSelectReady === 'true') return;
+
+      const wasRequired = select.required;
+      if (wasRequired) {
+        select.dataset.required = 'true';
+        select.required = false;
+      }
+
+      select.classList.add('theme-select-original');
+      select.dataset.themeSelectReady = 'true';
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'theme-select';
+
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'theme-select-button';
+      button.setAttribute('aria-haspopup', 'listbox');
+      button.setAttribute('aria-expanded', 'false');
+      button.innerHTML = '<span class="theme-select-value"></span><span class="theme-select-arrow">⌄</span>';
+
+      const menu = document.createElement('div');
+      menu.className = 'theme-select-menu';
+      menu.setAttribute('role', 'listbox');
+
+      Array.from(select.options).forEach(option => {
+        const optionButton = document.createElement('button');
+        optionButton.type = 'button';
+        optionButton.className = 'theme-select-option';
+        optionButton.dataset.value = option.value;
+        optionButton.textContent = option.text;
+        optionButton.setAttribute('role', 'option');
+
+        optionButton.addEventListener('click', () => {
+          select.value = option.value;
+          select.dispatchEvent(new Event('change', { bubbles: true }));
+          syncThemeSelect(select);
+          wrapper.classList.remove('is-open');
+          button.setAttribute('aria-expanded', 'false');
+        });
+
+        menu.appendChild(optionButton);
+      });
+
+      button.addEventListener('click', event => {
+        event.stopPropagation();
+        if (select.disabled) return;
+        const willOpen = !wrapper.classList.contains('is-open');
+        closeAllThemeSelects(wrapper);
+        wrapper.classList.toggle('is-open', willOpen);
+        button.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      });
+
+      wrapper.appendChild(button);
+      wrapper.appendChild(menu);
+      select.insertAdjacentElement('afterend', wrapper);
+      select.addEventListener('change', () => syncThemeSelect(select));
+      syncThemeSelect(select);
+    }
+
+    function enhanceThemeSelects() {
+      document.querySelectorAll('#page-rsvp select').forEach(buildThemeSelect);
+      updateGuestCountAvailability();
+    }
+
+    function updateGuestCountAvailability() {
+      const attendanceSelect = document.getElementById('attendance-select');
+      const guestCountSelect = document.getElementById('guest-count-select');
+      if (!attendanceSelect || !guestCountSelect) return;
+
+      const isNotAttending = attendanceSelect.value === 'Sorry, can’t make it';
+
+      if (isNotAttending) {
+        guestCountSelect.value = '';
+        guestCountSelect.disabled = true;
+        guestCountSelect.dataset.required = 'false';
+      } else {
+        guestCountSelect.disabled = false;
+        guestCountSelect.dataset.required = 'true';
+      }
+
+      syncThemeSelect(guestCountSelect);
+    }
+
+    document.getElementById('attendance-select')?.addEventListener('change', updateGuestCountAvailability);
+
+    document.addEventListener('click', () => closeAllThemeSelects());
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') closeAllThemeSelects();
+    });
+
+    document.getElementById('RSVP')?.addEventListener('submit', event => {
+      const missingSelect = Array.from(document.querySelectorAll('#page-rsvp select.theme-select-original[data-required="true"]'))
+        .find(select => !select.disabled && !select.value);
+
+      if (missingSelect) {
+        event.preventDefault();
+        rsvpSubmitted = false;
+        const wrapper = missingSelect.nextElementSibling;
+        if (wrapper && wrapper.classList.contains('theme-select')) {
+          closeAllThemeSelects(wrapper);
+          wrapper.classList.add('has-error', 'is-open');
+          wrapper.querySelector('.theme-select-button')?.focus();
+        }
+      }
+    });
+
     applyInvitationContext();
+    enhanceThemeSelects();
     window.addEventListener('resize', fitBrideGroomNames);
     window.addEventListener('orientationchange', () => requestAnimationFrame(fitBrideGroomNames));
     if (document.fonts && document.fonts.ready) {
@@ -5180,6 +5786,8 @@
       modal.classList.remove("hidden");
       form.reset();
       applyInvitationContext();
+      updateGuestCountAvailability();
+      document.querySelectorAll('#page-rsvp select.theme-select-original').forEach(syncThemeSelect);
       rsvpSubmitted = false;
     });
 
