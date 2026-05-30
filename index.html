@@ -3768,6 +3768,32 @@
         mask-image: none !important;
       }
     }
+
+    #page-rsvp .venue-card,
+    #page-rsvp form {
+      overflow: visible !important;
+    }
+
+    #page-rsvp form .theme-select {
+      position: relative !important;
+      z-index: 5 !important;
+    }
+
+    #page-rsvp form .theme-select.is-open {
+      z-index: 200 !important;
+    }
+
+    #page-rsvp form .theme-select-menu {
+      z-index: 201 !important;
+    }
+
+    #page-rsvp form .theme-select.is-open + label,
+    #page-rsvp form .theme-select.is-open + input,
+    #page-rsvp form .theme-select.is-open + select,
+    #page-rsvp form .theme-select.is-open + textarea {
+      z-index: 1 !important;
+    }
+
   </style>
 <base target="_blank">
 </head>
