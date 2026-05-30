@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wedding Invitation Editor - Newest Invitation Version</title>
+  <title>Wedding Invitation Editor</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&display=swap');
     :root {
@@ -213,8 +213,8 @@
     <div class="main-shell">
       <main class="main">
         <section id="contentPage" class="page active">
-          <div class="page-header"><div><h2>Content</h2><p>Edit names, parents, intro, couple, bride/groom, wedding date, schedule, venue, gifts, dress code, RSVP, and modal text.</p></div></div>
-          <div class="note">Updated for the newest invite version: supports the single couple photo layout, centered bride/groom full-name auto-fit, final gift bank card layout, RSVP themed dropdowns, Gifts page, schedule, Google Map links, and the current map spot structure.</div>
+          <div class="page-header"><div><h2>Content</h2><p>Edit names, parents, intro, couple, bride/groom, date, schedule, venue, gifts, dress code, RSVP, and modal text.</p></div></div>
+          <div class="note">Minimal update for the current invitation file: added missing Gifts, schedule, map, and RSVP modal fields while keeping the editor structure the same.</div>
           <div class="type-selector-wrap">
             <div class="type-label">Name set selector</div>
             <div class="type-selector">
@@ -233,7 +233,7 @@
         </section>
 
         <section id="layoutsPage" class="page">
-          <div class="page-header"><div><h2>Layouts</h2><p>Control page layout, photo positions, bride/groom centered name fitting, map spots, overlays, gifts page, schedule, and opening screen values.</p></div><div class="file-actions"><button class="btn btn-primary" id="saveAllLayoutsButton" disabled>Save All Layouts</button></div></div>
+          <div class="page-header"><div><h2>Layouts</h2><p>Control page layout, photo positions, map spots, overlay spacing, gifts spacing, schedule, and opening screen values.</p></div><div class="file-actions"><button class="btn btn-primary" id="saveAllLayoutsButton" disabled>Save All Layouts</button></div></div>
           <div id="layoutsPanels"></div>
         </section>
 
@@ -517,7 +517,6 @@
         { key: 'brideGroomNameTextAlign', label: 'Bride/Groom name alignment', type: 'text', default: 'center', css: '#bride-name, #groom-name', prop: 'text-align' },
         { key: 'brideGroomNameWhiteSpace', label: 'Bride/Groom name white-space', type: 'text', default: 'nowrap', css: '#bride-name, #groom-name', prop: 'white-space' },
         { key: 'brideGroomNameLetterSpacing', label: 'Bride/Groom name letter spacing', type: 'text', default: '0.012em', css: '#bride-name, #groom-name', prop: 'letter-spacing' },
-        { key: 'brideGroomNameAutoFitMinPx', label: 'Bride/Groom auto-fit minimum px', type: 'number', default: '11', target: 'jsConst', constName: 'minSize' },
         { key: 'parentLineSize', label: 'Parent line font size', type: 'text', default: 'clamp(0.95rem, 3.4vw, 1.18rem)', css: '.parent-line', prop: 'font-size' }
       ]},
       { key: 'date', title: 'Date / Countdown / Schedule', badge: 'countdown + schedule', icon: 'layouts', fields: [
@@ -553,18 +552,6 @@
         { key: 'rsvpTextareaHeight', label: 'RSVP textarea height', type: 'text', default: '74px', css: '#page-rsvp textarea', prop: 'height' },
         { key: 'giftsCardPadding', label: 'Gifts card padding', type: 'text', default: '1.8rem', css: '#page-gifts .gift-card', prop: 'padding' },
         { key: 'giftOptionsGap', label: 'Gifts options gap', type: 'text', default: '0.48rem', css: '#page-gifts .gift-options', prop: 'gap' }
-      ]},
-      { key: 'giftBank', title: 'Gift Bank Card Layout', badge: 'final v24 grid', icon: 'gifts', fields: [
-        { key: 'giftAccountGridColumns', label: 'Bank card grid columns', type: 'text', default: 'minmax(0, 1fr) auto', css: '#page-gifts .gift-option.gift-account-option, #page-gifts .gift-account-option', prop: 'grid-template-columns' },
-        { key: 'giftAccountPadding', label: 'Gift bank card padding', type: 'text', default: '0.70rem 0.95rem', css: '#page-gifts .gift-option.gift-account-option, #page-gifts .gift-account-option', prop: 'padding' },
-        { key: 'giftAccountRadius', label: 'Gift bank card radius', type: 'text', default: '16px', css: '#page-gifts .gift-option.gift-account-option, #page-gifts .gift-account-option', prop: 'border-radius' },
-        { key: 'giftAccountColumnGap', label: 'Gift bank card column gap', type: 'text', default: '0.75rem', css: '#page-gifts .gift-option.gift-account-option, #page-gifts .gift-account-option', prop: 'column-gap' },
-        { key: 'giftBankNameSize', label: 'Bank name font size', type: 'text', default: '0.95rem', css: '#page-gifts .gift-bank-name', prop: 'font-size' },
-        { key: 'giftAccountNumberSize', label: 'Account number font size', type: 'text', default: '0.78rem', css: '#page-gifts .gift-account-number', prop: 'font-size' },
-        { key: 'giftAccountHolderSize', label: 'Account holder font size', type: 'text', default: '0.88rem', css: '#page-gifts .gift-account-holder', prop: 'font-size' },
-        { key: 'giftCopyButtonMinWidth', label: 'Copy button min width', type: 'text', default: '98px', css: '#page-gifts .gift-copy-button', prop: 'min-width' },
-        { key: 'giftCopyButtonPadding', label: 'Copy button padding', type: 'text', default: '0.42rem 0.78rem', css: '#page-gifts .gift-copy-button', prop: 'padding' },
-        { key: 'giftCopyButtonFontSize', label: 'Copy button font size', type: 'text', default: '0.62rem', css: '#page-gifts .gift-copy-button', prop: 'font-size' }
       ]},
       { key: 'themeSelect', title: 'RSVP Themed Dropdowns', badge: 'custom select UI', icon: 'layouts', fields: [
         { key: 'themeSelectMarginBottom', label: 'Dropdown bottom margin', type: 'text', default: '0.78rem', css: '.theme-select', prop: 'margin-bottom' },
@@ -734,27 +721,41 @@
     function getCoupleScriptValue(html, lang) {
       const blockStart = html.indexOf("setText('couple-script'");
       if (blockStart === -1) return '';
-      const block = html.slice(blockStart, html.indexOf(');', blockStart) + 2);
+      const blockEnd = html.indexOf(');', blockStart);
+      if (blockEnd === -1) return '';
+      const block = html.slice(blockStart, blockEnd + 2);
+
       if (lang === 'id') {
-        const m = block.match(/\?\s*'([\s\S]*?)'\s*:/);
-        return m ? unescapeJs(m[1]) : '';
+        const m = block.match(/\?\s*(['`])([\s\S]*?)\1\s*:/);
+        return m ? replacePlaceholders(unescapeJs(m[2])) : '';
       }
-      const m = block.match(/:\s*`([\s\S]*?)`\s*\);/);
-      return m ? replacePlaceholders(m[1]) : '';
+
+      const m = block.match(/:\s*(['`])([\s\S]*?)\1\s*\);/);
+      return m ? replacePlaceholders(unescapeJs(m[2])) : '';
     }
     function replaceCoupleScriptValue(html, lang, value) {
       const blockStart = html.indexOf("setText('couple-script'");
       if (blockStart === -1) return { html, changed: false };
-      const blockEnd = html.indexOf(');', blockStart) + 2;
+      const rawBlockEnd = html.indexOf(');', blockStart);
+      if (rawBlockEnd === -1) return { html, changed: false };
+      const blockEnd = rawBlockEnd + 2;
       let block = html.slice(blockStart, blockEnd);
       let changed = false;
+
       if (lang === 'id') {
-        const re = /(\?\s*)'([\s\S]*?)'(\s*:)/;
-        if (re.test(block)) { block = block.replace(re, (_, p1, old, p3) => p1 + "'" + escapeJs(value) + "'" + p3); changed = true; }
+        const re = /(\?\s*)(['`])([\s\S]*?)\2(\s*:)/;
+        if (re.test(block)) {
+          block = block.replace(re, (_, p1, quote, old, p4) => p1 + '`' + restorePlaceholdersId(value).replace(/`/g, '\\`') + '`' + p4);
+          changed = true;
+        }
       } else {
-        const re = /(:\s*)`([\s\S]*?)`(\s*\);)/;
-        if (re.test(block)) { block = block.replace(re, (_, p1, old, p3) => p1 + '`' + restorePlaceholders(value).replace(/`/g, '\\`') + '`' + p3); changed = true; }
+        const re = /(:\s*)(['`])([\s\S]*?)\2(\s*\);)/;
+        if (re.test(block)) {
+          block = block.replace(re, (_, p1, quote, old, p4) => p1 + '`' + restorePlaceholders(value).replace(/`/g, '\\`') + '`' + p4);
+          changed = true;
+        }
       }
+
       return changed ? { html: html.slice(0, blockStart) + block + html.slice(blockEnd), changed: true } : { html, changed: false };
     }
 
@@ -1141,7 +1142,7 @@
       extractSettingsValues(); layoutsPanels.innerHTML = '';
       const leftColumn = document.createElement('div'); const rightColumn = document.createElement('div');
       leftColumn.className = 'layout-column'; rightColumn.className = 'layout-column';
-      const leftKeys = new Set(['global', 'couple', 'date', 'overlay', 'giftBank']);
+      const leftKeys = new Set(['global', 'couple', 'date', 'overlay']);
       LAYOUT_SECTIONS.forEach(sec => { const panel = renderSettingsSection(sec, 'layout-section'); if (leftKeys.has(sec.key)) leftColumn.appendChild(panel); else rightColumn.appendChild(panel); });
       layoutsPanels.appendChild(leftColumn); layoutsPanels.appendChild(rightColumn);
       saveAllLayoutsButton.disabled = !currentHtml;
