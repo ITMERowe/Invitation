@@ -23,10 +23,18 @@
       --text-light: #8a8a8a;
       --leaf-light: #b8d4a8;
       --leaf-dark: #6b8f5e;
-      --photo-fade-duration: 5.8s;
-      --photo-mask-duration: 5.2s;
-      --photo-reveal-easing: cubic-bezier(0.25, 0.1, 0.25, 1);
-      --mask-max-size: 2000px;
+      --blush: #e8c4c4;
+      --wood-light: #a0785a;
+
+      --bg-main: linear-gradient(170deg, #ffffff 0%, #ffffff 40%, #ffffff 100%);
+      --bg-intro: linear-gradient(170deg, #faf6f0 0%, #f0e6d8 40%, #e0d4c4 100%);
+      --bg-couple: linear-gradient(160deg, #f5f0e8 0%, #e8ddd0 50%, #d8e0d0 100%);
+      --bg-bride-groom: linear-gradient(170deg, #faf6f0 0%, #f0e8e0 60%, #e8ddd4 100%);
+      --bg-date: linear-gradient(160deg, #f0ebe3 0%, #e5ddd0 40%, #d4c8b8 100%);
+      --bg-menu: linear-gradient(180deg, #d4c8b8 0%, #d4c8b8 40%, #d4c8b8 100%);
+
+      --music-volume: 0.3;
+      --music-fade-duration: 6000;
     }
 
     * {
@@ -35,6 +43,7 @@
       padding: 0;
     }
 
+    /* Remove mobile blue tap highlight on Android/iOS browsers */
     button,
     a,
     img,
@@ -58,6 +67,7 @@
       outline: none;
     }
 
+
     html,
     body {
       background: #ffffff !important;
@@ -65,11 +75,11 @@
       justify-content: center;
       align-items: stretch;
       overflow: hidden;
-      font-family: "Cormorant Garamond", Georgia, serif;
+      font-family: 'Cormorant Garamond', Georgia, serif;
     }
 
     body::before {
-      content: "";
+      content: '';
       position: fixed;
       top: 0;
       left: 0;
@@ -82,7 +92,8 @@
         #fafafa 100%
       );
       transform: translateY(calc(var(--page-index, 0) * -100svh));
-      transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1),
+      transition:
+        transform 1.2s cubic-bezier(0.4, 0, 0.2, 1),
         background 1.2s cubic-bezier(0.4, 0, 0.2, 1);
       pointer-events: none;
       z-index: 0;
@@ -186,8 +197,22 @@
       transform: scale(1.06);
     }
 
+    .overlay {
+      position: absolute;
+      inset: 0;
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.96) 0%,
+        rgba(220, 251, 252, 0.96) 58%,
+        rgba(154, 245, 248, 0.96) 100%
+      ) !important;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
     h1 {
-      font-family: "Cinzel", serif;
+      font-family: 'Cinzel', serif;
       font-size: 2.4rem;
       margin-bottom: 0.6rem;
       color: var(--wood-dark);
@@ -197,7 +222,7 @@
     }
 
     h2 {
-      font-family: "Cinzel", serif;
+      font-family: 'Cinzel', serif;
       font-size: 2rem;
       margin-bottom: 0.8rem;
       color: var(--wood-dark);
@@ -214,7 +239,7 @@
     }
 
     .script-text {
-      font-family: "Great Vibes", cursive;
+      font-family: 'Great Vibes', cursive;
       font-size: 1.8rem;
       color: var(--terracotta);
       margin-bottom: 0.5rem;
@@ -228,12 +253,13 @@
       color: var(--cream);
       cursor: pointer;
       margin-top: 1rem;
-      font-family: "Cormorant Garamond", serif;
+      font-family: 'Cormorant Garamond', serif;
       font-weight: 600;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       font-size: 0.9rem;
-      box-shadow: 0 4px 15px rgba(90, 122, 90, 0.3),
+      box-shadow:
+        0 4px 15px rgba(90, 122, 90, 0.3),
         0 2px 4px rgba(90, 122, 90, 0.2);
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
@@ -241,7 +267,7 @@
     }
 
     button::before {
-      content: "";
+      content: '';
       position: absolute;
       top: 0;
       left: -100%;
@@ -257,7 +283,8 @@
 
     button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(90, 122, 90, 0.35),
+      box-shadow:
+        0 8px 25px rgba(90, 122, 90, 0.35),
         0 4px 8px rgba(90, 122, 90, 0.25);
     }
 
@@ -292,12 +319,13 @@
       background: linear-gradient(145deg, rgba(255,255,255,0.95) 0%, rgba(250,246,240,0.95) 100%);
       border-radius: 20px;
       padding: 1.3rem 1rem;
-      box-shadow: 0 4px 15px rgba(107, 68, 35, 0.08),
+      box-shadow:
+        0 4px 15px rgba(107, 68, 35, 0.08),
         0 1px 3px rgba(107, 68, 35, 0.05);
       border: 1px solid rgba(139, 105, 20, 0.08);
       position: relative;
       overflow: hidden;
-      font-family: "Cormorant Garamond", serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 0.85rem;
       color: var(--text-light);
       letter-spacing: 0.1em;
@@ -305,7 +333,7 @@
     }
 
     .time-box::before {
-      content: "";
+      content: '';
       position: absolute;
       top: 0;
       left: 0;
@@ -316,7 +344,7 @@
     }
 
     .time-box span {
-      font-family: "Cinzel", serif;
+      font-family: 'Cinzel', serif;
       font-size: 2rem;
       font-weight: 700;
       display: block;
@@ -328,7 +356,7 @@
       position: relative;
       width: 100%;
       height: 100%;
-      background-image: url("assets/map-placeholder.png");
+      background-image: url('assets/map-placeholder.png');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -336,12 +364,13 @@
     }
 
     .venue-map::before {
-      content: "";
+      content: '';
       position: absolute;
       top: -50px;
       left: -30px;
       width: 200px;
       height: 200px;
+      /* background: radial-gradient(circle, rgba(139, 166, 142, 0.5) 0%, transparent 70%); */
       border-radius: 50%;
       filter: blur(20px);
       pointer-events: none;
@@ -349,12 +378,13 @@
     }
 
     .venue-map::after {
-      content: "";
+      content: '';
       position: absolute;
       top: -30px;
       right: -40px;
       width: 250px;
       height: 250px;
+      /* background: radial-gradient(circle, rgba(168, 184, 152, 0.4) 0%, transparent 70%); */
       border-radius: 50%;
       filter: blur(25px);
       pointer-events: none;
@@ -415,7 +445,7 @@
     }
 
     .venue-map .floating-leaf::before {
-      content: "";
+      content: '';
       position: absolute;
       top: 45%;
       left: 12%;
@@ -446,22 +476,27 @@
     }
 
     .spot-couple {
-      background-image: url("assets/btn-couple.png");
+      background-image: url('assets/btn-couple.png');
       filter: drop-shadow(0 4px 8px rgba(107, 68, 35, 0.25)) sepia(0.2) saturate(1.2);
     }
 
     .spot-venue {
-      background-image: url("assets/btn-venue.png");
+      background-image: url('assets/btn-venue.png');
+      filter: drop-shadow(0 4px 8px rgba(107, 68, 35, 0.25)) sepia(0.2) saturate(1.2);
+    }
+
+    .spot-gifts {
+      background-image: url('assets/btn-gifts.png');
       filter: drop-shadow(0 4px 8px rgba(107, 68, 35, 0.25)) sepia(0.2) saturate(1.2);
     }
 
     .spot-dress {
-      background-image: url("assets/btn-dress.png");
+      background-image: url('assets/btn-dress.png');
       filter: drop-shadow(0 4px 8px rgba(107, 68, 35, 0.25)) sepia(0.2) saturate(1.2);
     }
 
     .spot-rsvp {
-      background-image: url("assets/btn-rsvp.png");
+      background-image: url('assets/btn-rsvp.png');
       filter: drop-shadow(0 4px 8px rgba(107, 68, 35, 0.25)) sepia(0.2) saturate(1.2);
     }
 
@@ -474,6 +509,12 @@
     .spot-venue {
       top: 20%;
       left: 38%;
+      transform: translateX(-50%);
+    }
+
+    .spot-gifts {
+      top: 35%;
+      left: 15%;
       transform: translateX(-50%);
     }
 
@@ -507,7 +548,44 @@
     #page-gifts,
     #page-dress,
     #page-rsvp {
+      gap: 1rem;
+      padding: 1.15rem;
+      justify-content: center;
+      overflow-y: auto;
       isolation: isolate;
+    }
+
+    #page-venue::before,
+    #page-gifts::before,
+    #page-dress::before,
+    #page-rsvp::before {
+      content: '' !important;
+      position: absolute;
+      inset: -28px;
+      background-image: url('assets/map-placeholder.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      filter: blur(18px);
+      transform: scale(1.08);
+      z-index: -2;
+      display: block !important;
+      pointer-events: none;
+    }
+
+    #page-venue::after,
+    #page-gifts::after,
+    #page-dress::after,
+    #page-rsvp::after {
+      content: '' !important;
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.20) 0%, rgba(250, 246, 240, 0.34) 48%, rgba(154, 245, 248, 0.20) 100%),
+        rgba(255, 255, 255, 0.16);
+      z-index: -1;
+      display: block !important;
+      pointer-events: none;
     }
 
     #page-venue > *,
@@ -526,7 +604,8 @@
       -webkit-backdrop-filter: none;
       border-radius: 28px;
       padding: 1.8rem;
-      box-shadow: 0 20px 50px rgba(107, 68, 35, 0.1),
+      box-shadow:
+        0 20px 50px rgba(107, 68, 35, 0.1),
         0 8px 20px rgba(107, 68, 35, 0.06);
       border: 1px solid rgba(139, 105, 20, 0.08);
       position: relative;
@@ -534,7 +613,7 @@
     }
 
     .venue-card::before {
-      content: "";
+      content: '';
       position: absolute;
       top: 0;
       left: 0;
@@ -590,7 +669,7 @@
       color: var(--wood-dark);
       text-decoration: none;
       border-radius: 50px;
-      font-family: "Cormorant Garamond", serif;
+      font-family: 'Cormorant Garamond', serif;
       font-weight: 600;
       font-size: 0.95rem;
       letter-spacing: 0.05em;
@@ -612,7 +691,7 @@
     }
 
     label {
-      font-family: "Cormorant Garamond", serif;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1rem;
       margin-bottom: 0.4rem;
       display: block;
@@ -630,7 +709,7 @@
       border-radius: 14px;
       border: 1.5px solid rgba(139, 105, 20, 0.15);
       font-size: 1rem;
-      font-family: "Cormorant Garamond", serif;
+      font-family: 'Cormorant Garamond', serif;
       background: linear-gradient(145deg, rgba(255,255,255,0.9) 0%, rgba(250,246,240,0.9) 100%);
       color: var(--text-primary);
       transition: all 0.3s ease;
@@ -683,7 +762,8 @@
       max-width: 320px;
       width: 90%;
       animation: elegantPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 25px 60px rgba(107, 68, 35, 0.15),
+      box-shadow:
+        0 25px 60px rgba(107, 68, 35, 0.15),
         0 10px 20px rgba(107, 68, 35, 0.08);
       border: 1px solid rgba(139, 105, 20, 0.1);
       position: relative;
@@ -691,7 +771,7 @@
     }
 
     .modal-card::before {
-      content: "";
+      content: '';
       position: absolute;
       top: 0;
       left: 0;
@@ -707,7 +787,7 @@
     }
 
     .modal-card h3 {
-      font-family: "Cinzel", serif;
+      font-family: 'Cinzel', serif;
       font-size: 1.6rem;
       margin-bottom: 0.6rem;
       color: var(--wood-dark);
@@ -750,6 +830,8 @@
       }
     }
 
+
+
     #page-intro h1 {
       font-size: 2.8rem;
       margin-top: 0.5rem;
@@ -778,7 +860,7 @@
     }
 
     .ornament::before {
-      content: "❦";
+      content: '❦';
       font-size: 2.5rem;
       color: var(--soft-gold);
       opacity: 0.7;
@@ -788,13 +870,19 @@
       margin: 0 auto 0.55rem;
     }
 
+
+
+
+
     #page-date h2 {
       font-size: 2.4rem;
       color: var(--wood-dark);
+      margin-bottom: 0.3rem;
     }
 
     #page-date .script-text {
       font-size: 1.6rem;
+      margin-bottom: 1.5rem;
     }
 
     #page-rsvp {
@@ -806,7 +894,8 @@
       overflow-x: hidden !important;
     }
 
-    #page-rsvp .venue-card {
+    #page-rsvp .venue-card,
+    #page-rsvp .rsvp-card {
       width: 100% !important;
       max-width: 360px !important;
       margin: 0 auto !important;
@@ -892,7 +981,8 @@
       padding: 0.92rem 1.4rem !important;
       border-radius: 999px !important;
       background: linear-gradient(135deg, var(--deep-green) 0%, var(--sage-green) 100%);
-      box-shadow: 0 4px 15px rgba(90, 122, 90, 0.3),
+      box-shadow:
+        0 4px 15px rgba(90, 122, 90, 0.3),
         0 2px 4px rgba(90, 122, 90, 0.2);
     }
 
@@ -915,6 +1005,7 @@
       -webkit-backdrop-filter: none;
     }
 
+    /* ================= COMPACT TEXT LAYOUT FOR BOTH ENGLISH AND INDONESIAN ================= */
     html[data-lang="en"] #intro-dear-label,
     html[data-lang="id"] #intro-dear-label {
       font-size: 1rem !important;
@@ -926,6 +1017,7 @@
 
     html[data-lang="en"] #guest-name,
     html[data-lang="id"] #guest-name {
+      /* Keep guest name 1-2 visual steps smaller than the couple name */
       font-size: clamp(1.55rem, 5.8vw, 1.9rem) !important;
       line-height: 1.08;
       margin-bottom: 0.95rem;
@@ -965,7 +1057,7 @@
 
     html[data-lang="en"] #couple-script,
     html[data-lang="id"] #couple-script {
-      font-family: "Cormorant Garamond", Georgia, serif !important;
+      font-family: 'Cormorant Garamond', Georgia, serif !important;
       font-size: 1.03rem;
       font-style: normal;
       font-weight: 400;
@@ -976,7 +1068,35 @@
       color: var(--text-secondary);
     }
 
+    html[data-lang="en"] #page-couple .couple-images,
+    html[data-lang="id"] #page-couple .couple-images {
+      margin: 1.55rem 0;
+      gap: 2rem;
+    }
+
+    html[data-lang="en"] #page-couple .couple-images img,
+    html[data-lang="id"] #page-couple .couple-images img {
+      width: 118px;
+      height: 118px;
+    }
+
+    html[data-lang="en"] #bride-desc-1,
+    html[data-lang="en"] #bride-desc-2,
+    html[data-lang="en"] #groom-desc-1,
+    html[data-lang="en"] #groom-desc-2,
+    html[data-lang="id"] #bride-desc-1,
+    html[data-lang="id"] #bride-desc-2,
+    html[data-lang="id"] #groom-desc-1,
+    html[data-lang="id"] #groom-desc-2 {
+      font-size: 1.04rem;
+      line-height: 1.45;
+      margin-bottom: 0.85rem;
+      max-width: 300px;
+    }
+
+    html[data-lang="en"] #rundown-description,
     html[data-lang="en"] #dress-description,
+    html[data-lang="id"] #rundown-description,
     html[data-lang="id"] #dress-description {
       font-size: 1.02rem;
       line-height: 1.45;
@@ -1028,6 +1148,8 @@
       padding: 0.8rem 1.15rem !important;
     }
 
+
+    /* ================= DRESS CODE EARTH TONE PALETTE ================= */
     .dress-color-palette {
       display: flex;
       justify-content: center;
@@ -1049,13 +1171,16 @@
       margin-top: 1rem;
       margin-bottom: 0;
       color: var(--terracotta);
-      font-family: "Cinzel", serif;
+      font-family: 'Cinzel', serif;
       font-size: 1.08rem;
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
 
+    /* ================= HERO PHOTO LAYOUTS ================= */
+
+    /* ---- COUPLE HERO ---- */
     .couple-hero {
       display: flex;
       flex-direction: column;
@@ -1094,10 +1219,30 @@
       mask-image: radial-gradient(ellipse 75% 75% at 50% 50%, black 50%, transparent 85%);
     }
 
+    .couple-hero-photo.bride-photo {
+      transform: translateY(4%) rotate(-3deg);
+      z-index: 2;
+    }
+
+    .couple-hero-photo.groom-photo {
+      transform: translateY(-4%) rotate(3deg);
+      z-index: 1;
+    }
+
     .couple-hero-photo:hover {
       transform: translateY(var(--hy, 0)) rotate(var(--hr, 0deg)) scale(1.05);
       box-shadow: 0 18px 50px rgba(107, 68, 35, 0.28);
       z-index: 3;
+    }
+
+    .couple-hero-photo.bride-photo:hover {
+      --hy: 4%;
+      --hr: -3deg;
+    }
+
+    .couple-hero-photo.groom-photo:hover {
+      --hy: -4%;
+      --hr: 3deg;
     }
 
     .couple-hero-text {
@@ -1107,7 +1252,11 @@
       text-align: center;
       flex: 0.82;
       justify-content: flex-start;
+      padding: 0.85rem 1.2rem 0.75rem;
+      width: min(100%, 350px);
       position: relative;
+      z-index: 4;
+      margin-top: -4.2rem;
       border-radius: 30px 30px 0 0;
       background: linear-gradient(180deg, rgba(255, 255, 255, 0.70) 0%, rgba(250, 246, 240, 0.34) 74%, rgba(250, 246, 240, 0) 100%);
       backdrop-filter: blur(2px);
@@ -1133,6 +1282,7 @@
       margin-top: 0.3rem;
     }
 
+    /* ---- SINGLE HERO (Bride / Groom) ---- */
     .single-hero {
       display: flex;
       flex-direction: column;
@@ -1186,6 +1336,7 @@
       -webkit-backdrop-filter: blur(2px);
     }
 
+    /* Move the copy block higher and overlap it with the lower part of the photo */
     .single-hero-text.overlap-text {
       margin-top: -7.4rem;
       transform: translateY(-0.75rem);
@@ -1193,19 +1344,26 @@
 
     .single-hero-text h1 {
       font-size: clamp(2rem, 7.5vw, 2.8rem);
+      margin-top: -0.08rem;
+      margin-bottom: 0.18rem;
       line-height: 1.02;
     }
 
     .single-hero-text .script-text {
       font-size: 1.5rem;
+      margin-bottom: 0.12rem;
       line-height: 1.1;
     }
 
     .parent-line {
       width: 100%;
+      max-width: 330px;
       margin: 0 0 0.55rem !important;
       color: var(--wood-dark);
+      font-size: clamp(0.72rem, 2.7vw, 0.88rem) !important;
+      line-height: 1.18 !important;
       letter-spacing: 0.03em;
+      white-space: normal;
       overflow: visible;
       text-overflow: clip;
     }
@@ -1213,6 +1371,7 @@
     .parent-line span {
       display: inline-block;
       max-width: 100%;
+      white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
@@ -1227,6 +1386,7 @@
       margin-top: 0.35rem;
     }
 
+    /* Keep bride and groom detail pages visually identical */
     #page-bride .single-hero,
     #page-groom .single-hero {
       padding-top: 0.35rem;
@@ -1239,14 +1399,17 @@
 
     #page-bride .single-hero-text,
     #page-groom .single-hero-text {
+      width: min(100%, 340px);
       padding: 0.9rem 1.35rem 1rem;
     }
 
     #page-bride .single-hero-text.overlap-text,
     #page-groom .single-hero-text.overlap-text {
       margin-top: -7.4rem;
+      transform: translateY(-0.75rem);
     }
 
+    /* Compact language overrides for hero layouts */
     html[data-lang="en"] #page-couple .couple-hero-text h1,
     html[data-lang="id"] #page-couple .couple-hero-text h1 {
       font-size: clamp(1.78rem, 6.6vw, 2.3rem);
@@ -1265,7 +1428,7 @@
 
     html[data-lang="en"] #page-couple .couple-hero-text .script-text,
     html[data-lang="id"] #page-couple .couple-hero-text .script-text {
-      font-family: "Cormorant Garamond", Georgia, serif !important;
+      font-family: 'Cormorant Garamond', Georgia, serif !important;
       font-size: 1.03rem;
       font-style: normal;
       font-weight: 400;
@@ -1297,6 +1460,7 @@
       margin-bottom: 0.5rem !important;
     }
 
+    /* Responsive hero sizing */
     @media (max-height: 720px) {
       .couple-hero {
         padding-top: 0.85rem;
@@ -1349,6 +1513,24 @@
 
       .couple-hero-text {
         margin-top: -3.7rem;
+      }
+
+      .couple-hero-photo.bride-photo {
+        transform: translateY(4%) rotate(-3deg);
+      }
+
+      .couple-hero-photo.groom-photo {
+        transform: translateY(-4%) rotate(3deg);
+      }
+
+      .couple-hero-photo.bride-photo:hover {
+        --hy: 4%;
+        --hr: -3deg;
+      }
+
+      .couple-hero-photo.groom-photo:hover {
+        --hy: -4%;
+        --hr: 3deg;
       }
 
       .single-hero-image img {
@@ -1412,7 +1594,8 @@
         padding-top: 0.85rem !important;
       }
 
-      #page-rsvp .venue-card {
+      #page-rsvp .venue-card,
+      #page-rsvp .rsvp-card {
         width: 100% !important;
         max-width: 360px !important;
         margin: 0 auto !important;
@@ -1453,14 +1636,18 @@
       }
 
       #page-rsvp input,
-    #page-rsvp select,
-    #page-rsvp textarea {
+      #page-rsvp select,
+      #page-rsvp textarea {
         margin-bottom: 0.62rem;
       }
 
       #page-rsvp button[type="submit"] {
         padding: 0.82rem 1.2rem !important;
       }
+
+
+
+
     }
 
     @media (max-height: 700px) {
@@ -1483,12 +1670,14 @@
         padding-right: 1rem !important;
       }
 
-      #page-rsvp .venue-card {
+      #page-rsvp .venue-card,
+      #page-rsvp .rsvp-card {
         width: 100% !important;
         max-width: 360px !important;
       }
     }
-
+  
+    /* ================= AMBIENT CLOUDS (always visible lightly) ================= */
     .ambient-clouds {
       position: fixed;
       inset: 0;
@@ -1509,78 +1698,21 @@
       animation: ambientFloat 20s ease-in-out infinite;
     }
 
-    .ambient-cloud:nth-child(1) {
-      width: 200px;
-      height: 120px;
-      top: 5%;
-      left: -5%;
-      animation-delay: 0s;
-      animation-duration: 25s;
-    }
-
-    .ambient-cloud:nth-child(2) {
-      width: 180px;
-      height: 100px;
-      top: 15%;
-      right: -8%;
-      animation-delay: -5s;
-      animation-duration: 22s;
-    }
-
-    .ambient-cloud:nth-child(3) {
-      width: 250px;
-      height: 140px;
-      bottom: 10%;
-      left: 10%;
-      animation-delay: -10s;
-      animation-duration: 28s;
-    }
-
-    .ambient-cloud:nth-child(4) {
-      width: 160px;
-      height: 90px;
-      top: 40%;
-      left: 60%;
-      animation-delay: -15s;
-      animation-duration: 20s;
-    }
-
-    .ambient-cloud:nth-child(5) {
-      width: 220px;
-      height: 130px;
-      bottom: 25%;
-      right: 5%;
-      animation-delay: -8s;
-      animation-duration: 24s;
-    }
-
-    .ambient-cloud:nth-child(6) {
-      width: 140px;
-      height: 80px;
-      top: 60%;
-      left: 20%;
-      animation-delay: -12s;
-      animation-duration: 26s;
-    }
+    .ambient-cloud:nth-child(1) { width: 200px; height: 120px; top: 5%; left: -5%; animation-delay: 0s; animation-duration: 25s; }
+    .ambient-cloud:nth-child(2) { width: 180px; height: 100px; top: 15%; right: -8%; animation-delay: -5s; animation-duration: 22s; }
+    .ambient-cloud:nth-child(3) { width: 250px; height: 140px; bottom: 10%; left: 10%; animation-delay: -10s; animation-duration: 28s; }
+    .ambient-cloud:nth-child(4) { width: 160px; height: 90px; top: 40%; left: 60%; animation-delay: -15s; animation-duration: 20s; }
+    .ambient-cloud:nth-child(5) { width: 220px; height: 130px; bottom: 25%; right: 5%; animation-delay: -8s; animation-duration: 24s; }
+    .ambient-cloud:nth-child(6) { width: 140px; height: 80px; top: 60%; left: 20%; animation-delay: -12s; animation-duration: 26s; }
 
     @keyframes ambientFloat {
-      0%, 100% {
-        transform: translateX(0) translateY(0) scale(1);
-      }
-
-      25% {
-        transform: translateX(15px) translateY(-10px) scale(1.05);
-      }
-
-      50% {
-        transform: translateX(-10px) translateY(5px) scale(0.95);
-      }
-
-      75% {
-        transform: translateX(10px) translateY(-5px) scale(1.02);
-      }
+      0%, 100% { transform: translateX(0) translateY(0) scale(1); }
+      25% { transform: translateX(15px) translateY(-10px) scale(1.05); }
+      50% { transform: translateX(-10px) translateY(5px) scale(0.95); }
+      75% { transform: translateX(10px) translateY(-5px) scale(1.02); }
     }
 
+    /* ================= CLOUD TRANSITION OVERLAY ================= */
     .cloud-transition-overlay {
       position: fixed;
       inset: 0;
@@ -1600,6 +1732,7 @@
       opacity: 0;
     }
 
+    /* Clouds that rush IN from all sides */
     .rush-cloud {
       position: absolute;
       background: radial-gradient(ellipse at center, 
@@ -1612,6 +1745,7 @@
       transition: transform 1.4s cubic-bezier(0.65, 0, 0.35, 1);
     }
 
+    /* Top cloud - starts above, rushes down */
     .rush-cloud-top {
       width: 150%;
       height: 60%;
@@ -1619,11 +1753,11 @@
       left: -25%;
       transform: translateY(0);
     }
-
     .cloud-transition-overlay.active .rush-cloud-top {
       transform: translateY(85%);
     }
 
+    /* Bottom cloud - starts below, rushes up */
     .rush-cloud-bottom {
       width: 150%;
       height: 60%;
@@ -1631,11 +1765,11 @@
       left: -25%;
       transform: translateY(0);
     }
-
     .cloud-transition-overlay.active .rush-cloud-bottom {
       transform: translateY(-85%);
     }
 
+    /* Left cloud - starts left, rushes right */
     .rush-cloud-left {
       width: 60%;
       height: 150%;
@@ -1643,11 +1777,11 @@
       top: -25%;
       transform: translateX(0);
     }
-
     .cloud-transition-overlay.active .rush-cloud-left {
       transform: translateX(75%);
     }
 
+    /* Right cloud - starts right, rushes left */
     .rush-cloud-right {
       width: 60%;
       height: 150%;
@@ -1655,11 +1789,11 @@
       top: -25%;
       transform: translateX(0);
     }
-
     .cloud-transition-overlay.active .rush-cloud-right {
       transform: translateX(-75%);
     }
 
+    /* Center burst cloud */
     .rush-cloud-center {
       width: 100px;
       height: 100px;
@@ -1673,42 +1807,40 @@
       transform: scale(0);
       transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
     }
-
     .cloud-transition-overlay.active .rush-cloud-center {
       transform: scale(25);
     }
 
+    /* Clouds that move OUT (exit animation) */
     .cloud-transition-overlay.exiting .rush-cloud-top {
       transform: translateY(-20%);
       transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
     }
-
     .cloud-transition-overlay.exiting .rush-cloud-bottom {
       transform: translateY(20%);
       transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
     }
-
     .cloud-transition-overlay.exiting .rush-cloud-left {
       transform: translateX(-20%);
       transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.15s;
     }
-
     .cloud-transition-overlay.exiting .rush-cloud-right {
       transform: translateX(20%);
       transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.15s;
     }
-
     .cloud-transition-overlay.exiting .rush-cloud-center {
       transform: scale(0);
       opacity: 0;
       transition: transform 1s ease, opacity 0.8s ease;
     }
 
+    /* Page wrapper fade during transition */
     .page-wrapper.cloud-fading {
       opacity: 0;
       transition: opacity 0.5s ease 0.3s;
     }
 
+    /* Map page elements fade in after clouds part */
     .venue-map {
       opacity: 0;
       transition: opacity 1s ease 0.4s;
@@ -1723,36 +1855,15 @@
       animation: spotPopIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     }
 
-    .app.map-revealed .spot:nth-child(9) {
-      animation-delay: 0.6s;
-    }
-
-    .app.map-revealed .spot:nth-child(10) {
-      animation-delay: 0.72s;
-    }
-
-    .app.map-revealed .spot:nth-child(11) {
-      animation-delay: 0.84s;
-    }
-
-    .app.map-revealed .spot:nth-child(12) {
-      animation-delay: 0.96s;
-    }
-
-    .app.map-revealed .spot:nth-child(13) {
-      animation-delay: 1.08s;
-    }
+    .app.map-revealed .spot:nth-child(9) { animation-delay: 0.6s; }
+    .app.map-revealed .spot:nth-child(10) { animation-delay: 0.72s; }
+    .app.map-revealed .spot:nth-child(11) { animation-delay: 0.84s; }
+    .app.map-revealed .spot:nth-child(12) { animation-delay: 0.96s; }
+    .app.map-revealed .spot:nth-child(13) { animation-delay: 1.08s; }
 
     @keyframes spotPopIn {
-      0% {
-        opacity: 0;
-        transform: scale(0.5) translateX(var(--tx, 0));
-      }
-
-      100% {
-        opacity: 1;
-        transform: scale(1) translateX(var(--tx, 0));
-      }
+      0% { opacity: 0; transform: scale(0.5) translateX(var(--tx, 0)); }
+      100% { opacity: 1; transform: scale(1) translateX(var(--tx, 0)); }
     }
 
     .app.map-revealed .floating-leaf {
@@ -1760,59 +1871,34 @@
       animation: leafAppear 0.6s ease forwards;
     }
 
-    .app.map-revealed .floating-leaf:nth-child(1) {
-      animation-delay: 0.8s;
-    }
-
-    .app.map-revealed .floating-leaf:nth-child(2) {
-      animation-delay: 0.9s;
-    }
-
-    .app.map-revealed .floating-leaf:nth-child(3) {
-      animation-delay: 1.0s;
-    }
-
-    .app.map-revealed .floating-leaf:nth-child(4) {
-      animation-delay: 0.85s;
-    }
-
-    .app.map-revealed .floating-leaf:nth-child(5) {
-      animation-delay: 0.95s;
-    }
-
-    .app.map-revealed .floating-leaf:nth-child(6) {
-      animation-delay: 1.05s;
-    }
-
-    .app.map-revealed .floating-leaf:nth-child(7) {
-      animation-delay: 0.88s;
-    }
-
-    .app.map-revealed .floating-leaf:nth-child(8) {
-      animation-delay: 1.02s;
-    }
+    .app.map-revealed .floating-leaf:nth-child(1) { animation-delay: 0.8s; }
+    .app.map-revealed .floating-leaf:nth-child(2) { animation-delay: 0.9s; }
+    .app.map-revealed .floating-leaf:nth-child(3) { animation-delay: 1.0s; }
+    .app.map-revealed .floating-leaf:nth-child(4) { animation-delay: 0.85s; }
+    .app.map-revealed .floating-leaf:nth-child(5) { animation-delay: 0.95s; }
+    .app.map-revealed .floating-leaf:nth-child(6) { animation-delay: 1.05s; }
+    .app.map-revealed .floating-leaf:nth-child(7) { animation-delay: 0.88s; }
+    .app.map-revealed .floating-leaf:nth-child(8) { animation-delay: 1.02s; }
 
     @keyframes leafAppear {
-      0% {
-        opacity: 0;
-      }
-
-      100% {
-        opacity: 0.75;
-      }
+      0% { opacity: 0; }
+      100% { opacity: 0.75; }
     }
 
+    /* ================= MAP OVERLAY FIX: BLUR / UNBLUR ONLY ================= */
     .app.overlay-open .page-wrapper,
     .app.overlay-open .ambient-clouds {
       filter: blur(10px);
-      transition: filter 0.55s ease,
+      transition:
+        filter 0.55s ease,
         transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .app:not(.overlay-open) .page-wrapper,
     .app:not(.overlay-open) .ambient-clouds {
       filter: blur(0);
-      transition: filter 0.55s ease,
+      transition:
+        filter 0.55s ease,
         transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -1847,6 +1933,9 @@
       background: none !important;
     }
 
+
+    /* ================= USER REQUESTED LAYOUT FIXES v6 ================= */
+    /* Remove the transparent card look from couple and bride/groom text blocks */
     .couple-hero-text,
     .single-hero-text,
     #page-bride .single-hero-text,
@@ -1858,6 +1947,7 @@
       box-shadow: none !important;
     }
 
+    /* Keep couple text above the photos, but without any card background */
     .couple-hero-text {
       z-index: 5 !important;
       margin-top: -4.45rem !important;
@@ -1866,6 +1956,7 @@
       max-width: 390px !important;
     }
 
+    /* Force couple name to stay in one line */
     .couple-hero-text h1,
     #couple-title,
     html[data-lang="en"] #page-couple .couple-hero-text h1,
@@ -1881,6 +1972,7 @@
       margin-bottom: 0.42rem !important;
     }
 
+    /* Remove the fading/masked edge effect from all bride and groom photos */
     .couple-hero-photo,
     .single-hero-image img,
     #bride-photo,
@@ -1891,6 +1983,7 @@
       mask: none !important;
     }
 
+    /* Keep bride and groom detail pages identical without the card layer */
     .single-hero-text,
     #page-bride .single-hero-text,
     #page-groom .single-hero-text {
@@ -1931,8 +2024,8 @@
       }
 
       .single-hero-text.overlap-text,
-    #page-bride .single-hero-text.overlap-text,
-    #page-groom .single-hero-text.overlap-text {
+      #page-bride .single-hero-text.overlap-text,
+      #page-groom .single-hero-text.overlap-text {
         margin-top: -6.05rem !important;
         transform: translateY(-0.35rem) !important;
       }
@@ -1944,23 +2037,76 @@
       }
 
       .couple-hero-text h1,
-    #couple-title,
-    html[data-lang="en"] #page-couple .couple-hero-text h1,
-    html[data-lang="id"] #page-couple .couple-hero-text h1 {
+      #couple-title,
+      html[data-lang="en"] #page-couple .couple-hero-text h1,
+      html[data-lang="id"] #page-couple .couple-hero-text h1 {
         font-size: clamp(1.56rem, 6.5vw, 2.05rem) !important;
       }
 
       .single-hero-text.overlap-text,
-    #page-bride .single-hero-text.overlap-text,
-    #page-groom .single-hero-text.overlap-text {
+      #page-bride .single-hero-text.overlap-text,
+      #page-groom .single-hero-text.overlap-text {
         margin-top: -5.25rem !important;
         transform: translateY(-0.25rem) !important;
       }
     }
 
+
+    /* ================= USER REQUESTED LAYOUT FIXES v8 ================= */
+    /* Couple page: move photos higher, keep them straight, and let only the name overlap the photo edge */
+    #page-couple .couple-hero {
+      justify-content: flex-start !important;
+      padding-top: 0.35rem !important;
+    }
+
+    #page-couple .couple-hero-images {
+      flex: 0 0 48svh !important;
+      height: 48svh !important;
+      align-items: flex-start !important;
+      padding: 0.55rem 0.45rem 0 !important;
+      gap: clamp(0.35rem, 2.5vw, 0.8rem) !important;
+      overflow: visible !important;
+      z-index: 1 !important;
+    }
+
+    #page-couple .couple-hero-photo {
+      width: clamp(172px, 46vw, 220px) !important;
+      transform: none !important;
+      rotate: 0deg !important;
+      object-position: center top !important;
+      border-radius: 0 !important;
+    }
+
+    #page-couple .couple-hero-photo.bride-photo,
+    #page-couple .couple-hero-photo.groom-photo,
+    #page-couple .couple-hero-photo.bride-photo:hover,
+    #page-couple .couple-hero-photo.groom-photo:hover {
+      transform: none !important;
+      rotate: 0deg !important;
+      --hy: 0 !important;
+      --hr: 0deg !important;
+    }
+
     #page-couple .couple-hero-photo:hover {
       transform: scale(1.015) !important;
       rotate: 0deg !important;
+    }
+
+    #page-couple .couple-hero-text {
+      flex: 0 0 auto !important;
+      margin-top: -2.95rem !important;
+      padding: 0 0.8rem 0.5rem !important;
+      position: relative !important;
+      z-index: 6 !important;
+    }
+
+    #page-couple .couple-hero-text h1,
+    #couple-title,
+    html[data-lang="en"] #page-couple .couple-hero-text h1,
+    html[data-lang="id"] #page-couple .couple-hero-text h1 {
+      margin-bottom: 1.28rem !important;
+      position: relative !important;
+      z-index: 7 !important;
     }
 
     #page-couple .couple-hero-text p,
@@ -2000,9 +2146,97 @@
       }
     }
 
+
+    /* ================= USER REQUESTED LAYOUT FIXES v9 ================= */
+    /* Couple page: prevent side clipping and rebalance the page vertically */
     #page-couple {
+      overflow: hidden !important;
       padding-left: 0 !important;
       padding-right: 0 !important;
+    }
+
+    #page-couple .couple-hero {
+      height: 100% !important;
+      justify-content: center !important;
+      padding-top: 0 !important;
+      padding-bottom: 0.15rem !important;
+      overflow: visible !important;
+    }
+
+    #page-couple .couple-hero-images {
+      width: 100% !important;
+      max-width: 100% !important;
+      flex: 0 0 45svh !important;
+      height: 45svh !important;
+      min-height: 0 !important;
+      align-items: flex-end !important;
+      justify-content: center !important;
+      gap: clamp(0.45rem, 2vw, 0.75rem) !important;
+      padding: 0 1.35rem !important;
+      overflow: visible !important;
+      z-index: 1 !important;
+    }
+
+    #page-couple .couple-hero-photo {
+      width: clamp(136px, 38vw, 178px) !important;
+      max-width: calc((100vw - 3.4rem) / 2) !important;
+      aspect-ratio: 4 / 5 !important;
+      object-fit: cover !important;
+      object-position: center top !important;
+      flex: 0 1 auto !important;
+      transform: none !important;
+      rotate: 0deg !important;
+      border-radius: 0 !important;
+    }
+
+    #page-couple .couple-hero-photo.bride-photo,
+    #page-couple .couple-hero-photo.groom-photo,
+    #page-couple .couple-hero-photo.bride-photo:hover,
+    #page-couple .couple-hero-photo.groom-photo:hover,
+    #page-couple .couple-hero-photo:hover {
+      transform: none !important;
+      rotate: 0deg !important;
+      --hy: 0 !important;
+      --hr: 0deg !important;
+    }
+
+    #page-couple .couple-hero-text {
+      width: 100% !important;
+      max-width: 360px !important;
+      flex: 0 0 auto !important;
+      margin-top: -2.25rem !important;
+      padding: 0 1.2rem 0 !important;
+      position: relative !important;
+      z-index: 6 !important;
+    }
+
+    #page-couple .couple-hero-text h1,
+    #couple-title,
+    html[data-lang="en"] #page-couple .couple-hero-text h1,
+    html[data-lang="id"] #page-couple .couple-hero-text h1 {
+      white-space: nowrap !important;
+      font-size: clamp(1.62rem, 6.4vw, 2.18rem) !important;
+      line-height: 1.04 !important;
+      margin-bottom: 0.95rem !important;
+      position: relative !important;
+      z-index: 7 !important;
+    }
+
+    #page-couple .couple-hero-text p,
+    #page-couple .couple-hero-text .script-text {
+      max-width: 305px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      margin-bottom: 0.58rem !important;
+      line-height: 1.38 !important;
+      position: relative !important;
+      z-index: 7 !important;
+    }
+
+    #page-couple .couple-hero-text button {
+      margin-top: 0.55rem !important;
+      position: relative !important;
+      z-index: 7 !important;
     }
 
     @media (max-width: 420px) {
@@ -2033,9 +2267,9 @@
       }
 
       #page-couple .couple-hero-text h1,
-    #couple-title,
-    html[data-lang="en"] #page-couple .couple-hero-text h1,
-    html[data-lang="id"] #page-couple .couple-hero-text h1 {
+      #couple-title,
+      html[data-lang="en"] #page-couple .couple-hero-text h1,
+      html[data-lang="id"] #page-couple .couple-hero-text h1 {
         font-size: clamp(1.48rem, 5.9vw, 1.95rem) !important;
         margin-bottom: 0.82rem !important;
       }
@@ -2056,6 +2290,11 @@
       }
     }
 
+
+
+    /* ================= USER REQUESTED LAYOUT FIXES v11 ================= */
+    /* Apply to every invitation type/language: general, work, friends, family/Indonesian */
+    /* Remove shadows from all bride and groom photos, including hover states */
     .couple-hero-photo,
     .couple-hero-photo:hover,
     .single-hero-image img,
@@ -2068,12 +2307,24 @@
       filter: none !important;
     }
 
+    /* Couple page: move the photo row higher and make the name barely overlap the photo bottom */
     #page-couple .couple-hero {
+      justify-content: flex-start !important;
+      padding-top: 4svh !important;
+      padding-bottom: 0 !important;
       overflow: visible !important;
     }
 
     #page-couple .couple-hero-images {
+      flex: 0 0 45svh !important;
+      height: 45svh !important;
       min-height: 0 !important;
+      align-items: flex-end !important;
+      justify-content: center !important;
+      padding: 0 1.35rem !important;
+      gap: clamp(0.45rem, 2vw, 0.75rem) !important;
+      overflow: visible !important;
+      z-index: 1 !important;
     }
 
     #page-couple .couple-hero-photo {
@@ -2088,6 +2339,10 @@
       border-radius: 0 !important;
     }
 
+    #page-couple .couple-hero-photo.bride-photo,
+    #page-couple .couple-hero-photo.groom-photo,
+    #page-couple .couple-hero-photo.bride-photo:hover,
+    #page-couple .couple-hero-photo.groom-photo:hover,
     #page-couple .couple-hero-photo:hover {
       transform: none !important;
       rotate: 0deg !important;
@@ -2100,6 +2355,8 @@
     #page-couple .couple-hero-text {
       width: 100% !important;
       max-width: 360px !important;
+      flex: 0 0 auto !important;
+      margin-top: -0.8rem !important;
       padding: 0 1.2rem 0 !important;
       position: relative !important;
       z-index: 6 !important;
@@ -2166,9 +2423,9 @@
       }
 
       #page-couple .couple-hero-text h1,
-    #couple-title,
-    html[data-lang="en"] #page-couple .couple-hero-text h1,
-    html[data-lang="id"] #page-couple .couple-hero-text h1 {
+      #couple-title,
+      html[data-lang="en"] #page-couple .couple-hero-text h1,
+      html[data-lang="id"] #page-couple .couple-hero-text h1 {
         font-size: clamp(1.48rem, 5.9vw, 1.95rem) !important;
         margin-bottom: 0.72rem !important;
       }
@@ -2193,30 +2450,56 @@
       }
     }
 
+
+
+    /* ================= USER REQUESTED LAYOUT FIXES v12 ================= */
+    /* Bride and groom pages: move only the text/button block 10px higher while keeping the photo position unchanged */
     #page-bride .single-hero-text.overlap-text,
     #page-groom .single-hero-text.overlap-text {
       transform: translateY(calc(-0.45rem - 10px)) !important;
     }
 
+
+
+    /* ================= USER REQUESTED LAYOUT FIXES v13 ================= */
+    /* Bride and groom pages: move the entire photo + text + button layout 50px higher */
     #page-bride .single-hero,
     #page-groom .single-hero {
       transform: translateY(-50px) !important;
     }
 
+
+
+
+    /* ================= USER REQUESTED NAME FIX v14 ================= */
+    /* Bride and groom detail pages use full government names, so allow wrapping neatly. */
+    #bride-name,
+    #groom-name {
+      max-width: 330px !important;
+      white-space: normal !important;
+      overflow-wrap: anywhere !important;
+      font-size: clamp(1.55rem, 6.2vw, 2.1rem) !important;
+      line-height: 1.05 !important;
+      letter-spacing: 0.04em !important;
+    }
+
     @media (max-height: 720px) {
       #bride-name,
-    #groom-name {
+      #groom-name {
         font-size: clamp(1.38rem, 5.7vw, 1.85rem) !important;
       }
     }
 
     @media (max-height: 640px) {
       #bride-name,
-    #groom-name {
+      #groom-name {
         font-size: clamp(1.22rem, 5.1vw, 1.65rem) !important;
       }
     }
 
+
+
+    /* ================= DATE PAGE COUNTDOWN + SCHEDULE LAYOUT ================= */
     #page-date {
       justify-content: center !important;
       gap: 0.7rem !important;
@@ -2272,12 +2555,13 @@
       border-radius: 22px;
       background: linear-gradient(145deg, rgba(255,255,255,0.94) 0%, rgba(250,246,240,0.94) 100%);
       border: 1px solid rgba(139, 105, 20, 0.08);
-      box-shadow: 0 4px 15px rgba(107, 68, 35, 0.08),
+      box-shadow:
+        0 4px 15px rgba(107, 68, 35, 0.08),
         0 1px 3px rgba(107, 68, 35, 0.05);
     }
 
     .date-schedule-title {
-      font-family: "Cinzel", serif;
+      font-family: 'Cinzel', serif;
       color: var(--wood-dark);
       font-size: 0.86rem;
       font-weight: 700;
@@ -2302,7 +2586,7 @@
     }
 
     .date-schedule-time {
-      font-family: "Cinzel", serif;
+      font-family: 'Cinzel', serif;
       font-size: 1rem;
       font-weight: 700;
       color: var(--terracotta);
@@ -2369,6 +2653,8 @@
       }
     }
 
+
+    /* ================= ELEGANT OPENING SCREEN ================= */
     .music-loading-screen {
       position: fixed;
       inset: 0;
@@ -2392,10 +2678,10 @@
     }
 
     .music-loading-screen::before {
-      content: "";
+      content: '';
       position: absolute;
       inset: -34px;
-      background-image: var(--opening-bg-image, url("assets/intro.png"));
+      background-image: var(--opening-bg-image, url('assets/intro.png'));
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -2405,10 +2691,11 @@
     }
 
     .music-loading-screen::after {
-      content: "";
+      content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 50% 38%, rgba(0, 0, 0, 0.10) 0%, rgba(0, 0, 0, 0.34) 48%, rgba(0, 0, 0, 0.62) 100%),
+      background:
+        radial-gradient(circle at 50% 38%, rgba(0, 0, 0, 0.10) 0%, rgba(0, 0, 0, 0.34) 48%, rgba(0, 0, 0, 0.62) 100%),
         rgba(0, 0, 0, 0.28);
       z-index: 1;
       pointer-events: none;
@@ -2431,13 +2718,14 @@
     }
 
     .music-loading-title {
-      font-family: "Great Vibes", cursive;
+      font-family: 'Great Vibes', cursive;
       color: #ffffff;
       font-size: clamp(3.1rem, 15vw, 4.8rem);
       line-height: 0.92;
       margin-bottom: 1.25rem;
       font-weight: 400;
-      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.55),
+      text-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.55),
         0 1px 2px rgba(0, 0, 0, 0.42);
     }
 
@@ -2448,7 +2736,8 @@
       background: rgba(255, 255, 255, 0.90);
       color: #3d3d3d;
       border: 1px solid rgba(255, 255, 255, 0.58);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22),
+      box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.22),
         inset 0 1px 0 rgba(255, 255, 255, 0.7);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
@@ -2456,7 +2745,8 @@
 
     .music-open-button:hover {
       background: #ffffff;
-      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.26),
+      box-shadow:
+        0 14px 36px rgba(0, 0, 0, 0.26),
         inset 0 1px 0 rgba(255, 255, 255, 0.75);
     }
 
@@ -2509,6 +2799,8 @@
       transition: clip-path 0.24s ease, -webkit-clip-path 0.24s ease;
     }
 
+
+    /* ================= GIFTS PAGE ================= */
     .gift-card {
       padding: 1.35rem 1.18rem !important;
       max-height: calc(100svh - 6.2rem) !important;
@@ -2554,7 +2846,7 @@
     }
 
     .gift-option-title {
-      font-family: "Cinzel", serif;
+      font-family: 'Cinzel', serif;
       font-size: 0.78rem;
       font-weight: 700;
       letter-spacing: 0.08em;
@@ -2564,6 +2856,38 @@
       text-align: center;
     }
 
+    .gift-detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.55rem;
+      padding: 0.22rem 0;
+      border-bottom: 1px solid rgba(139, 105, 20, 0.08);
+      font-size: 0.9rem;
+      line-height: 1.18;
+      color: var(--text-secondary);
+    }
+
+    .gift-detail-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .gift-detail-row strong {
+      color: var(--wood-dark);
+      font-weight: 600;
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+
+    .gift-bank-account {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.08rem;
+      text-align: right;
+    }
+
     .gift-bank-name {
       color: var(--wood-dark);
       font-weight: 600;
@@ -2571,7 +2895,7 @@
 
     .gift-account-number {
       color: var(--terracotta);
-      font-family: "Cinzel", serif;
+      font-family: 'Cinzel', serif;
       font-size: 0.92rem;
       font-weight: 700;
       letter-spacing: 0.03em;
@@ -2597,7 +2921,7 @@
       background: linear-gradient(135deg, var(--soft-gold) 0%, #c9a86c 100%);
       color: var(--wood-dark);
       text-decoration: none;
-      font-family: "Cormorant Garamond", serif;
+      font-family: 'Cormorant Garamond', serif;
       font-weight: 700;
       font-size: 0.92rem;
       letter-spacing: 0.08em;
@@ -2629,6 +2953,9 @@
       }
     }
 
+
+
+    /* ================= GIFTS PAGE CLEAN CARD FIX v17 ================= */
     #page-gifts {
       justify-content: center !important;
       align-items: center !important;
@@ -2640,37 +2967,125 @@
     #page-gifts .gift-card {
       width: 100% !important;
       max-width: 360px !important;
+      padding: 1.35rem 1.35rem 1.45rem !important;
       border-radius: 28px !important;
+      max-height: none !important;
       overflow: visible !important;
     }
 
+    #page-gifts .gift-card .ornament {
+      width: 40px !important;
+      height: 40px !important;
+      margin: 0 auto 0.25rem !important;
+      line-height: 1 !important;
+      overflow: visible !important;
+    }
+
+    #page-gifts .gift-card .ornament::before {
+      display: block !important;
+      font-size: 1.85rem !important;
+      line-height: 1 !important;
+    }
+
     #page-gifts #gifts-title {
+      font-size: 1.9rem !important;
+      line-height: 1.05 !important;
+      margin: 0 0 0.65rem !important;
       padding: 0 !important;
       overflow: visible !important;
+      text-align: center !important;
     }
 
     #page-gifts .gift-message {
       max-width: 300px !important;
+      margin: 0 auto 0.85rem !important;
+      font-size: 0.98rem !important;
+      line-height: 1.32 !important;
+      text-align: center !important;
+    }
+
+    #page-gifts .gift-options {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 0.62rem !important;
+      margin: 0 !important;
+      text-align: center !important;
+    }
+
+    #page-gifts .gift-option {
+      width: 100% !important;
+      border-radius: 18px !important;
+      padding: 0.72rem 0.85rem !important;
+      background: linear-gradient(145deg, rgba(255,255,255,0.82) 0%, rgba(250,246,240,0.82) 100%) !important;
+      border: 1px solid rgba(139, 105, 20, 0.10) !important;
+      box-shadow: 0 4px 14px rgba(107, 68, 35, 0.06) !important;
+      overflow: hidden !important;
     }
 
     #page-gifts .gift-account-option {
+      display: flex !important;
       flex-direction: column !important;
+      align-items: center !important;
       justify-content: center !important;
     }
 
+    #page-gifts .gift-bank-name {
+      max-width: 100% !important;
+      color: var(--wood-dark) !important;
+      font-size: 0.95rem !important;
+      font-weight: 600 !important;
+      line-height: 1.15 !important;
+      text-align: center !important;
+      overflow-wrap: anywhere !important;
+    }
+
     #page-gifts .gift-account-number {
+      max-width: 100% !important;
       margin-top: 0.12rem !important;
+      color: var(--terracotta) !important;
+      font-family: 'Cinzel', serif !important;
+      font-size: 1.05rem !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.04em !important;
+      line-height: 1.15 !important;
+      text-align: center !important;
+      overflow-wrap: anywhere !important;
     }
 
     #page-gifts .gift-copy-button {
       display: inline-flex !important;
       align-items: center !important;
       justify-content: center !important;
+      width: auto !important;
+      min-width: 120px !important;
+      margin: 0.4rem auto 0.45rem !important;
+      padding: 0.45rem 0.95rem !important;
+      border-radius: 999px !important;
       background: linear-gradient(135deg, var(--deep-green) 0%, var(--sage-green) 100%) !important;
       color: var(--cream) !important;
-      font-family: "Cormorant Garamond", serif !important;
+      font-family: 'Cormorant Garamond', serif !important;
+      font-size: 0.72rem !important;
       font-weight: 700 !important;
+      letter-spacing: 0.08em !important;
+      line-height: 1 !important;
       text-transform: uppercase !important;
+      box-shadow: 0 3px 10px rgba(90, 122, 90, 0.22) !important;
+    }
+
+    #page-gifts .gift-account-holder-label {
+      color: var(--text-light) !important;
+      font-size: 0.76rem !important;
+      line-height: 1.1 !important;
+      margin-bottom: 0.1rem !important;
+    }
+
+    #page-gifts .gift-account-holder {
+      max-width: 100% !important;
+      color: var(--wood-dark) !important;
+      font-size: 0.9rem !important;
+      font-weight: 600 !important;
+      line-height: 1.15 !important;
+      overflow-wrap: anywhere !important;
     }
 
     #page-gifts .gift-option-title {
@@ -2786,8 +3201,11 @@
       }
     }
 
+
+
+    /* ================= FINAL FIX: MAP GIFTS SPOT + SHARED OVERLAY CARD DESIGN ================= */
     .spot-gifts {
-      background-image: url("assets/btn-gifts.png");
+      background-image: url('assets/btn-gifts.png');
       filter: drop-shadow(0 4px 8px rgba(107, 68, 35, 0.25)) sepia(0.2) saturate(1.2);
     }
 
@@ -2812,13 +3230,15 @@
     #page-venue .venue-card,
     #page-gifts .venue-card,
     #page-dress .venue-card,
-    #page-rsvp .venue-card {
+    #page-rsvp .venue-card,
+    #page-rsvp .rsvp-card {
       width: 100% !important;
       max-width: 360px !important;
       background: linear-gradient(145deg, rgba(255,255,255,0.96) 0%, rgba(250,246,240,0.96) 100%) !important;
       border-radius: 28px !important;
       padding: 1.8rem !important;
-      box-shadow: 0 20px 50px rgba(107, 68, 35, 0.1),
+      box-shadow:
+        0 20px 50px rgba(107, 68, 35, 0.1),
         0 8px 20px rgba(107, 68, 35, 0.06) !important;
       border: 1px solid rgba(139, 105, 20, 0.08) !important;
       position: relative !important;
@@ -2831,8 +3251,9 @@
     #page-venue .venue-card::before,
     #page-gifts .venue-card::before,
     #page-dress .venue-card::before,
-    #page-rsvp .venue-card::before::before {
-      content: "" !important;
+    #page-rsvp .venue-card::before,
+    #page-rsvp .rsvp-card::before {
+      content: '' !important;
       position: absolute !important;
       top: 0 !important;
       left: 0 !important;
@@ -2845,7 +3266,8 @@
     #page-venue .venue-card > *,
     #page-gifts .venue-card > *,
     #page-dress .venue-card > *,
-    #page-rsvp .venue-card > * > * {
+    #page-rsvp .venue-card > *,
+    #page-rsvp .rsvp-card > * {
       position: relative !important;
       z-index: 1 !important;
     }
@@ -2857,9 +3279,22 @@
       max-height: calc(100svh - 6.3rem) !important;
     }
 
+    #page-gifts .gift-card .ornament {
+      width: 60px !important;
+      height: 60px !important;
+      margin: 0 auto 0.5rem !important;
+      overflow: visible !important;
+    }
+
+    #page-gifts .gift-card .ornament::before {
+      font-size: 2.5rem !important;
+      line-height: 1 !important;
+    }
+
     #page-gifts #gifts-title {
       font-size: 2rem !important;
       line-height: 1.12 !important;
+      margin: 0 0 0.8rem !important;
       text-align: center !important;
       color: var(--wood-dark) !important;
     }
@@ -2875,6 +3310,7 @@
     #page-gifts .gift-options {
       display: flex !important;
       flex-direction: column !important;
+      gap: 0.72rem !important;
       margin: 0 !important;
       width: 100% !important;
       text-align: center !important;
@@ -2932,13 +3368,21 @@
       }
     }
 
+
+    /* ================= GIFTS PAGE REFINEMENT v18 ================= */
+    /* Match RSVP ornament spacing so the leaf-to-title gap is not too large */
     #page-gifts .gift-card .ornament {
+      width: 42px !important;
+      height: 42px !important;
+      margin: 0 auto 0.28rem !important;
       line-height: 1 !important;
       overflow: visible !important;
     }
 
     #page-gifts .gift-card .ornament::before {
       display: block !important;
+      font-size: 2rem !important;
+      line-height: 1 !important;
     }
 
     #page-gifts #gifts-title {
@@ -2946,6 +3390,7 @@
       margin-bottom: 0.6rem !important;
     }
 
+    /* Make Gifts Back to Map button use the same size as the other overlay / RSVP back button */
     #page-gifts > button.secondary,
     #gifts-back-button {
       display: inline-flex !important;
@@ -2960,6 +3405,12 @@
       border-radius: 50px !important;
     }
 
+    /* Bank account card layout:
+       [bank name] [account number]
+                   [copy number]
+             account name
+       [account holder name]
+    */
     #page-gifts .gift-account-option {
       display: grid !important;
       grid-template-columns: minmax(0, 1fr) auto !important;
@@ -2969,6 +3420,42 @@
       text-align: left !important;
     }
 
+    #page-gifts .gift-bank-name {
+      grid-column: 1 !important;
+      grid-row: 1 !important;
+      align-self: start !important;
+      text-align: left !important;
+      font-size: 0.95rem !important;
+      line-height: 1.18 !important;
+      margin: 0 !important;
+    }
+
+    #page-gifts .gift-account-number {
+      grid-column: 2 !important;
+      grid-row: 1 !important;
+      justify-self: end !important;
+      align-self: start !important;
+      text-align: right !important;
+      font-size: 0.95rem !important;
+      line-height: 1.18 !important;
+      margin: 0 !important;
+      max-width: 145px !important;
+      overflow-wrap: anywhere !important;
+    }
+
+    #page-gifts .gift-copy-button {
+      grid-column: 2 !important;
+      grid-row: 2 !important;
+      justify-self: end !important;
+      width: auto !important;
+      min-width: 104px !important;
+      margin: 0.08rem 0 0.16rem !important;
+      padding: 0.44rem 0.82rem !important;
+      font-size: 0.68rem !important;
+      line-height: 1 !important;
+      white-space: nowrap !important;
+    }
+
     #page-gifts .gift-account-holder-label {
       grid-column: 1 / -1 !important;
       grid-row: 3 !important;
@@ -2976,7 +3463,22 @@
       text-align: center !important;
       margin: 0.1rem 0 0 !important;
       color: var(--text-light) !important;
+      font-size: 0.78rem !important;
+      line-height: 1.1 !important;
       text-transform: lowercase !important;
+    }
+
+    #page-gifts .gift-account-holder {
+      grid-column: 1 / -1 !important;
+      grid-row: 4 !important;
+      justify-self: center !important;
+      text-align: center !important;
+      max-width: 100% !important;
+      color: var(--wood-dark) !important;
+      font-size: 0.92rem !important;
+      font-weight: 600 !important;
+      line-height: 1.18 !important;
+      overflow-wrap: anywhere !important;
     }
 
     @media (max-height: 700px) {
@@ -2991,7 +3493,7 @@
       }
 
       #page-gifts > button.secondary,
-    #gifts-back-button {
+      #gifts-back-button {
         padding: 0.82rem 1.8rem !important;
         font-size: 0.82rem !important;
       }
@@ -3002,7 +3504,7 @@
       }
 
       #page-gifts .gift-bank-name,
-    #page-gifts .gift-account-number {
+      #page-gifts .gift-account-number {
         font-size: 0.78rem !important;
       }
 
@@ -3021,6 +3523,8 @@
       }
     }
 
+
+    /* ================= GIFTS PAGE COMPACT BANK CARDS v19 ================= */
     #page-gifts .gift-card .ornament {
       width: 38px !important;
       height: 34px !important;
@@ -3050,10 +3554,25 @@
     }
 
     #page-gifts .gift-bank-name {
+      font-size: 0.78rem !important;
+      line-height: 1.14 !important;
       letter-spacing: 0.015em !important;
     }
 
+    #page-gifts .gift-account-number {
+      font-size: 0.78rem !important;
+      line-height: 1.14 !important;
+      letter-spacing: 0.035em !important;
+      max-width: 120px !important;
+    }
+
     #page-gifts .gift-copy-button {
+      min-width: 88px !important;
+      margin: 0.02rem 0 0.12rem !important;
+      padding: 0.30rem 0.62rem !important;
+      font-size: 0.55rem !important;
+      letter-spacing: 0.075em !important;
+      line-height: 1 !important;
       box-shadow: 0 2px 7px rgba(90, 122, 90, 0.18) !important;
     }
 
@@ -3062,6 +3581,11 @@
       margin-bottom: 0.02rem !important;
       font-size: 0.62rem !important;
       line-height: 1 !important;
+    }
+
+    #page-gifts .gift-account-holder {
+      font-size: 0.78rem !important;
+      line-height: 1.12 !important;
     }
 
     @media (max-height: 700px) {
@@ -3073,7 +3597,7 @@
       }
 
       #page-gifts .gift-bank-name,
-    #page-gifts .gift-account-number {
+      #page-gifts .gift-account-number {
         font-size: 0.70rem !important;
       }
 
@@ -3092,6 +3616,7 @@
       }
     }
 
+    /* ================= PARENT NAMES STACKED FIX ================= */
     #bride-parent-line,
     #groom-parent-line {
       line-height: 1.24 !important;
@@ -3100,9 +3625,16 @@
     #bride-parent-line span,
     #groom-parent-line span,
     .parent-line span {
+      display: block !important;
       max-width: 100% !important;
+      white-space: normal !important;
+      overflow: visible !important;
+      text-overflow: clip !important;
+      line-height: 1.18 !important;
     }
 
+
+    /* ================= PARENT NAMES STACKED COMPACT FIX ================= */
     #bride-parent-line,
     #groom-parent-line,
     .parent-line {
@@ -3135,9 +3667,24 @@
       font-weight: 600 !important;
     }
 
+    /* ================= BRIDE / GROOM NAME SINGLE-LINE AUTO-FIT ================= */
+    #bride-name,
+    #groom-name {
+      width: 100% !important;
+      max-width: 350px !important;
+      white-space: nowrap !important;
+      overflow: visible !important;
+      text-overflow: clip !important;
+      overflow-wrap: normal !important;
+      word-break: normal !important;
+      font-size: clamp(1.25rem, 5.6vw, 2.05rem) !important;
+      line-height: 1.04 !important;
+      letter-spacing: 0.025em !important;
+    }
+
     @media (max-width: 380px) {
       #bride-name,
-    #groom-name {
+      #groom-name {
         max-width: 330px !important;
         font-size: clamp(1.15rem, 5.2vw, 1.86rem) !important;
         letter-spacing: 0.018em !important;
@@ -3146,11 +3693,40 @@
 
     @media (max-height: 700px) {
       #bride-name,
-    #groom-name {
+      #groom-name {
         font-size: clamp(1.1rem, 5vw, 1.72rem) !important;
       }
     }
 
+
+
+    /* ================= BRIDE / GROOM NAME CENTERED SINGLE-LINE FIX ================= */
+    #bride-name,
+    #groom-name {
+      display: block !important;
+      width: 100% !important;
+      max-width: min(94vw, 380px) !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      text-align: center !important;
+      white-space: nowrap !important;
+      overflow: visible !important;
+      text-overflow: clip !important;
+      overflow-wrap: normal !important;
+      word-break: normal !important;
+      line-height: 1.04 !important;
+      letter-spacing: 0.02em !important;
+      transform: none !important;
+    }
+
+    #page-bride .single-hero-text,
+    #page-groom .single-hero-text {
+      align-items: center !important;
+      text-align: center !important;
+    }
+
+
+    /* ================= FINAL FIX v20: CENTER BRIDE / GROOM FULL NAME ================= */
     #page-bride .single-hero-text,
     #page-groom .single-hero-text {
       width: 100% !important;
@@ -3190,7 +3766,7 @@
 
     @media (max-width: 380px) {
       #bride-name,
-    #groom-name {
+      #groom-name {
         width: min(100%, 340px) !important;
         max-width: min(100%, 340px) !important;
         font-size: clamp(0.98rem, 4.55vw, 1.62rem) !important;
@@ -3200,16 +3776,23 @@
 
     @media (max-height: 700px) {
       #bride-name,
-    #groom-name {
+      #groom-name {
         font-size: clamp(0.95rem, 4.35vw, 1.48rem) !important;
       }
     }
 
+
+
+    /* ================= FINAL FIX v21: SINGLE COUPLE PHOTO, NO PHOTO CLICK ================= */
     #page-couple .couple-hero-images {
+      flex: 0 0 48svh !important;
+      height: 48svh !important;
       width: 100% !important;
       max-width: 100% !important;
       display: flex !important;
       justify-content: center !important;
+      align-items: flex-end !important;
+      padding: 0 0.7rem !important;
       gap: 0 !important;
       overflow: visible !important;
       z-index: 1 !important;
@@ -3221,7 +3804,13 @@
       display: block !important;
       width: min(96%, 430px) !important;
       max-width: min(96vw, 430px) !important;
+      height: 100% !important;
       aspect-ratio: auto !important;
+      object-fit: contain !important;
+      object-position: center bottom !important;
+      cursor: default !important;
+      pointer-events: none !important;
+      transform: none !important;
       rotate: 0deg !important;
       border-radius: 0 !important;
       box-shadow: none !important;
@@ -3230,6 +3819,10 @@
       mask-image: none !important;
       -webkit-mask: none !important;
       mask: none !important;
+    }
+
+    #page-couple .couple-hero-text {
+      margin-top: -1.15rem !important;
     }
 
     @media (max-height: 720px) {
@@ -3254,6 +3847,8 @@
       }
     }
 
+
+    /* ================= FINAL FIX v22: CENTER COUPLE PAGE VERTICALLY ================= */
     #page-couple {
       justify-content: center !important;
       align-items: center !important;
@@ -3312,8 +3907,8 @@
       }
 
       #page-couple #couple-photo,
-    #page-couple .couple-hero-photo.couple-photo,
-    #page-couple .couple-hero-photo.couple-photo:hover {
+      #page-couple .couple-hero-photo.couple-photo,
+      #page-couple .couple-hero-photo.couple-photo:hover {
         max-height: 42svh !important;
       }
 
@@ -3330,8 +3925,8 @@
       }
 
       #page-couple #couple-photo,
-    #page-couple .couple-hero-photo.couple-photo,
-    #page-couple .couple-hero-photo.couple-photo:hover {
+      #page-couple .couple-hero-photo.couple-photo,
+      #page-couple .couple-hero-photo.couple-photo:hover {
         max-height: 39svh !important;
       }
 
@@ -3340,6 +3935,8 @@
       }
     }
 
+
+    /* ================= RSVP THEMED CUSTOM DROPDOWNS ================= */
     #page-rsvp select.theme-select-original {
       position: absolute !important;
       width: 1px !important;
@@ -3355,7 +3952,7 @@
       position: relative;
       width: 100%;
       margin-bottom: 0.78rem;
-      font-family: "Cormorant Garamond", Georgia, serif;
+      font-family: 'Cormorant Garamond', Georgia, serif;
       z-index: 1;
     }
 
@@ -3369,7 +3966,8 @@
       min-height: 54px;
       border-radius: 14px;
       border: 1.5px solid rgba(139, 105, 20, 0.16);
-      background: linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(250, 246, 240, 0.88) 100%);
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(250, 246, 240, 0.88) 100%);
       color: var(--text-primary);
       display: flex;
       align-items: center;
@@ -3378,10 +3976,11 @@
       padding: 0 1rem;
       text-align: left;
       cursor: pointer;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.75),
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.75),
         0 4px 12px rgba(107, 68, 35, 0.04);
       transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, opacity 0.25s ease;
-      font-family: "Cormorant Garamond", Georgia, serif !important;
+      font-family: 'Cormorant Garamond', Georgia, serif !important;
       font-size: 0.96rem !important;
       font-weight: 400 !important;
       line-height: 1 !important;
@@ -3394,13 +3993,15 @@
       outline: none;
       border-color: rgba(143, 166, 142, 0.72);
       background: rgba(255, 255, 255, 0.96);
-      box-shadow: 0 0 0 3px rgba(143, 166, 142, 0.14),
+      box-shadow:
+        0 0 0 3px rgba(143, 166, 142, 0.14),
         0 6px 16px rgba(107, 68, 35, 0.07);
     }
 
     .theme-select.is-open .theme-select-button {
       border-color: rgba(143, 166, 142, 0.82);
-      box-shadow: 0 0 0 3px rgba(143, 166, 142, 0.16),
+      box-shadow:
+        0 0 0 3px rgba(143, 166, 142, 0.16),
         0 8px 20px rgba(107, 68, 35, 0.08);
     }
 
@@ -3437,7 +4038,8 @@
       border-radius: 18px;
       border: 1px solid rgba(139, 105, 20, 0.14);
       background: linear-gradient(145deg, rgba(255,255,255,0.98) 0%, rgba(250,246,240,0.98) 100%);
-      box-shadow: 0 16px 38px rgba(107, 68, 35, 0.16),
+      box-shadow:
+        0 16px 38px rgba(107, 68, 35, 0.16),
         0 4px 12px rgba(107, 68, 35, 0.08);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
@@ -3461,7 +4063,7 @@
       align-items: center;
       justify-content: space-between;
       text-align: left;
-      font-family: "Cormorant Garamond", Georgia, serif;
+      font-family: 'Cormorant Garamond', Georgia, serif;
       font-size: 0.96rem;
       font-weight: 400;
       line-height: 1.15;
@@ -3491,7 +4093,7 @@
     }
 
     .theme-select-option.is-selected::after {
-      content: "✓";
+      content: '✓';
       color: var(--deep-green);
       font-size: 0.95rem;
       margin-left: 0.8rem;
@@ -3501,6 +4103,8 @@
       border-color: rgba(196, 120, 90, 0.85);
       box-shadow: 0 0 0 3px rgba(196, 120, 90, 0.14);
     }
+
+
 
     .theme-select.is-disabled {
       opacity: 0.62;
@@ -3524,7 +4128,6 @@
         opacity: 0;
         transform: translateY(-4px) scale(0.98);
       }
-
       to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -3555,6 +4158,14 @@
       }
     }
 
+
+  
+
+    /* ================= FINAL FIX v24: GIFT BANK LAYOUT ================= */
+    /* Layout requested:
+       [bank name]        [account number]
+       [account holder]   [copy number]
+    */
     #page-gifts .gift-option.gift-account-option,
     #page-gifts .gift-account-option {
       display: grid !important;
@@ -3591,7 +4202,7 @@
       text-align: right !important;
       margin: 0 !important;
       max-width: 150px !important;
-      font-family: "Cinzel", serif !important;
+      font-family: 'Cinzel', serif !important;
       font-size: 0.78rem !important;
       line-height: 1.18 !important;
       color: var(--terracotta) !important;
@@ -3637,14 +4248,14 @@
 
     @media (max-height: 700px) {
       #page-gifts .gift-option.gift-account-option,
-    #page-gifts .gift-account-option {
+      #page-gifts .gift-account-option {
         padding: 0.58rem 0.78rem !important;
         column-gap: 0.58rem !important;
         row-gap: 0.18rem !important;
       }
 
       #page-gifts .gift-bank-name,
-    #page-gifts .gift-account-number {
+      #page-gifts .gift-account-number {
         font-size: 0.82rem !important;
       }
 
@@ -3658,17 +4269,34 @@
         font-size: 0.54rem !important;
       }
     }
+
+    /* ================= PHOTO INTRO: TRUE CIRCULAR UNMASK v6 ================= */
+    /*
+      Behavior:
+      - Applies only on the Couple, Bride, and Groom pages
+      - Photo starts fully invisible (opacity 0 + blur + tiny mask)
+      - Opacity and blur clear first (fast)
+      - A TRUE CIRCULAR mask expands from center with ultra-soft feathered edges
+
+      CRITICAL FIX: Using fixed pixel values (not % or vmax) for mask-size
+      ensures the mask is always a perfect circle, never an ellipse or square.
+    */
+    :root {
+      --photo-fade-duration: 5.8s;
+      --photo-mask-duration: 5.2s;
+      --photo-reveal-easing: cubic-bezier(0.25, 0.1, 0.25, 1);
+      --mask-max-size: 2000px;
+    }
+
     @keyframes centerPhotoFadeBlurIn {
       0% {
         opacity: 0;
         filter: blur(8px);
       }
-
       55% {
         opacity: 1;
         filter: blur(0);
       }
-
       100% {
         opacity: 1;
         filter: blur(0);
@@ -3680,7 +4308,10 @@
         -webkit-mask-size: 0px 0px;
         mask-size: 0px 0px;
       }
-
+      /* 10% {
+        -webkit-mask-size: 0px 0px;
+        mask-size: 0px 0px;
+      } */
       100% {
         -webkit-mask-size: var(--mask-max-size) var(--mask-max-size);
         mask-size: var(--mask-max-size) var(--mask-max-size);
@@ -3696,6 +4327,20 @@
       backface-visibility: hidden;
       -webkit-backface-visibility: hidden;
       will-change: opacity, filter, -webkit-mask-size, mask-size;
+
+      /*
+        TRUE CIRCULAR radial mask with ultra-soft feathered edges.
+
+        The gradient stops create a very wide, smooth transition:
+        - 0% to 20%: fully opaque solid center
+        - 20% to 40%: gentle fade begins
+        - 40% to 70%: wide soft feather zone
+        - 70% to 100%: fades to fully transparent
+
+        CRITICAL: mask-size uses PIXEL values (not % or vmax).
+        This forces both width and height to be identical, guaranteeing
+        a perfect circle shape regardless of the container's aspect ratio.
+      */
       -webkit-mask-image: radial-gradient(
         circle at center,
         #000000 0%,
@@ -3724,10 +4369,12 @@
       mask-repeat: no-repeat !important;
       -webkit-mask-position: center center !important;
       mask-position: center center !important;
+      /* FIXED PIXEL values guarantee a perfect circle */
       -webkit-mask-size: var(--mask-max-size) var(--mask-max-size);
       mask-size: var(--mask-max-size) var(--mask-max-size);
     }
 
+    /* Disable any previous pseudo overlay / clip overlay completely */
     #page-couple .couple-hero-images::before,
     #page-bride .single-hero-image::before,
     #page-groom .single-hero-image::before {
@@ -3736,6 +4383,7 @@
       animation: none !important;
     }
 
+    /* Start the wrapper reveal only when its page is active */
     html[data-page="couple"] #page-couple .couple-hero-images,
     html[data-page="bride"] #page-bride .single-hero-image,
     html[data-page="groom"] #page-groom .single-hero-image {
@@ -3746,6 +4394,7 @@
       animation-delay: 0s, 0s !important;
     }
 
+    /* Keep the actual photos clean. The wrapper handles the reveal. */
     #couple-photo,
     #bride-photo,
     #groom-photo {
@@ -3759,8 +4408,8 @@
 
     @media (prefers-reduced-motion: reduce) {
       html[data-page="couple"] #page-couple .couple-hero-images,
-    html[data-page="bride"] #page-bride .single-hero-image,
-    html[data-page="groom"] #page-groom .single-hero-image {
+      html[data-page="bride"] #page-bride .single-hero-image,
+      html[data-page="groom"] #page-groom .single-hero-image {
         animation: none !important;
         opacity: 1 !important;
         filter: none !important;
@@ -3768,7 +4417,9 @@
         mask-image: none !important;
       }
     }
+
   </style>
+<base target="_blank">
 <base target="_blank">
 </head>
 
@@ -3783,6 +4434,7 @@
       <div class="ambient-cloud"></div>
       <div class="ambient-cloud"></div>
     </div>
+
 
 
     <!-- Opening Screen -->
@@ -4987,6 +5639,7 @@
         button.innerText = originalText;
       }, 1400);
     }
+
 
 
     // Replace native RSVP select dropdowns with themed dropdowns.
