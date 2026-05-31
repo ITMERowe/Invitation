@@ -5,6 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Hanif & Winda Wedding</title>
 
+
+  <!-- WhatsApp / Facebook / Link Preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Hanif & Winda Wedding">
+  <meta property="og:description" content="You are invited.">
+  <meta property="og:image" content="https://itmerowe.github.io/Invitation/assets/cover.png">
+  <meta property="og:image:secure_url" content="https://itmerowe.github.io/Invitation/assets/cover.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://itmerowe.github.io/Invitation/index.html">
+
+  <!-- Twitter / X Preview -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Hanif & Winda Wedding">
+  <meta name="twitter:description" content="You are invited.">
+  <meta name="twitter:image" content="https://itmerowe.github.io/Invitation/assets/cover.png">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
@@ -4749,6 +4767,23 @@
     // Work:    index.html?type=work
 
     const params = new URLSearchParams(window.location.search);
+    function setMetaContent(selector, content) {
+      const element = document.querySelector(selector);
+      if (element) element.setAttribute('content', content);
+    }
+
+    function applyLinkPreviewMeta() {
+      const typeForPreview = normalizeInvitationType((params.get('type') || 'general').trim().toLowerCase());
+      const previewImageFile = typeForPreview === 'family' ? 'cover1.png' : 'cover.png';
+      const previewImageUrl = `https://itmerowe.github.io/Invitation/assets/${previewImageFile}`;
+      const currentUrl = `https://itmerowe.github.io/Invitation/index.html${window.location.search || ''}`;
+
+      setMetaContent('meta[property="og:image"]', previewImageUrl);
+      setMetaContent('meta[property="og:image:secure_url"]', previewImageUrl);
+      setMetaContent('meta[name="twitter:image"]', previewImageUrl);
+      setMetaContent('meta[property="og:url"]', currentUrl);
+    }
+
     const rawInvitationType = (params.get('type') || 'general').trim().toLowerCase();
     const guest = params.get('to');
 
@@ -4763,6 +4798,8 @@
     }
 
     const invitationType = normalizeInvitationType(rawInvitationType);
+
+    applyLinkPreviewMeta();
 
     const isFamily = invitationType === 'family';
     const isFriends = invitationType === 'friends' || invitationType === 'friend';
