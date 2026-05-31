@@ -2831,7 +2831,7 @@
     #page-venue .venue-card::before,
     #page-gifts .venue-card::before,
     #page-dress .venue-card::before,
-    #page-rsvp .venue-card::before::before {
+    #page-rsvp .venue-card::before {
       content: "" !important;
       position: absolute !important;
       top: 0 !important;
@@ -2845,7 +2845,7 @@
     #page-venue .venue-card > *,
     #page-gifts .venue-card > *,
     #page-dress .venue-card > *,
-    #page-rsvp .venue-card > * > * {
+    #page-rsvp .venue-card > * {
       position: relative !important;
       z-index: 1 !important;
     }
@@ -3769,9 +3769,51 @@
       }
     }
 
-    #page-rsvp .venue-card,
+    #page-rsvp {
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+    }
+
+    #page-rsvp .venue-card {
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      max-height: calc(100svh - 6.3rem) !important;
+      padding-bottom: 1.45rem !important;
+    }
+
     #page-rsvp form {
       overflow: visible !important;
+      padding-bottom: 0 !important;
+    }
+
+    #page-rsvp button[type="submit"] {
+      position: relative !important;
+      display: block !important;
+      width: 100% !important;
+      max-width: none !important;
+      margin: 0 !important;
+      flex-shrink: 0 !important;
+    }
+
+    @media (max-height: 720px) {
+      #page-rsvp .venue-card {
+        max-height: calc(100svh - 5.7rem) !important;
+        padding-bottom: 1.22rem !important;
+      }
+    }
+
+    @media (max-height: 640px) {
+      #page-rsvp .venue-card {
+        max-height: calc(100svh - 5.45rem) !important;
+      }
+
+      #page-rsvp textarea {
+        height: 58px !important;
+      }
+
+      #page-rsvp button[type="submit"] {
+        padding: 0.72rem 1.1rem !important;
+      }
     }
 
     #page-rsvp form .theme-select {
@@ -3792,6 +3834,82 @@
     #page-rsvp form .theme-select.is-open + select,
     #page-rsvp form .theme-select.is-open + textarea {
       z-index: 1 !important;
+    }
+
+    #page-rsvp label {
+      margin-bottom: 0.24rem !important;
+    }
+
+    #page-rsvp input,
+    #page-rsvp textarea {
+      padding: 0.62rem 0.95rem !important;
+      margin-bottom: 0.52rem !important;
+      line-height: 1.2 !important;
+    }
+
+    #page-rsvp input {
+      height: 44px !important;
+      min-height: 44px !important;
+    }
+
+    #page-rsvp textarea {
+      height: 64px !important;
+    }
+
+    #page-rsvp .theme-select {
+      margin-bottom: 0.52rem !important;
+    }
+
+    #page-rsvp .theme-select-button {
+      height: 44px !important;
+      min-height: 44px !important;
+      padding: 0 0.95rem !important;
+    }
+
+    #page-rsvp .theme-select-arrow {
+      width: 28px !important;
+      height: 28px !important;
+      flex-basis: 28px !important;
+    }
+
+    #page-rsvp .theme-select-option {
+      padding: 0.62rem 1rem !important;
+    }
+
+    @media (max-height: 720px) {
+      #page-rsvp input {
+        height: 42px !important;
+        min-height: 42px !important;
+      }
+
+      #page-rsvp textarea {
+        height: 58px !important;
+      }
+
+      #page-rsvp .theme-select-button {
+        height: 42px !important;
+        min-height: 42px !important;
+      }
+
+      #page-rsvp .theme-select-option {
+        padding: 0.56rem 0.95rem !important;
+      }
+    }
+
+    @media (max-height: 640px) {
+      #page-rsvp input {
+        height: 40px !important;
+        min-height: 40px !important;
+      }
+
+      #page-rsvp textarea {
+        height: 52px !important;
+      }
+
+      #page-rsvp .theme-select-button {
+        height: 40px !important;
+        min-height: 40px !important;
+      }
     }
 
   </style>
