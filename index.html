@@ -3936,6 +3936,28 @@
       }
     }
 
+
+    #page-rsvp input.has-error,
+    #page-rsvp textarea.has-error {
+      border-color: rgba(196, 120, 90, 0.85) !important;
+      box-shadow: 0 0 0 3px rgba(196, 120, 90, 0.14) !important;
+    }
+
+    #page-rsvp button[type="submit"]:disabled,
+    #page-rsvp button[type="submit"][aria-disabled="true"] {
+      opacity: 0.55 !important;
+      cursor: not-allowed !important;
+      transform: none !important;
+      box-shadow: none !important;
+      filter: grayscale(0.25) !important;
+    }
+
+    #page-rsvp button[type="submit"]:disabled::before,
+    #page-rsvp button[type="submit"][aria-disabled="true"]::before {
+      display: none !important;
+    }
+
+
   </style>
 <base target="_blank">
 </head>
@@ -4178,6 +4200,7 @@
           action="https://docs.google.com/forms/d/e/1FAIpQLSdx3Tnzma1Zska1BjSQcnhQDu7s7zVEyyMM7d2VkqeVljuv5w/formResponse"
           method="POST"
           target="hidden_iframe"
+          novalidate
         >
           <div id="guest-name-field" style="display:none;">
             <label id="guest-name-label">Your Name</label>
@@ -4198,7 +4221,7 @@
           <input type="hidden" name="entry.698873189_sentinel">
 
           <label id="guest-count-label">Number of guests</label>
-          <select id="guest-count-select" name="entry.1305280995" required>
+          <select id="guest-count-select" name="entry.1305280995">
             <option id="guest-count-empty" value="">Select</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -5115,7 +5138,10 @@
       }
 
       requestAnimationFrame(fitBrideGroomNames);
-      requestAnimationFrame(updateGuestCountAvailability);
+      requestAnimationFrame(() => {
+        updateGuestCountAvailability();
+        updateRsvpSubmitState();
+      });
 
     }
 
@@ -5228,13 +5254,18 @@
         optionButton.textContent = option.text;
         optionButton.setAttribute('role', 'option');
 
-        optionButton.addEventListener('click', () => {
+        const chooseOption = event => {
+          event.preventDefault();
+          event.stopPropagation();
           select.value = option.value;
           select.dispatchEvent(new Event('change', { bubbles: true }));
           syncThemeSelect(select);
           wrapper.classList.remove('is-open');
           button.setAttribute('aria-expanded', 'false');
-        });
+        };
+
+        optionButton.addEventListener('click', chooseOption);
+        optionButton.addEventListener('touchend', chooseOption, { passive: false });
 
         menu.appendChild(optionButton);
       });
@@ -5267,19 +5298,89 @@
 
       const isNotAttending = attendanceSelect.value === 'Sorry, can’t make it';
 
+      // Guest count is optional. It is only enabled when the guest is attending,
+      // but it must never block the RSVP submission.
       if (isNotAttending) {
         guestCountSelect.value = '';
         guestCountSelect.disabled = true;
-        guestCountSelect.dataset.required = 'false';
       } else {
         guestCountSelect.disabled = false;
-        guestCountSelect.dataset.required = 'true';
       }
 
+      guestCountSelect.dataset.required = 'false';
       syncThemeSelect(guestCountSelect);
+      updateRsvpSubmitState();
     }
 
-    document.getElementById('attendance-select')?.addEventListener('change', updateGuestCountAvailability);
+    function getRsvpRequiredState() {
+      const nameInput = document.getElementById('form-guest-name');
+      const attendanceSelect = document.getElementById('attendance-select');
+
+      const guestName = nameInput ? nameInput.value.trim() : '';
+      const attendance = attendanceSelect ? attendanceSelect.value.trim() : '';
+
+      return {
+        hasGuestName: Boolean(guestName),
+        hasAttendance: Boolean(attendance),
+        guestName,
+        attendance
+      };
+    }
+
+    function updateRsvpSubmitState() {
+      const submitButton = document.getElementById('rsvp-submit-button');
+      if (!submitButton) return;
+
+      const state = getRsvpRequiredState();
+      const isSubmitting = submitButton.dataset.submitting === 'true';
+      const canSubmit = state.hasGuestName && state.hasAttendance && !isSubmitting;
+
+      submitButton.disabled = !canSubmit;
+      submitButton.setAttribute('aria-disabled', canSubmit ? 'false' : 'true');
+    }
+
+    function clearRsvpValidationErrors() {
+      document.getElementById('form-guest-name')?.classList.remove('has-error');
+      document.querySelectorAll('#page-rsvp .theme-select.has-error').forEach(wrapper => {
+        wrapper.classList.remove('has-error');
+      });
+    }
+
+    function validateRsvpRequiredFields() {
+      clearRsvpValidationErrors();
+
+      const nameInput = document.getElementById('form-guest-name');
+      const attendanceSelect = document.getElementById('attendance-select');
+      const state = getRsvpRequiredState();
+
+      if (!state.hasGuestName) {
+        nameInput?.classList.add('has-error');
+        nameInput?.focus();
+        return false;
+      }
+
+      if (!state.hasAttendance) {
+        const wrapper = attendanceSelect?.nextElementSibling;
+        if (wrapper && wrapper.classList.contains('theme-select')) {
+          closeAllThemeSelects(wrapper);
+          wrapper.classList.add('has-error', 'is-open');
+          wrapper.querySelector('.theme-select-button')?.focus();
+        } else {
+          attendanceSelect?.focus();
+        }
+        return false;
+      }
+
+      return true;
+    }
+
+    document.getElementById('attendance-select')?.addEventListener('change', () => {
+      updateGuestCountAvailability();
+      updateRsvpSubmitState();
+    });
+
+    document.getElementById('form-guest-name')?.addEventListener('input', updateRsvpSubmitState);
+    document.getElementById('form-guest-name')?.addEventListener('change', updateRsvpSubmitState);
 
     document.addEventListener('click', () => closeAllThemeSelects());
 
@@ -5287,24 +5388,11 @@
       if (event.key === 'Escape') closeAllThemeSelects();
     });
 
-    document.getElementById('RSVP')?.addEventListener('submit', event => {
-      const missingSelect = Array.from(document.querySelectorAll('#page-rsvp select.theme-select-original[data-required="true"]'))
-        .find(select => !select.disabled && !select.value);
-
-      if (missingSelect) {
-        event.preventDefault();
-        rsvpSubmitted = false;
-        const wrapper = missingSelect.nextElementSibling;
-        if (wrapper && wrapper.classList.contains('theme-select')) {
-          closeAllThemeSelects(wrapper);
-          wrapper.classList.add('has-error', 'is-open');
-          wrapper.querySelector('.theme-select-button')?.focus();
-        }
-      }
-    });
+    updateRsvpSubmitState();
 
     applyInvitationContext();
     enhanceThemeSelects();
+    updateRsvpSubmitState();
     window.addEventListener('resize', fitBrideGroomNames);
     window.addEventListener('orientationchange', () => requestAnimationFrame(fitBrideGroomNames));
     if (document.fonts && document.fonts.ready) {
@@ -5341,12 +5429,16 @@
     const iframe = document.querySelector('iframe[name="hidden_iframe"]');
     const modal = document.getElementById("rsvp-modal");
 
-    form.addEventListener("submit", () => {
-      rsvpSubmitted = true;
-    });
+    let rsvpFinished = false;
 
-    iframe.addEventListener("load", () => {
-      if (!rsvpSubmitted) return;
+    function finishRsvpSubmission() {
+      if (rsvpFinished) return;
+      rsvpFinished = true;
+
+      const submitButton = document.getElementById('rsvp-submit-button');
+      if (submitButton) {
+        submitButton.dataset.submitting = 'false';
+      }
 
       modal.classList.remove("hidden");
       form.reset();
@@ -5354,6 +5446,90 @@
       updateGuestCountAvailability();
       document.querySelectorAll('#page-rsvp select.theme-select-original').forEach(syncThemeSelect);
       rsvpSubmitted = false;
+      rsvpFinished = false;
+      updateRsvpSubmitState();
+    }
+
+    function submitRsvpWithHiddenIframe() {
+      return new Promise(resolve => {
+        let settled = false;
+
+        const done = () => {
+          if (settled) return;
+          settled = true;
+          iframe.removeEventListener('load', done);
+          resolve();
+        };
+
+        iframe.addEventListener('load', done);
+        setTimeout(done, 3500);
+        HTMLFormElement.prototype.submit.call(form);
+      });
+    }
+
+    async function sendRsvpFormData() {
+      const formData = new FormData(form);
+
+      // Prefer fetch no-cors because some Android built-in browsers are unreliable
+      // when submitting Google Forms through a hidden iframe. The response is opaque,
+      // but the POST request is still sent to Google Forms.
+      if (window.fetch) {
+        await fetch(form.action, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: formData,
+          keepalive: true
+        });
+        return;
+      }
+
+      await submitRsvpWithHiddenIframe();
+    }
+
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+
+      if (!validateRsvpRequiredFields()) {
+        updateRsvpSubmitState();
+        return;
+      }
+
+      const submitButton = document.getElementById('rsvp-submit-button');
+      const originalText = submitButton ? submitButton.innerText : '';
+
+      rsvpSubmitted = true;
+      if (submitButton) {
+        submitButton.dataset.submitting = 'true';
+        submitButton.disabled = true;
+        submitButton.setAttribute('aria-disabled', 'true');
+        submitButton.innerText = language === 'id' ? 'Mengirim...' : 'Sending...';
+      }
+
+      try {
+        await sendRsvpFormData();
+        if (submitButton) submitButton.innerText = originalText;
+        finishRsvpSubmission();
+      } catch (error) {
+        console.warn('Fetch RSVP failed. Retrying with hidden iframe.', error);
+        try {
+          await submitRsvpWithHiddenIframe();
+          if (submitButton) submitButton.innerText = originalText;
+          finishRsvpSubmission();
+        } catch (fallbackError) {
+          console.warn('RSVP fallback submit failed.', fallbackError);
+          if (submitButton) {
+            submitButton.dataset.submitting = 'false';
+            submitButton.innerText = originalText;
+          }
+          rsvpSubmitted = false;
+          updateRsvpSubmitState();
+        }
+      }
+    });
+
+    iframe.addEventListener("load", () => {
+      if (!rsvpSubmitted || rsvpFinished) return;
+      finishRsvpSubmission();
     });
 
     function closeModal() {
