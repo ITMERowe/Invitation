@@ -5039,7 +5039,7 @@
         document.documentElement.lang = 'en';
 
         setText('intro-dear-label', 'Dear');
-        setText('guest-name', name || 'Our Beloved Guest');
+        setText('guest-name', name || (isWork ? 'Keluarga Besar SPC' : 'Our Beloved Guest'));
         setText('intro-subtitle', 'Are getting married');
         setText('intro-button', 'Meet the Couple');
 
@@ -5095,7 +5095,7 @@
         setText('dress-back-button', 'Back to Map');
 
         setText('rsvp-title', 'RSVP');
-        setHTML('rsvp-greeting', `Dear <strong id="rsvp-guest-name">${name || 'Our Guest'}</strong>,`);
+        setHTML('rsvp-greeting', `Dear <strong id="rsvp-guest-name">${name || (isWork ? 'Keluarga Besar SPC' : 'Our Guest')}</strong>,`);
         setText('guest-name-label', 'Your Name');
         formGuestName.placeholder = 'Enter your name';
 
@@ -5133,7 +5133,7 @@
         guestNameField.style.display = 'block';
 
         if (updatedRsvpGuestName) {
-          updatedRsvpGuestName.innerText = language === 'id' ? 'Tamu Undangan' : 'Our Guest';
+          updatedRsvpGuestName.innerText = language === 'id' ? 'Tamu Undangan' : (isWork ? 'Keluarga Besar SPC' : 'Our Guest');
         }
       }
 
