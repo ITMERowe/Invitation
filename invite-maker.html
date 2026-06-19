@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Invite Link Maker</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="invite-maker.css">
+</head>
+
+<body>
+  <div class="ambient-clouds">
+    <div class="ambient-cloud"></div>
+    <div class="ambient-cloud"></div>
+    <div class="ambient-cloud"></div>
+  </div>
+
+  <main class="app">
+    <div class="page-title">
+      <div class="script-text">Invite</div>
+      <h1>Invite Link Maker</h1>
+      <p>Generate invitation links from input or imported file.</p>
+    </div>
+
+    <section class="venue-card">
+      <div class="ornament"></div>
+      <h2 class="card-title">Choose Mode</h2>
+
+      <div class="mode-switch">
+        <button id="inputModeButton" class="mode-button active" onclick="setMode('input')">
+          Input
+        </button>
+        <button id="importModeButton" class="mode-button" onclick="setMode('import')">
+          Import
+        </button>
+      </div>
+
+      <div id="inputPanel" class="mode-panel active">
+        <label for="manualNames">Guest Names</label>
+        <textarea
+          id="manualNames"
+          oninput="autoResizeTextarea(this)"
+          placeholder="Dika Pratama&#10;Ceci Amalia&#10;Budi Santoso"
+        ></textarea>
+
+        <div class="button-row">
+          <button class="btn-primary" onclick="generateFromManual()">Generate</button>
+          <button class="btn-secondary" onclick="clearManual()">Clear</button>
+        </div>
+      </div>
+
+      <div id="importPanel" class="mode-panel">
+        <label for="dataFile">CSV / XLS / XLSX File</label>
+        <input type="file" id="dataFile" accept=".csv,.xls,.xlsx" />
+
+        <p class="info">
+          Reads <strong>Daftar undangan</strong> sheet if available, otherwise uses first sheet.
+        </p>
+
+        <div class="button-row">
+          <button class="btn-primary" onclick="importFile()">Import & Generate</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="venue-card">
+      <div class="ornament"></div>
+      <h2 class="card-title">Generated Links</h2>
+
+      <p class="result-summary">
+        Total links: <span class="count" id="linkCount">0</span>
+      </p>
+
+      <div class="button-row result-actions">
+        <button class="btn-secondary" onclick="copyAllLinks()">Copy All</button>
+        <button class="btn-secondary" onclick="downloadXLSX()">XLSX</button>
+        <button class="btn-danger" onclick="clearResults()">Clear</button>
+      </div>
+
+      <div id="result" class="result">
+        <div class="empty-state">
+          No links yet.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>  <script src="invite-maker.js"></script>
+</body>
+</html>

@@ -12,14 +12,18 @@ This project provides a complete digital solution for wedding invitations, combi
 - **`index.html`** — Main invitation website. Displays the wedding invitation with interactive sections including couple information, venue details, dress code, RSVP form, and countdown timer. Supports both English and Indonesian.
 
 ### Management Tools
-- **`dashboard.html`** — Comprehensive content editor with a professional interface. Allows editing of all invitation sections (names, date, venue, rundown, dress code, RSVP) with side-by-side English/Indonesian comparison. Changes can be saved to browser storage or exported using the File System Access API.
+- **`invite-maker.html`** — Automated invitation link generator. Import guest lists via manual entry, CSV, or Excel files. Generates personalized invitation links for different guest categories (family, friends, general, work). Features batch operations and XLSX export.
 
-- **`invitelinkmaker.html`** — Automated invitation link generator. Import guest lists via manual entry, CSV, or Excel files. Generates personalized invitation links for different guest categories (family, friends, general, work). Features batch operations and XLSX export.
+### Styling & Scripts
+- **`style.css`** — Main stylesheet for the invitation website, including animations, layout, and responsive design.
+- **`invite-maker.css`** — Stylesheet for the invitation link maker tool.
+- **`script.js`** — Core JavaScript for invitation functionality, including audio engine, page navigation, and guest personalization.
+- **`invite-maker.js`** — JavaScript for the invitation link maker, handling CSV/Excel import and link generation.
 
 ### Supporting Files
 - **`indexbackup.html`** — Backup copy of the main invitation website.
-- **`assets/`** — Static resources directory including images and music files.
-- **`Notes`** — Project notes and development documentation.
+- **`assets/`** — Static resources directory including music files and images.
+- **`Notes/`** — Project notes and development documentation.
 
 ## Features
 
@@ -36,42 +40,12 @@ This project provides a complete digital solution for wedding invitations, combi
 - Open Graph metadata for social media previews (WhatsApp, Facebook, etc.)
 - Background music support
 
-### Dashboard Editor
-- Intuitive UI for editing all invitation content
-- Dual-language editing with side-by-side comparison
-- Auto-save to browser storage (IndexedDB/LocalStorage)
-- Export/import functionality
-- Real-time preview updates
-
-### Invitation Link Generator
-- Multiple import formats (manual, CSV, Excel)
+### Invitation Link Maker
+- Manual guest name entry or file import (CSV, Excel)
 - Guest categorization (family, friends, general, work)
-- Batch link generation with personalized URLs
-- Built-in XLSX export for tracking
-- Copy to clipboard functionality
-
-## Quick Start
-
-### View the Invitation
-1. Open `index.html` in your web browser
-2. Use the language toggle to switch between English and Indonesian
-3. Navigate through sections using the menu or scroll
-4. Fill out and submit the RSVP form
-
-### Edit Content
-1. Open `dashboard.html` in your web browser
-2. Click **Open index.html** button to load the site data
-3. Select a section from the sidebar navigation
-4. Edit content in either language column
-5. Click **Save This Page** to persist changes
-
-### Generate Invitation Links
-1. Open `invitelinkmaker.html` in your web browser
-2. Choose input mode:
-   - **Manual**: Type guest names and select category
-   - **Import**: Upload CSV or Excel file with guest names
-3. Click **Generate Links** to create personalized URLs
-4. Copy individual links or download batch export as XLSX
+- Batch link generation with personalized invitation URLs
+- Built-in XLSX export for guest list tracking
+- Single-click copy to clipboard for all links
 
 ## Browser Compatibility
 
@@ -84,9 +58,10 @@ File System Access API support (for dashboard auto-save) requires modern browser
 
 ## Technical Details
 
-- **Architecture**: Vanilla HTML5/CSS3/JavaScript (no dependencies except xlsx.js for Excel export)
-- **Data Storage**: Browser localStorage/IndexedDB
-- **Styling**: CSS Grid, Flexbox, CSS Variables, animations
+- **Architecture**: Vanilla HTML5/CSS3/JavaScript (no backend required)
+- **Dependencies**: XLSX library for Excel import/export
+- **Audio Engine**: Web Audio API with synced multi-track playback and loop scheduling
+- **Styling**: CSS Grid, Flexbox, CSS Variables, smooth animations
 - **Fonts**: Google Fonts (Cinzel, Cormorant Garamond, Great Vibes)
 
 ## Structure
@@ -94,13 +69,15 @@ File System Access API support (for dashboard auto-save) requires modern browser
 ```
 Invitation/
 ├── index.html              # Main invitation website
-├── dashboard.html          # Content editor
-├── invitelinkmaker.html    # Link generator tool
 ├── indexbackup.html        # Backup of main site
+├── invite-maker.html       # Invitation link generator tool
+├── style.css               # Main website stylesheet
+├── invite-maker.css        # Link maker stylesheet
+├── script.js               # Main website JavaScript
+├── invite-maker.js         # Link maker JavaScript
 ├── README.md               # This file
 ├── assets/
-│   ├── music/              # Background music files
-│   └── images              # Logo, photos, covers
+│   └── music/              # Background music files (.mp3)
 └── Notes/                  # Development notes
 ```
 
@@ -115,10 +92,11 @@ To deploy this project:
 
 ## Usage Tips
 
-- **Personalized Invitations**: Use the link generator to create category-specific URLs that pre-populate guest type information
+- **Personalized Links**: Use the invite-maker tool to generate category-specific URLs (family, friends, work, general) that automatically customize the invitation experience
+- **Batch Import**: Save time by importing guest lists from Excel or CSV files instead of entering names manually
 - **Social Sharing**: Open Graph tags enable beautiful link previews on WhatsApp, Facebook, and other platforms
-- **Mobile First**: The invitation is designed for mobile viewing but works excellently on desktop
-- **Bilingual Support**: Edit both languages in the dashboard before sharing to ensure accurate translations
+- **Mobile First**: The invitation website is optimized for mobile devices but displays beautifully on desktop as well
+- **Audio Background**: Background music automatically plays on page load to enhance the invitation experience
 
 ## License
 
